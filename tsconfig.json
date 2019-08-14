@@ -6,6 +6,7 @@
     "module": "commonjs",
     "target": "es5",
     "jsx": "react",
+    "jsxFactory": "h",
     "lib": ["es2015", "dom"],
     "skipLibCheck": true,
     "experimentalDecorators": true,
@@ -13,7 +14,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx",
+		"src/**/*.tsx",
+		"src/**/*.scss",
     "demo/**/*.ts",
     "demo/**/*.tsx"
   ]

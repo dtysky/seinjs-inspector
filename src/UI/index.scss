@@ -1,0 +1,73 @@
+@import "./icons.scss";
+
+.sein-inspector-container {
+  color: #fff;
+  .u-box-inside {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .u-scrollbar {
+    &::-webkit-scrollbar {
+      background-color: rgba(255, 255, 255, 0.08);
+      width: 4px;
+      height: 4px;
+      background-clip: padding-box;
+    }
+
+    /*滚动条两端方向按钮*/
+    &::-webkit-scrollbar-button {
+      background-color: green;
+      display: none;
+    }
+
+    /*滚动条中间滑动部分*/
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
+    /*滚动条右下角区域*/
+    &::-webkit-scrollbar-corner {
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+    }
+
+    &:hover {
+      &::-webkit-scrollbar {
+        background-color: rgba(255, 255, 255, 0.08);
+        width: 4px;
+        height: 4px;
+        background-clip: padding-box;
+      }
+      /*滚动条中间滑动部分*/
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.4);
+        border-radius: 4px;
+      }
+    }
+  }
+  .sein-inspector-component {
+    line-height: 25px;
+    height: 25px;
+    padding: 5px;
+    border-left: 5px solid transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    transition: all 0.1s ease 0s;
+    &:hover {
+      border-left-color: #aaa;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .sein-inspector-component-box {
+      position: relative;
+      .sein-inspector-label {
+        font-size: 12px;
+        overflow: hidden;
+        white-space: nowrap;
+        word-break: break-all;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

@@ -16,7 +16,7 @@ module.exports = {
     main: [
       'webpack-dev-server/client?/',
       'webpack/hot/dev-server',
-      path.resolve(__dirname, './index.tsx')
+      path.resolve(__dirname, './index.ts')
     ]
   },
 
@@ -27,7 +27,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: [".ts", ".tsx", ".js"]
+    extensions: [".tsx", ".ts", ".js"]
   },
 
   externals: {
@@ -44,12 +44,9 @@ module.exports = {
         test: /\.tsx?$/,
         use: [
           {
-            loader: 'react-hot-loader/webpack'
-          },
-          {
             loader: 'awesome-typescript-loader',
             options: {
-              configFileName: path.resolve(__dirname, './tsconfig.json'),
+              configFileName: path.resolve(__dirname, '../tsconfig.json'),
               transpileOnly: true
             }
           },
@@ -61,6 +58,10 @@ module.exports = {
           // }
         ],
         exclude: /node_modules/
+      },
+      {
+        test: /\.(tpl|html)$/,
+        loader: "raw-loader"
       },
       {
         test: /\.(css|scss)$/,
@@ -80,7 +81,7 @@ module.exports = {
           {
             loader: 'sass-resources-loader',
             options: {
-              resources: path.resolve(__dirname, './config.scss')
+              resources: path.resolve(__dirname, '../config.scss')
             }
           }
         ]

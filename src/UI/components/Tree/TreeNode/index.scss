@@ -1,0 +1,161 @@
+.sein-inspector-tree-node {
+  height: 20px;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  transition: all 0.1s ease 0s;
+  min-width: 200px;
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  .tree-node-text {
+    font-size: 12px;
+    color: #ccc;
+    transition: all 0.1s ease 0s;
+    flex: 1;
+    min-width: 100px;
+  }
+  .tree-node-func {
+    font-size: 0;
+    i {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      transition: all 0.2s ease 0s;
+      color: #888;
+      &.active {
+        color: #fff;
+      }
+    }
+  }
+  &:before {
+    content: "\e64e";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    transition: all 0.3s ease 0s;
+    opacity: 0.6;
+    font-size: 12px;
+    font-size: 10px;
+    line-height: 20px;
+    text-align: center;
+  }
+  &:hover {
+    background-color: #333;
+    &:before {
+      transition: all 0.1s ease 0s;
+      opacity: 1;
+    }
+    .tree-node-text {
+      color: #fff;
+    }
+    .tree-node-func {
+      i {
+        &:hover {
+          color: #ccc;
+        }
+        &.active {
+          color: #fff;
+        }
+      }
+    }
+  }
+  &.open {
+    &:before {
+      opacity: 1;
+      transform: rotate(90deg);
+    }
+  }
+  &.select {
+    background-color: #333;
+    .tree-node-text {
+      color: #fff;
+      font-weight: bold;
+    }
+  }
+  &.no-child {
+    &:before {
+      content: " ";
+    }
+  }
+}
+.sein-inspector-tree-node {
+  &.deep1 {
+    padding-left: 1em;
+  }
+  &.deep2 {
+    padding-left: 2em;
+  }
+  &.deep3 {
+    padding-left: 3em;
+  }
+  &.deep4 {
+    padding-left: 4em;
+  }
+  &.deep5 {
+    padding-left: 5em;
+  }
+  &.deep6 {
+    padding-left: 6em;
+  }
+  &.deep7 {
+    padding-left: 7em;
+  }
+  &.deep8 {
+    padding-left: 8em;
+  }
+}
+
+.tree-node-func {
+  i.f-visiable:before {
+    content: "\e6b0";
+  }
+  i.f-visiable.disable:before {
+    content: "\e901";
+  }
+}
+
+.tree-node-icon:before {
+  content: "\e614";
+  display: block;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.tree-node-icon.light:before {
+  content: "\e604";
+}
+
+.tree-node-icon.image:before {
+  content: "\e7ed";
+}
+
+.tree-node-icon.default:before {
+  content: "\e793";
+}
+
+.tree-node-icon.camera:before {
+  content: "\e63e";
+}
+.tree-node-icon.component:before {
+  content: "\e602";
+}
+.tree-node-icon.game:before {
+  content: "\e67e";
+}
+.tree-node-icon.actor:before {
+  content: "\e64d";
+}
+.tree-node-icon.world:before {
+  content: "\e61d";
+}
+.tree-node-icon.scenes:before {
+  content: "\e603";
+}

@@ -1,0 +1,44 @@
+.sein-inspector-container {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+  transition: width 0.5s ease 0s;
+  display: flex;
+  &.explorer {
+    right: auto;
+    left: 0;
+  }
+  &.hide {
+    width: 0px !important;
+    .sein-inspector-resize-bar {
+      display: none;
+    }
+    .i-inspector-close {
+      display: none;
+    }
+  }
+  .sein-inspector-content {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    overflow: hidden;
+    .sein-inspector-title {
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      padding: 2px 10px;
+      user-select: none;
+      white-space: nowrap;
+    }
+  }
+  .sein-inspector-content-box {
+    display: block;
+    flex: 1;
+    overflow: auto;
+    min-width: 200px;
+  }
+}

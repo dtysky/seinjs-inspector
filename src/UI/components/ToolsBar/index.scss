@@ -1,0 +1,165 @@
+.sein-inspector-resize-bar {
+  position: absolute;
+  left: -1px;
+  width: 3px;
+  height: 100%;
+  user-select: none;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 32%,
+    rgba(255, 255, 255, 0.7) 33%,
+    rgba(255, 255, 255, 0.7) 65%,
+    transparent 66%,
+    transparent
+  );
+  // background:linear-gradient(to right, transparent 0%, transparent 49%, rgba(255,255,255,.5) 50%, transparent 51%, transparent 100%);
+  // background-color: rgba(255,255,255,.5);
+  cursor: col-resize;
+  transition: all 0.2s ease 0s;
+  &.active,
+  &:hover {
+    box-shadow: 0 -1px 4px 2px rgba(255, 255, 255, 0.45);
+  }
+}
+
+.i-inspector-close {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  cursor: pointer;
+  &:before {
+    content: "\e641";
+    font-size: 20px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 20px;
+  }
+  &:hover {
+    opacity: 0.7;
+  }
+}
+.sein-inspector-tools {
+  .i-inpspector-hide {
+    width: 20px;
+    height: 80px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.5s ease 0s;
+    opacity: 0.3;
+    em {
+      position: relative;
+      z-index: 1;
+      display: block;
+      height: 100%;
+      transition: transform 0.5s ease 0s;
+      &:before {
+        content: "\e64e";
+        display: block;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        line-height: 80px;
+        color: #fff;
+      }
+    }
+    i {
+      display: block;
+      width: 40px;
+      height: 80px;
+      border-radius: 0 100% 100% 0 / 0 50% 50% 0;
+      background-color: rgba(255, 255, 255, 0.25);
+      transform: translate(-50%, 0);
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all 0.5s ease 0s;
+    }
+    &.show {
+      left: -20px;
+      opacity: 0.5;
+      em {
+        transform: rotate(180deg);
+      }
+      i {
+        transform: translate(0, 0);
+        background-color: rgba(0, 0, 0, 0.9);
+        border-radius: 100% 0 0 100% / 50% 0 0 50%;
+      }
+
+      &:hover {
+        opacity: 1;
+        i {
+          background-color: rgba(0, 0, 0, 0.6);
+          border-radius: 100% 0 0 100% / 70% 0 0 70%;
+        }
+      }
+    }
+
+    &:hover {
+      opacity: 1;
+      i {
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 0 100% 100% 0 / 0 70% 70% 0;
+      }
+    }
+  }
+}
+
+.sein-inspector-tools.left {
+  .sein-inspector-resize-bar {
+    left: auto;
+    right: -1px;
+  }
+  .i-inpspector-hide {
+    left: auto;
+    right: 0;
+    i {
+      transform: translate(0, 0);
+      background-color: rgba(255, 255, 255, 0.25);
+      border-radius: 100% 0 0 100% / 50% 0 0 50%;
+    }
+    em {
+      transform: rotate(180deg);
+    }
+    &.show {
+      left: auto;
+      right: -20px;
+      opacity: 0.5;
+      i {
+        border-radius: 0 100% 100% 0 / 0 50% 50% 0;
+        background-color: rgba(0, 0, 0, 0.9);
+        transform: translate(-50%, 0);
+      }
+      em {
+        transform: rotate(0);
+      }
+      &:hover {
+        opacity: 1;
+        i {
+          background-color: rgba(0, 0, 0, 0.6);
+          border-radius: 0 100% 100% 0 / 0 70% 70% 0;
+        }
+      }
+    }
+    &:hover {
+      opacity: 1;
+      i {
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 100% 0 0 100% / 70% 0 0 70%;
+      }
+    }
+  }
+  .i-inspector-close {
+    right: auto;
+    left: 3px;
+  }
+}

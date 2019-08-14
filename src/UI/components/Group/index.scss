@@ -1,0 +1,54 @@
+.sein-inspector-group {
+  .sein-inspector-group-bar {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 30px;
+    background-color: #272727;
+    background: linear-gradient(to right, #272727 0%, #272727 50%, #444);
+    background-size: 200% 100%;
+    background-position: 0 center;
+    text-indent: 1em;
+    white-space: nowrap;
+    border-bottom: 1px solid #4d4d4d;
+    transition: all 0.2s ease 0s;
+    overflow: hidden;
+    user-select: none;
+    border-left: 5px solid #272727;
+    cursor: pointer;
+    i {
+      width: 30px;
+      height: 30px;
+      float: right;
+      background: url(https://gw.alicdn.com/tfs/TB1_x.Ecrr1gK0jSZFDXXb9yVXa-40-40.png)
+        no-repeat center center / 15px 15px;
+      transition: all 0.3s ease 0s;
+      opacity: 0.6;
+      transform: rotate(90deg);
+    }
+    &:hover {
+      background-position: 100% center;
+    }
+    &.close {
+      i {
+        transform: rotate(0);
+        opacity: 1;
+      }
+    }
+  }
+  .sein-inspector-group-content {
+    overflow: hidden;
+    border-bottom: 1px solid #4d4d4d;
+    transition: height 0.3s ease 0s;
+    &.close {
+      height: 0px !important;
+    }
+  }
+  &:hover {
+    .sein-inspector-group-bar {
+      border-left: 5px solid #555;
+    }
+    .sein-inspector-component {
+      border-left: 5px solid #555;
+    }
+  }
+}

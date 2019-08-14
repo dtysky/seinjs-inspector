@@ -1,0 +1,12 @@
+.sein-inspector-infomation-container {
+  .sein-inspector-component-box {
+    display: flex;
+    .sein-inspector-label {
+      flex: 1;
+    }
+    .sein-inspector-infomation-value {
+      font-size: 12px;
+      color: #bbb;
+    }
+  }
+}

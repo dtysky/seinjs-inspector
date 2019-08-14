@@ -1,0 +1,14 @@
+.sein-inspector-select-container {
+  .sein-inspector-component-box {
+    display: flex;
+    align-items: center;
+  }
+  .sein-inspector-label {
+    min-width: auto;
+    flex: 1;
+  }
+  .sein-inspector-select {
+    display: block;
+    max-width: 80px;
+  }
+}
