@@ -17,15 +17,15 @@ import {
   Range,
   ColorPicker
 } from "../../components";
-interface IComponetProps {
+interface IComponentProps {
   dataChange: Function;
   switchChecked: boolean;
 }
 
-interface IComponetState {
+interface IComponentState {
   _currentTime: number;
 }
-export default class Game extends Component<IComponetProps, IComponetState> {
+export default class Game extends Component<IComponentProps, IComponentState> {
   protected _timer: number;
   constructor() {
     super();

@@ -9,16 +9,16 @@
  */
 import { h, Component } from "preact";
 import "./index.scss";
-interface IComponetProps {
+interface IComponentProps {
   label?: string;
   checked: boolean;
   onCheckedChange: Function;
 }
-interface IComponetState {
+interface IComponentState {
   checked: boolean;
 }
 
-export default class Switch extends Component<IComponetProps, IComponetState> {
+export default class Switch extends Component<IComponentProps, IComponentState> {
   constructor(props) {
     super(props);
     this.setState({

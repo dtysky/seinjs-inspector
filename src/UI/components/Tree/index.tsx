@@ -3,12 +3,12 @@ import "./index.scss";
 import { TreeNode, LightTreeNode } from "./TreeNode";
 import { ITreeData } from "./TreeNode/types";
 
-interface IComponetProps {
+interface IComponentProps {
   data: Array<ITreeData>;
 }
-interface IComponetState {}
+interface IComponentState {}
 
-export default class Tree extends Component<IComponetProps, IComponetState> {
+export default class Tree extends Component<IComponentProps, IComponentState> {
   private _currentTreeNode: HTMLElement;
   constructor() {
     super();

@@ -2,19 +2,19 @@ import { h, Component } from "preact";
 import TreeNode from "./TreeNode";
 import { ITreeData } from "./types";
 
-interface IComponetProps {
+interface IComponentProps {
   deep: number;
   treeNodeData: ITreeData;
   onTreeNodeClick?: Function;
   onLightClick?: Function;
 }
-interface IComponetState {
+interface IComponentState {
   isDisable: boolean;
 }
 
 export default class LightTreeNode extends Component<
-  IComponetProps,
-  IComponetState
+  IComponentProps,
+  IComponentState
 > {
   constructor() {
     super();

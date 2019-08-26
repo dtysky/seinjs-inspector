@@ -7,10 +7,10 @@
 
 import { h, Component } from "preact";
 import { Group } from "../../components";
-interface IComponetProps {}
+interface IComponentProps {}
 
-interface IComponetState {}
-export default class World extends Component<IComponetProps, IComponetState> {
+interface IComponentState {}
+export default class Level extends Component<IComponentProps, IComponentState> {
   constructor() {
     super();
   }

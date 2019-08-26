@@ -8,14 +8,14 @@ interface IData {
   id: number;
   text: string;
 }
-interface IComponetProps {
+interface IComponentProps {
   onTabChange: Function;
 }
 
-interface IComponetState {
+interface IComponentState {
   curIndex: number;
 }
-export default class Tab extends Component<IComponetProps, IComponetState> {
+export default class Tab extends Component<IComponentProps, IComponentState> {
   protected container: HTMLElement;
   protected data: IData[] = TabItem;
   constructor() {

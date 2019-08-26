@@ -3,7 +3,7 @@
  */
 import { h, Component } from "preact";
 import "./index.scss";
-interface IComponetProps {
+interface IComponentProps {
   onResize: Function;
   onResizeEnd: Function;
   onClose: Function;
@@ -11,7 +11,7 @@ interface IComponetProps {
   visible: boolean;
   mode?: "left" | "right";
 }
-export default class ToolsBar extends Component<IComponetProps> {
+export default class ToolsBar extends Component<IComponentProps> {
   protected timer: number;
   protected resizeBar: HTMLElement;
   protected closeIcon: HTMLElement;

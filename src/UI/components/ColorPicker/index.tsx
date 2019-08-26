@@ -9,7 +9,7 @@
  */
 import { h, Component } from "preact";
 import "./index.scss";
-interface IComponetProps {
+interface IComponentProps {
   // 标签名称
   label?: string;
   // 选中颜色改变时
@@ -19,15 +19,15 @@ interface IComponetProps {
   // 默认颜色 例如：#FFFFFF
   value?: string;
 }
-interface IComponetState {
+interface IComponentState {
   curColor: string;
 }
 
 export default class ColorPicker extends Component<
-  IComponetProps,
-  IComponetState
+  IComponentProps,
+  IComponentState
 > {
-  constructor(porps: IComponetProps) {
+  constructor(porps: IComponentProps) {
     super();
     this.setState({ curColor: porps.value || "#000000" });
   }

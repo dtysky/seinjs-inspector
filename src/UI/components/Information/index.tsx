@@ -9,15 +9,15 @@
  */
 import { h, Component } from "preact";
 import "./index.scss";
-interface IComponetProps {
+interface IComponentProps {
   label?: string;
   value: string | number;
 }
-interface IComponetState {}
+interface IComponentState {}
 
 export default class Infomation extends Component<
-  IComponetProps,
-  IComponetState
+  IComponentProps,
+  IComponentState
 > {
   constructor() {
     super();
@@ -27,7 +27,12 @@ export default class Infomation extends Component<
 
   render(props, state) {
     // console.log("infomation render");
-    const { label, value } = this.props;
+    let { label, value } = this.props;
+
+    if (typeof value === 'boolean') {
+      value = value ? 'True' : 'False';
+    }
+
     return (
       <div className="sein-inspector-component sein-inspector-infomation-container">
         <div className="sein-inspector-component-box">

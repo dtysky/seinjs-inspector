@@ -1,18 +1,18 @@
 import { h, Component } from "preact";
 import { ITreeData } from "./types";
 
-interface IComponetProps {
+interface IComponentProps {
   deep: number;
   treeNodeData: ITreeData;
   onTreeNodeClick?: Function;
 }
-interface IComponetState {
+interface IComponentState {
   isOpen: boolean;
 }
 
 export default class TreeNode extends Component<
-  IComponetProps,
-  IComponetState
+  IComponentProps,
+  IComponentState
 > {
   constructor() {
     super();

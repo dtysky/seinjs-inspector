@@ -4,17 +4,13 @@
  * @Date   : 7/28/2019, 3:55:56 PM
  * @Description:
  */
-
-import { h, render, Component } from "preact";
+import { h, render as preactRender, Component } from "preact";
 import { Inspector, Explorer } from "./pannel";
 import "./index.scss";
+import InspectorActor from '../Actor/InspectorActor';
 
 interface IComponentState {}
-class App extends Component<any, IComponentState> {
-  constructor() {
-    super();
-  }
-
+class App extends Component<{actor: InspectorActor}, IComponentState> {
   componentDidMount() {}
 
   componentWillUnmount() {}
@@ -23,11 +19,11 @@ class App extends Component<any, IComponentState> {
     return (
       <div>
         <Explorer />
-        <Inspector />
+        <Inspector actor={this.props.actor} />
       </div>
     );
   }
 }
-export default function renderer(node: HTMLElement) {
-  render(<App />, node);
+export default function render(node: HTMLElement, actor: InspectorActor) {
+  preactRender(<App actor={actor} />, node);
 }

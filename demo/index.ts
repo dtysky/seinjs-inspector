@@ -6,8 +6,4 @@
  */
 import { main } from "./game";
 
-const canvas = document.createElement("canvas");
-canvas.className = "game";
-document.getElementById("container").appendChild(canvas);
-
-main(canvas);
+main(document.getElementById("container") as HTMLCanvasElement);

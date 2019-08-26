@@ -78,7 +78,7 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
 
     game.addActor("inspector", Sein.Inspector.Actor, {
       dom: document.body,
-      updateRate: 0.3
+      updateRate: 10
     });
     const miku = game.resource.instantiate<"GlTF">("miku.gltf").get(0);
     miku.transform.setPosition(0, 0, 4);

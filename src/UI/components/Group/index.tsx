@@ -9,13 +9,13 @@
  */
 import { h, Component } from "preact";
 import "./index.scss";
-interface IComponetProps {
+interface IComponentProps {
   children?;
   name: string;
 }
-interface IComponetState {}
+interface IComponentState {}
 
-export default class Group extends Component<IComponetProps, IComponetState> {
+export default class Group extends Component<IComponentProps, IComponentState> {
   protected groupBar: HTMLElement;
   protected content: HTMLElement;
   protected isClose: boolean = false;

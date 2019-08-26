@@ -9,7 +9,7 @@
  */
 import { h, Component } from "preact";
 import "./index.scss";
-interface IComponetProps {
+interface IComponentProps {
   label?: string;
   value?: number;
   min: number;
@@ -18,12 +18,12 @@ interface IComponetProps {
   onRangeChange?: Function;
   onRangeInput?: Function;
 }
-interface IComponetState {
+interface IComponentState {
   curValue: number;
 }
 
-export default class Range extends Component<IComponetProps, IComponetState> {
-  constructor(props: IComponetProps) {
+export default class Range extends Component<IComponentProps, IComponentState> {
+  constructor(props: IComponentProps) {
     super();
     this.setState({
       curValue: props.value

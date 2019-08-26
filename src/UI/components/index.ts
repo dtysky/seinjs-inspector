@@ -2,7 +2,7 @@ import Group from "./Group";
 import Switch from "./Switch";
 import Select from "./Select";
 import Button from "./Button";
-import Infomation from "./Infomation";
+import Information from "./Information";
 import Range from "./Range";
 import ColorPicker from "./ColorPicker";
 import ToolsBar from "./ToolsBar";
@@ -14,7 +14,7 @@ export {
   Switch,
   Select,
   Button,
-  Infomation,
+  Information,
   Range,
   ColorPicker,
   ToolsBar,

@@ -42,31 +42,17 @@ export interface ISystemInfo {
     actors: Sein.SArray<Sein.ISceneActor>;
   };
   render: {
-    options: Sein.IGameOptions;
-    geometries: Sein.Geometry[];
-    materials: Sein.Material[];
-    textures: Sein.Texture[];
-    drawCallCount: number;
+    shaders: number;
+    programs: number;
+    textures: number;
+    buffers: number;
   };
   resource: {
-    [type: string]: {
-      count: string;
-      list: Sein.IResourceEntity[];
-    };
+    [type: string]: number;
   };
   events: {
-    global: {
-      [type: string]: {
-        count: number;
-        list: string[];
-      };
-    };
-    hid: {
-      [type: string]: {
-        count: number;
-        list: string[];
-      };
-    };
+    global: number;
+    hid: number;
   };
   physic: {
     active: boolean;

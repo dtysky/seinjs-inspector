@@ -1,7 +1,7 @@
 export const TabItem = [
   {
     id: 1,
-    text: "Game"
+    text: "Info"
   },
   {
     id: 2,
@@ -9,23 +9,23 @@ export const TabItem = [
   },
   {
     id: 3,
-    text: "Game"
+    text: "Level"
   },
   {
     id: 4,
-    text: "Game"
+    text: "Resource"
   },
   {
     id: 5,
-    text: "Game"
+    text: "Event"
   },
   {
     id: 6,
-    text: "Game"
+    text: "Player"
   },
   {
     id: 7,
-    text: "Game"
+    text: "Render"
   }
 ];
 

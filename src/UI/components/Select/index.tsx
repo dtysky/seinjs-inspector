@@ -9,7 +9,7 @@
  */
 import { h, Component } from "preact";
 import "./index.scss";
-interface IComponetProps {
+interface IComponentProps {
   label?: string;
   onSelectChange: Function;
   options: Array<{
@@ -18,9 +18,9 @@ interface IComponetProps {
     selected?: boolean;
   }>;
 }
-interface IComponetState {}
+interface IComponentState {}
 
-export default class Select extends Component<IComponetProps, IComponetState> {
+export default class Select extends Component<IComponentProps, IComponentState> {
   constructor() {
     super();
   }

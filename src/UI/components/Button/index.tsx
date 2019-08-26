@@ -9,13 +9,13 @@
  */
 import { h, Component } from "preact";
 import "./index.scss";
-interface IComponetProps {
+interface IComponentProps {
   label?: string;
   onButtonClick: Function;
 }
-interface IComponetState {}
+interface IComponentState {}
 
-export default class Button extends Component<IComponetProps, IComponetState> {
+export default class Button extends Component<IComponentProps, IComponentState> {
   constructor() {
     super();
   }

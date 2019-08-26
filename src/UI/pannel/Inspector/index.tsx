@@ -4,14 +4,17 @@
  * @Date   : 7/28/2019, 3:55:56 PM
  * @Description:
  */
-
 import { h, render, Component } from "preact";
 import Framework from "../Framework";
+import Info from "../Info";
 import Game from "../Game";
-import World from "../World";
+import Level from "../Level";
 import { Tab } from "../../components";
+import InspectorActor from '../../../Actor/InspectorActor';
 
-interface IComponentProps {}
+interface IComponentProps {
+  actor: InspectorActor;
+}
 
 interface IComponentState {
   // 当前显示tab的序列
@@ -51,17 +54,24 @@ export default class Inspector extends Component<
     switch (tabIndex) {
       case 1:
         return (
-          <Game switchChecked={this.isChecked} dataChange={this.dataUpdate} />
+          <Info
+            actor={this.props.actor}
+          />
         );
       case 2:
-        return <World />;
+        return (
+          <Game
+            switchChecked={this.isChecked}
+            dataChange={this.dataUpdate}
+          />
+        );
       default:
         return null;
     }
   }
   render() {
     return (
-      <Framework title="Sein Inspector">
+      <Framework title="SeinJS Inspector">
         <Tab onTabChange={this.onTabChange} />
         {this.getComponent()}
       </Framework>

@@ -6,7 +6,8 @@
  */
 import * as Sein from "seinjs";
 import { ISystemInfo } from "./types";
-import renderer from "../UI/index";
+import render from "../UI/index";
+
 export interface IInspectorActorOptions {
   /**
    * 指定渲染容器，不指定渲染到body下
@@ -83,7 +84,7 @@ export default class InspectorActor extends Sein.InfoActor<
     }
 
     this.sync(0);
-    // alert(1231);
+
     this.renderUI();
   }
 
@@ -126,7 +127,7 @@ export default class InspectorActor extends Sein.InfoActor<
   public onUpdate(delta: number) {
     this._delta += delta;
 
-    if (this._delta >= 1000 / this._updateRate) {
+    if (this._delta >= (1000 / this._updateRate)) {
       this._delta = 0;
       this.sync(delta);
     }
@@ -177,11 +178,20 @@ export default class InspectorActor extends Sein.InfoActor<
         actorsCount: level.actors.length,
         actors: level.actors
       },
-      render: game.renderer as any,
-      resource: {},
+      render: {
+        /**
+         * @todo: update Sein.js to 1.3.5
+         */
+        // buffers: Object.keys((Sein.Buffer.cache as any)._cache).length,
+        buffers: Object.keys((Sein.Shader.cache as any)._cache).length,
+        shaders: Object.keys((Sein.Shader.cache as any)._cache).length,
+        programs: Object.keys((Sein.Program.cache as any)._cache).length,
+        textures: Object.keys((Sein.Texture as any).cache._cache).length
+      },
+      resource: this.getResource(),
       events: {
-        global: {},
-        hid: {}
+        global: Object.keys((this._game.event as any)._observables).length,
+        hid: Object.keys((this._game.hid as any)._observables).length
       },
       physic: {
         active: !!physicWorld,
@@ -189,6 +199,21 @@ export default class InspectorActor extends Sein.InfoActor<
       }
     };
     this.event.trigger("Update", this._info);
+  }
+
+  protected getResource() {
+    const info: ISystemInfo['resource'] = {};
+
+    const store = (this._game.resource as any)._store;
+
+    Object.keys(store).forEach(name => {
+      const item: Sein.IResourceEntity = store[name];
+      const type = item.type;
+      info[type] = info[type] || 0;
+      info[type] += 1;
+    });
+
+    return info;
   }
 
   public onDestroy() {
@@ -200,6 +225,6 @@ export default class InspectorActor extends Sein.InfoActor<
   protected renderUI() {
     console.log(this._container);
 
-    renderer(document.body);
+    render(document.body, this);
   }
 }
