@@ -59,3 +59,12 @@ export interface ISystemInfo {
     alive: boolean;
   };
 }
+
+export enum EControlType {
+  StartSync = 'StartSync',
+  EndSync = 'EndSync'
+}
+
+export interface IControlEvent {
+  type: EControlType;
+}

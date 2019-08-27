@@ -4,7 +4,6 @@
  * @Date   : 7/28/2019, 3:34:01 PM
  * @Description:
  */
-import * as Sein from 'seinjs';
 import { h, Component } from "preact";
 import {
   Group,
@@ -14,7 +13,7 @@ import {
   Information,
 } from "../../components";
 
-import {ISystemInfo} from '../../../Actor/types';
+import {ISystemInfo, EControlType} from '../../../Actor/types';
 import InspectorActor from '../../../Actor/InspectorActor';
 
 interface IComponentProps {
@@ -30,11 +29,16 @@ export default class Info extends Component<IComponentProps, IComponentState> {
   };
 
   componentDidMount() {
-    this.props.actor.event.add('Update', this.handleUpdateInfo);
+    const {event} = this.props.actor;
+
+    event.add('Update', this.handleUpdateInfo);
+    event.trigger('Control', {type: EControlType.StartSync});
   }
 
   componentWillUnmount() {
+    const {event} = this.props.actor;
 
+    event.trigger('Control', {type: EControlType.EndSync});
   }
 
   private handleUpdateInfo = (info: ISystemInfo) => {

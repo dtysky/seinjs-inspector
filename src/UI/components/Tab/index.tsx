@@ -3,27 +3,24 @@
  */
 import { h, Component } from "preact";
 import "./index.scss";
-import { TabItem } from "../../../constant";
+
 interface IData {
   id: number;
   text: string;
 }
 interface IComponentProps {
+  data: IData[];
   onTabChange: Function;
+  currentId: IData['id'];
 }
 
-interface IComponentState {
-  curIndex: number;
-}
+interface IComponentState {}
+
 export default class Tab extends Component<IComponentProps, IComponentState> {
   protected container: HTMLElement;
-  protected data: IData[] = TabItem;
-  constructor() {
-    super();
-    this.setState({
-      curIndex: 1
-    });
-  }
+
+  public state: IComponentState = {};
+
   private debounce(method: Function, wait: number = 0) {
     let timer: number = 0;
 
@@ -68,31 +65,28 @@ export default class Tab extends Component<IComponentProps, IComponentState> {
     );
   }
   changeTab = (id: number) => {
-    const { curIndex } = this.state;
-    if (curIndex !== id) {
+    const { currentId } = this.props;
+    if (currentId !== id) {
       const { onTabChange } = this.props;
       onTabChange(id);
-      this.setState({
-        curIndex: id
-      });
     }
   };
-  render(props, state) {
-    const width = { width: `${100 / this.data.length}%` };
-    const { curIndex } = this.state;
+  render() {
+    const width = { width: `${100 / this.props.data.length}%` };
+    const { currentId } = this.props;
     return (
       <div>
         <ul
           ref={container => (this.container = container)}
           className="sein-inspector-tab u-scrollbar"
         >
-          {this.data.map(item => {
+          {this.props.data.map(item => {
             const id = item.id;
             return (
               <li
                 className={
                   "sein-inspector-tab-item" +
-                  (id === curIndex ? " current" : "")
+                  (id === currentId ? " current" : "")
                 }
                 style={width}
                 key={item.id}

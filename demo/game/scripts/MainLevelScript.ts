@@ -13,11 +13,18 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
   public onPreload() {
     const game = this.getGame();
 
-    game.resource.load({
-      type: "GlTF",
-      name: "miku.gltf",
-      url: "/assets/gltfs/miku.gltf"
-    });
+    game.resource.load({type: "GlTF", name: "miku.gltf", url: "/assets/gltfs/miku.gltf"});
+    game.resource.load({type: 'Image', name: 'paradise.jpg', url: '/assets/paradise.jpg'});
+    game.resource.load({type: 'Texture', name: 'paradise.tex', url: '/assets/paradise.jpg'});
+    game.resource.load({type: 'Atlas', name: '22.atlas', url: '/assets/sprites/22.json'});
+    game.resource.load({type: 'CubeTexture', name: 'snow.tex', url: '/assets/skybox/snow', images: {
+      left: 'left.jpg',
+      right: 'right.jpg',
+      top: 'top.jpg',
+      bottom: 'bottom.jpg',
+      front: 'front.jpg',
+      back: 'back.jpg'
+    }});
   }
 
   public onLoading(state: Sein.IResourceState) {
@@ -27,6 +34,11 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
   public onCreate() {
     const game = this.getGame();
     const world = this.getWorld();
+
+    game.addActor("inspector", Sein.Inspector.Actor, {
+      dom: document.body,
+      updateRate: 10
+    });
 
     const camera = world.addActor("camera", Sein.PerspectiveCameraActor, {
       far: 1000,
@@ -76,12 +88,49 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
       amount: 2
     });
 
-    game.addActor("inspector", Sein.Inspector.Actor, {
-      dom: document.body,
-      updateRate: 10
-    });
     const miku = game.resource.instantiate<"GlTF">("miku.gltf").get(0);
     miku.transform.setPosition(0, 0, 4);
+
+    world.addActor('snow', Sein.BSPBoxActor, {
+      width: 100, height: 100, depth: 100,
+      material: new Sein.BasicMaterial({
+        diffuse: game.resource.get<'CubeTexture'>('snow.tex'),
+        lightType: 'NONE',
+        side: Sein.Constants.FRONT_AND_BACK
+      })
+    });
+
+    world.addActor('plane', Sein.BSPPlaneActor, {
+      width: 2.56,
+      height: 1.92,
+      position: new Sein.Vector3(-4, 4, 0),
+      material: new Sein.BasicMaterial({
+        diffuse: game.resource.get<'Texture'>('paradise.tex'),
+        lightType: 'NONE',
+        side: Sein.Constants.FRONT_AND_BACK
+      })
+    });
+
+    world.addActor('plane2', Sein.BSPPlaneActor, {
+      width: 2.56,
+      height: 1.92,
+      position: new Sein.Vector3(4, 4, 0),
+      material: new Sein.BasicMaterial({
+        diffuse: new Sein.Texture({image: game.resource.get<'Image'>('paradise.jpg'), flipY: true}),
+        lightType: 'NONE',
+        side: Sein.Constants.FRONT_AND_BACK
+      })
+    });
+
+    world.addActor('22', Sein.SpriteActor, {
+      atlas: game.resource.get<'Atlas'>('22.atlas'),
+      frameName: '01',
+      width: .66,
+      height: .9,
+      materialOptions: {
+        transparent: true
+      }
+    });
   }
 
   public onUpdate() {

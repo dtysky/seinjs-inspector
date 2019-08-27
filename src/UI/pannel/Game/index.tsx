@@ -13,11 +13,13 @@ import {
   Select,
   Switch,
   Button,
-  Infomation,
+  Information,
   Range,
   ColorPicker
 } from "../../components";
+import InspectorActor from "../../../Actor/InspectorActor";
 interface IComponentProps {
+  actor: InspectorActor;
   dataChange: Function;
   switchChecked: boolean;
 }
@@ -103,7 +105,7 @@ export default class Game extends Component<IComponentProps, IComponentState> {
           onSelectChange={this.onSelectChange}
         />
         <Button label={"我的第二个按钮"} onButtonClick={this.onButtonClick} />
-        <Infomation label="当前时间" value={"我是静态字符串"} />
+        <Information label="当前时间" value={"我是静态字符串"} />
         <Range
           label={"当前是二个范围选择组件"}
           value={1}
@@ -132,7 +134,7 @@ export default class Game extends Component<IComponentProps, IComponentState> {
             onSelectChange={this.onSelectChange}
           />
 
-          <Infomation label="当前时间" value={this.state._currentTime} />
+          <Information label="当前时间" value={this.state._currentTime} />
 
           <Range
             label={"当前是一个范围选择组件"}

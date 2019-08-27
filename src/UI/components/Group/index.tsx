@@ -29,7 +29,7 @@ export default class Group extends Component<IComponentProps, IComponentState> {
   };
   componentDidMount() {
     // console.log(this.isClose);
-    this.content.style.height = `${this.content.clientHeight}px`;
+    // this.content.style.height = `${this.content.clientHeight}px`;
     this.groupBar.addEventListener("click", this.toggle);
   }
   componentWillUnmount() {

@@ -5,7 +5,7 @@
  *
  */
 import * as Sein from "seinjs";
-import { ISystemInfo } from "./types";
+import { ISystemInfo, IControlEvent, EControlType } from "./types";
 import render from "../UI/index";
 
 export interface IInspectorActorOptions {
@@ -51,15 +51,16 @@ export default class InspectorActor extends Sein.InfoActor<
   protected _delta: number = 0;
   protected _levelAlive = false;
   protected _physicAlive = false;
+  protected _enableSync = false;
   protected _container: HTMLElement = document.body;
   // protected _popWindow: InspectorWindow;
   /**
    * 事件管理器。
    */
-  get event(): Sein.EventManager<{ Update: { info: ISystemInfo } }> {
+  get event() {
     return this._root.event as Sein.EventManager<{
       Update: { info: ISystemInfo };
-      Control: { type: string };
+      Control: IControlEvent;
     }>;
   }
 
@@ -67,7 +68,7 @@ export default class InspectorActor extends Sein.InfoActor<
     const { updateRate, dom } = initOptions;
 
     this.event.register("Update");
-    this.event.register("Control");
+    this.event.add("Control", this.handleControl);
 
     dom && (this._container = initOptions.dom);
     updateRate && (this._updateRate = initOptions.updateRate);
@@ -114,17 +115,29 @@ export default class InspectorActor extends Sein.InfoActor<
         this._physicAlive = true;
       };
     }
-  };
+  }
 
   private clearActor = () => {
     this._actor = null;
-  };
+  }
+
+  private handleControl = (event: IControlEvent) => {
+    if (event.type === EControlType.StartSync) {
+      this._enableSync = true;
+    } else if (event.type === EControlType.EndSync) {
+      this._enableSync = false;
+    }
+  }
 
   public onError(error: Sein.BaseException, details: any) {
     return true;
   }
 
   public onUpdate(delta: number) {
+    if (!this._enableSync) {
+      return;
+    }
+
     this._delta += delta;
 
     if (this._delta >= (1000 / this._updateRate)) {

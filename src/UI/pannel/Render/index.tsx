@@ -1,7 +1,7 @@
 /**
- * @File   : Player.tsx
+ * @File   : Resource.tsx
  * @Author : dtysky (dtysky@outlook.com)
- * @Date   : 7/28/2019, 3:56:22 PM
+ * @Date   : 7/28/2019, 3:57:30 PM
  * @Description:
  */
 import { h, Component } from "preact";
@@ -12,7 +12,7 @@ interface IComponentProps {
 }
 
 interface IComponentState {}
-export default class Plater extends Component<IComponentProps, IComponentState> {
+export default class Render extends Component<IComponentProps, IComponentState> {
   componentDidMount() {}
 
   render() {
