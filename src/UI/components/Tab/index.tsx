@@ -1,8 +1,8 @@
 /**
  * tab bar
  */
-import { h, Component } from "preact";
-import "./index.scss";
+import { h, Component } from 'preact';
+import './index.scss';
 
 interface IData {
   id: number;
@@ -50,7 +50,7 @@ export default class Tab extends Component<IComponentProps, IComponentState> {
   }
   componentDidMount() {
     this.container.addEventListener(
-      "wheel",
+      'wheel',
       this.throttle((event: WheelEvent) => {
         event.stopPropagation();
         if (event.deltaY > 0) {
@@ -78,22 +78,20 @@ export default class Tab extends Component<IComponentProps, IComponentState> {
       <div>
         <ul
           ref={container => (this.container = container)}
-          className="sein-inspector-tab u-scrollbar"
-        >
+          className='sein-inspector-tab u-scrollbar'>
           {this.props.data.map(item => {
             const id = item.id;
             return (
               <li
                 className={
-                  "sein-inspector-tab-item" +
-                  (id === currentId ? " current" : "")
+                  'sein-inspector-tab-item' +
+                  (id === currentId ? ' current' : '')
                 }
-                style={width}
+                // style={width}
                 key={item.id}
                 onClick={() => {
                   this.changeTab(item.id);
-                }}
-              >
+                }}>
                 <i className={`icon` + id} />
                 {item.text}
               </li>

@@ -7,11 +7,11 @@
 /**
  * tab bar
  */
-import { h, Component } from "preact";
-import "./index.scss";
+import { h, Component } from 'preact';
+import './index.scss';
 interface IComponentProps {
   label?: string;
-  value: string | number;
+  value: string | number | boolean;
 }
 interface IComponentState {}
 
@@ -34,12 +34,12 @@ export default class Infomation extends Component<
     }
 
     return (
-      <div className="sein-inspector-component sein-inspector-infomation-container">
-        <div className="sein-inspector-component-box">
-          <label className="sein-inspector-label" title={label || "Label"}>
-            {label || "Label"}
+      <div className='sein-inspector-component sein-inspector-infomation-container'>
+        <div className='sein-inspector-component-box'>
+          <label className='sein-inspector-label' title={label || 'Label'}>
+            {label || 'Label'}
           </label>
-          <div className="sein-inspector-infomation-value">{value}</div>
+          <div className='sein-inspector-infomation-value'>{value}</div>
         </div>
       </div>
     );

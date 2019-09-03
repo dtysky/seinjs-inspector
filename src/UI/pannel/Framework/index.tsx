@@ -1,8 +1,8 @@
-import { h, Component } from "preact";
-import { ToolsBar } from "../../components";
-import "./index.scss";
+import { h, Component } from 'preact';
+import { ToolsBar } from '../../components';
+import './index.scss';
 interface IComponentProps {
-  mode?: "left" | "right";
+  mode?: 'left' | 'right';
   title?: string;
 }
 
@@ -37,7 +37,8 @@ export default class Framework extends Component<
     // console.log("inspector mounted", this.container);
 
     this._width = this.container.clientWidth;
-    this.container.style.width = `${this._width}px`;
+    this.container.style.setProperty('width', `${this._width}px`);
+    this.container.style.setProperty('--content-width', `${this._width}px`);
   }
 
   componentWillUnmount() {}
@@ -69,7 +70,8 @@ export default class Framework extends Component<
   };
   resizeEnd = () => {
     const { width } = this.state;
-    this.container.style.width = `${width}px`;
+    this.container.style.setProperty('width', `${width}px`);
+    this.container.style.setProperty('--content-width', `${width}px`);
   };
   onTabChange = (id: number) => {
     this.setState({
@@ -88,15 +90,14 @@ export default class Framework extends Component<
       width: `${width}px`
     };
     const containerClassName = `sein-inspector-container ${
-      mode === "left" ? "explorer" : ""
-    } ${visible ? "" : "hide"}`;
+      mode === 'left' ? 'explorer' : ''
+    } ${visible ? '' : 'hide'}`;
     return (
       <div
         ref={container => (this.container = container)}
-        className={containerClassName}
-      >
-        <div className="sein-inspector-content" style={conStyle}>
-          <div className="sein-inspector-title">{title || "Title"}</div>
+        className={containerClassName}>
+        <div className='sein-inspector-content' style={conStyle}>
+          <div className='sein-inspector-title'>{title || 'Title'}</div>
           {this.props.children}
         </div>
         <ToolsBar

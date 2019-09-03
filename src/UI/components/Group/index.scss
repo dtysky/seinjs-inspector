@@ -40,7 +40,7 @@
     border-bottom: 1px solid #4d4d4d;
     transition: height 0.3s ease 0s;
     &.close {
-      height: 0px !important;
+      display: none;
     }
   }
   &:hover {
