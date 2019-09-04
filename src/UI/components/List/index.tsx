@@ -2,7 +2,7 @@
  * @Description: List.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-03 16:51:23
- * @LastEditTime: 2019-09-03 22:04:34
+ * @LastEditTime: 2019-09-03 22:14:43
  */
 
 import { h, Component } from 'preact';
@@ -69,8 +69,6 @@ export default class Infomation extends Component<
     const { list } = this.props;
     for (const key in list) {
       const element = list[key];
-      console.log(element);
-
       rs.push(
         <li>
           <label className='sein-inspector-label' title={key || 'Label'}>
@@ -95,30 +93,6 @@ export default class Infomation extends Component<
         {list.length ? this.getFromArray() : this.getFromObject()}
       </ul>
     );
-    console.log(list instanceof Array);
-    if (list.length) {
-      return (
-        <ul className='sein-inspector-list-detail'>{this.getFromArray()}</ul>
-      );
-    } else {
-      <ul className='sein-inspector-list-detail'>
-        {list.map(item => {
-          const { name, value } = item;
-          return (
-            <li>
-              <label className='sein-inspector-label' title={name || 'Label'}>
-                {name}
-              </label>
-              {value && (
-                <div className='sein-inspector-preview-value' title={value}>
-                  {value}
-                </div>
-              )}
-            </li>
-          );
-        })}
-      </ul>;
-    }
   }
   private onClick = () => {
     this.setState({

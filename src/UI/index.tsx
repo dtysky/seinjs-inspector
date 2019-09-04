@@ -23,7 +23,7 @@ import Player from './pannel/Player';
 import Render from './pannel/Render';
 import { Tab } from './components';
 import InspectorActor from '../Actor/InspectorActor';
-
+import * as SPECTOR from 'spectorjs';
 import './index.scss';
 
 interface IComponentProps {
@@ -43,6 +43,10 @@ class Inspector extends Component<IComponentProps, IComponentState> {
   protected _width: number = 0;
   protected isChecked: boolean = false;
 
+  private spector: any;
+  constructor() {
+    super();
+  }
   componentDidMount() {}
 
   componentWillUnmount() {}
@@ -68,17 +72,20 @@ class Inspector extends Component<IComponentProps, IComponentState> {
       case 4:
         return <Resource actor={this.props.actor} />;
       case 5:
-        return <Event actor={this.props.actor} />;
-      case 6:
-        return <Player actor={this.props.actor} />;
-      case 6:
         return (
-          <Render
+          <Event
             actor={this.props.actor}
             switchChecked={this.isChecked}
             dataChange={this.dataUpdate}
           />
         );
+      case 6:
+        return <Player actor={this.props.actor} />;
+      case 7:
+        if (!this.spector) {
+          this.spector = new SPECTOR.Spector();
+        }
+        return <Render spector={this.spector} />;
       default:
         return null;
     }

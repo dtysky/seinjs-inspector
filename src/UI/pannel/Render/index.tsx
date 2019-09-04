@@ -1,157 +1,79 @@
 /**
- * @File   : Resource.tsx
+ * @File   : Render.tsx
  * @Author : dtysky (dtysky@outlook.com)
  * @Date   : 7/28/2019, 3:57:30 PM
  * @Description:
  */
 
 import { h, Component } from 'preact';
-import {
-  Group,
-  Select,
-  Switch,
-  Button,
-  Information,
-  Range,
-  ColorPicker
-} from '../../components';
+import { Group, Button } from '../../components';
 import InspectorActor from '../../../Actor/InspectorActor';
+
 interface IComponentProps {
-  actor: InspectorActor;
-  dataChange: Function;
-  switchChecked: boolean;
+  spector: any;
 }
 
 interface IComponentState {
-  _currentTime: number;
+  isSpectorShow: boolean;
 }
 export default class Render extends Component<
   IComponentProps,
   IComponentState
 > {
-  protected _timer: number;
+  private spectorUI: HTMLElement;
   constructor() {
     super();
+
+    this.spectorUI = document.querySelector('.captureMenuComponent');
+    let isShow = false;
+    if (
+      this.spectorUI &&
+      this.spectorUI.parentElement.style.getPropertyValue('display') !== 'none'
+    ) {
+      isShow = true;
+    }
     this.setState({
-      _currentTime: 0
+      isSpectorShow: isShow
     });
   }
-
   componentDidMount() {
-    console.log('game did mouted');
-
-    this._timer = window.setInterval(() => {
-      let { _currentTime } = this.state;
-      this.setState({
-        _currentTime: ++_currentTime
-      });
-    }, 1000);
+    this.spectorUI = document.querySelector('.captureMenuComponent');
   }
   componentWillUnmount() {
-    window.clearInterval(this._timer);
+    // this.hideSpectorUI();
   }
-  onCheckedChange = checked => {
-    console.log('game checked chagne', checked);
-    const { dataChange } = this.props;
-    dataChange(checked);
-  };
-  onSelectChange = value => {
-    console.log('game select chage', value);
-  };
-  onButtonClick = () => {
-    console.log('game button click');
-  };
-  onRangeChange = value => {
-    console.log('game range chage', value);
-  };
-  onRangeInput = value => {
-    console.log('game range input', value);
-  };
-  onColorChange = curColor => {
-    console.log('game color change', curColor);
-  };
-  onColorInput = curColor => {
-    console.log('game color input', curColor);
-  };
-  render(props, state) {
-    // console.log("game render", this.state._currentTime);
+  private triggerClick = () => {
+    const { isSpectorShow } = this.state;
 
-    const options = [
-      {
-        text: '女神异闻录5',
-        value: 'Persona5'
-      },
-      {
-        text: '怪物猎人世界DLC冰原',
-        value: 'Monster Hunter World: Iceborne',
-        selected: true
-      },
-      {
-        text: '战神',
-        value: 1
+    if (isSpectorShow) {
+      this.hideSpectorUI();
+      this.setState({
+        isSpectorShow: false
+      });
+    } else {
+      this.props.spector.displayUI();
+      if (!this.spectorUI) {
+        this.spectorUI = document.querySelector('.captureMenuComponent');
       }
-    ];
+      this.spectorUI &&
+        this.spectorUI.parentElement.style.removeProperty('display');
 
-    const { switchChecked } = this.props;
+      this.setState({
+        isSpectorShow: true
+      });
+    }
+  };
+
+  private hideSpectorUI() {
+    this.spectorUI &&
+      this.spectorUI.parentElement.style.setProperty('display', 'none');
+  }
+  render() {
+    const { isSpectorShow } = this.state;
+    const label = isSpectorShow ? '隐藏 Spector' : '显示 Spector';
     return (
-      <div className='sein-inspector-content-box  u-scrollbar'>
-        <Switch
-          label={'一个Switch开关'}
-          checked={false}
-          onCheckedChange={this.onCheckedChange}
-        />
-        <Select
-          label={'这是二个选择框哈'}
-          options={options}
-          onSelectChange={this.onSelectChange}
-        />
-        <Button label={'我的第二个按钮'} onButtonClick={this.onButtonClick} />
-        <Information label='当前时间' value={'我是静态字符串'} />
-        <Range
-          label={'当前是二个范围选择组件'}
-          value={1}
-          min={1}
-          max={11}
-          step={0.1}
-          onRangeChange={this.onRangeChange}
-        />
-        <ColorPicker
-          label={'我的第二个取色器'}
-          value='#FFAA00'
-          onColorChange={this.onColorChange}
-          onColorInput={this.onColorInput}
-        />
-        <Group name='Sein Inspector'>
-          <Switch
-            label={'两个Switch开关'}
-            checked={switchChecked}
-            onCheckedChange={this.onCheckedChange}
-          />
-
-          <Button label={'我的第一个按钮'} onButtonClick={this.onButtonClick} />
-          <Select
-            label={'这是一个选择框哈'}
-            options={options}
-            onSelectChange={this.onSelectChange}
-          />
-
-          <Information label='当前时间' value={this.state._currentTime} />
-
-          <Range
-            label={'当前是一个范围选择组件'}
-            value={1}
-            min={1}
-            max={11}
-            step={0.1}
-            onRangeChange={this.onRangeChange}
-          />
-          <ColorPicker
-            label={'我的第一个取色器'}
-            value='#FFAA00'
-            onColorChange={this.onColorChange}
-            onColorInput={this.onColorInput}
-          />
-        </Group>
+      <div className='sein-inspector-content-box u-scrollbar'>
+        <Button label={label} onButtonClick={this.triggerClick}></Button>
       </div>
     );
   }
