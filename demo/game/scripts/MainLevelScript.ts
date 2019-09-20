@@ -4,27 +4,50 @@
  * @Date   : Sun Jul 28 2019
  * @Description: MainLevelScript.
  */
-import * as Sein from "seinjs";
-import "seinjs-camera-controls/lib/CameraOrbitControlComponent";
-import "../../../src";
-import FloatingComponent from "../components/FloatingComponent";
+import * as Sein from 'seinjs';
+import 'seinjs-camera-controls/lib/CameraOrbitControlComponent';
+import '../../../src';
+import FloatingComponent from '../components/FloatingComponent';
+import MyAnimation from './MyAnimation';
+import * as CANNON from 'cannon-dtysky';
 
 export default class MainLevelScript extends Sein.LevelScriptActor {
   public onPreload() {
     const game = this.getGame();
 
-    game.resource.load({type: "GlTF", name: "miku.gltf", url: "/assets/gltfs/miku.gltf"});
-    game.resource.load({type: 'Image', name: 'paradise.jpg', url: '/assets/paradise.jpg'});
-    game.resource.load({type: 'Texture', name: 'paradise.tex', url: '/assets/paradise.jpg'});
-    game.resource.load({type: 'Atlas', name: '22.atlas', url: '/assets/sprites/22.json'});
-    game.resource.load({type: 'CubeTexture', name: 'snow.tex', url: '/assets/skybox/snow', images: {
-      left: 'left.jpg',
-      right: 'right.jpg',
-      top: 'top.jpg',
-      bottom: 'bottom.jpg',
-      front: 'front.jpg',
-      back: 'back.jpg'
-    }});
+    game.resource.load({
+      type: 'GlTF',
+      name: 'miku.gltf',
+      url: '/assets/gltfs/miku.gltf'
+    });
+    game.resource.load({
+      type: 'Image',
+      name: 'paradise.jpg',
+      url: '/assets/paradise.jpg'
+    });
+    game.resource.load({
+      type: 'Texture',
+      name: 'paradise.tex',
+      url: '/assets/paradise.jpg'
+    });
+    game.resource.load({
+      type: 'Atlas',
+      name: '22.atlas',
+      url: '/assets/sprites/22.json'
+    });
+    game.resource.load({
+      type: 'CubeTexture',
+      name: 'snow.tex',
+      url: '/assets/skybox/snow',
+      images: {
+        left: 'left.jpg',
+        right: 'right.jpg',
+        top: 'top.jpg',
+        bottom: 'bottom.jpg',
+        front: 'front.jpg',
+        back: 'back.jpg'
+      }
+    });
   }
 
   public onLoading(state: Sein.IResourceState) {
@@ -35,22 +58,71 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
     const game = this.getGame();
     const world = this.getWorld();
 
-    game.addActor("inspector", Sein.Inspector.Actor, {
+    const y = world.addActor('AxisLineY', Sein.BSPBoxActor, {
+      width: 0.02,
+      height: 20,
+      depth: 0.02,
+      material: new Sein.BasicMaterial({
+        diffuse: new Sein.Color(0, 1, 0),
+        lightType: 'NONE',
+        shininess: 0
+      })
+    });
+    y.transform.translate(new Sein.Vector3(0, 1, 0), 10);
+    const x = world.addActor('AxisLineX', Sein.BSPBoxActor, {
+      width: 20,
+      height: 0.02,
+      depth: 0.02,
+      material: new Sein.BasicMaterial({
+        diffuse: new Sein.Color(1, 0, 0),
+        lightType: 'NONE',
+        shininess: 0
+      })
+    });
+    x.transform.translate(new Sein.Vector3(1, 0, 0), 10);
+
+    const z = world.addActor('AxisLineZ', Sein.BSPBoxActor, {
+      width: 0.02,
+      height: 0.02,
+      depth: 20,
+      material: new Sein.BasicMaterial({
+        diffuse: new Sein.Color(0, 0, 1),
+        lightType: 'NONE',
+        shininess: 0
+      })
+    });
+    z.transform.translate(new Sein.Vector3(0, 0, 1), 10);
+
+    game.addActor('inspector', Sein.Inspector.Actor, {
       dom: document.body,
       updateRate: 10
     });
 
-    const camera = world.addActor("camera", Sein.PerspectiveCameraActor, {
+    const camera = world.addActor('camera', Sein.PerspectiveCameraActor, {
       far: 1000,
-      near: 0.01,
+      near: 2,
       fov: 60,
       aspect: game.screenWidth / game.screenHeight,
-      position: new Sein.Vector3(0, 12, -25)
+      position: new Sein.Vector3(0, 12, 25)
     });
     camera.lookAt(new Sein.Vector3(0, 12, 0));
 
+    // const aspect = game.screenAspect;
+    // const camera = world.addActor('camera', Sein.OrthographicCameraActor, {
+    //   left: -22 / aspect,
+    //   right: 22 / aspect,
+    //   top: 22 / aspect,
+    //   bottom: -22 / aspect,
+    //   far: 100,
+    //   near: 0.01,
+    //   position: new Sein.Vector3(0, 12, -25)
+    // });
+
+    // var target = new Sein.Vector3(0, 12, 0);
+    // camera.transform.lookAt(target);
+
     camera.addComponent(
-      "control",
+      'control',
       Sein.CameraControls.CameraOrbitControlComponent,
       {
         enableDamping: true,
@@ -61,16 +133,16 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
       }
     );
 
-    const box1 = world.addActor("box1", Sein.BSPBoxActor, {
+    const box1 = world.addActor('box1', Sein.BSPBoxActor, {
       width: 2,
       height: 2,
       depth: 2,
       material: new Sein.PBRMaterial({ baseColor: new Sein.Color(1, 0, 0) }),
       position: new Sein.Vector3(-8, 10, 0)
     });
-    box1.addComponent("floating", FloatingComponent, { amp: 1, omega: 2 });
+    box1.addComponent('floating', FloatingComponent, { amp: 1, omega: 2 });
 
-    world.addActor("box2", Sein.BSPBoxActor, {
+    world.addActor('box2', Sein.BSPBoxActor, {
       width: 2,
       height: 2,
       depth: 2,
@@ -78,27 +150,96 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
       position: new Sein.Vector3(8, 10, 0)
     });
 
-    world.addActor("aLight", Sein.AmbientLightActor, {
+    world.addActor('aLight', Sein.AmbientLightActor, {
       color: new Sein.Color(1, 1, 1),
       amount: 0.5
     });
-    world.addActor("dLight", Sein.DirectionalLightActor, {
-      direction: new Sein.Vector3(0, -1, 1),
+    world.addActor('dLight', Sein.DirectionalLightActor, {
+      direction: new Sein.Vector3(-1, -1, -1),
       color: new Sein.Color(1, 1, 1),
       amount: 2
     });
 
-    const miku = game.resource.instantiate<"GlTF">("miku.gltf").get(0);
-    miku.transform.setPosition(0, 0, 4);
+    world.addActor('plight', Sein.PointLightActor, {
+      color: new Sein.Color(1, 1, 1),
+      amount: 100,
+      range: 10,
+      position: new Sein.Vector3(0, 8, -8)
+    });
 
-    world.addActor('snow', Sein.BSPBoxActor, {
-      width: 100, height: 100, depth: 100,
+    world.addActor('slight', Sein.SpotLightActor, {
+      color: new Sein.Color(1, 1, 1),
+      direction: new Sein.Vector3(-1, -1, 0.5),
+      amount: 400,
+      range: 10,
+      outerCutoff: 30,
+      cutoff: 15,
+      position: new Sein.Vector3(0, 8, 8)
+    });
+
+    // const miku = game.resource.instantiate<'GlTF'>('miku.gltf').get(0);
+    // miku.transform.setPosition(0, 0, 4);
+
+    // // add animator component
+    // miku.addComponent('animator', Sein.AnimatorComponent);
+    // miku.animator.register('custom', new MyAnimation({ speed: 1 }));
+    // miku.animator.play('custom', 180);
+
+    // miku.animator.register('custom1', new MyAnimation({ speed: 2 }));
+    // add physic engin
+    world.enablePhysic(
+      new Sein.CannonPhysicWorld(CANNON, new Sein.Vector3(0, -9.81, 0))
+    );
+    // add ground
+    const ground = world.addActor('ground', Sein.BSPBoxActor, {
+      position: new Sein.Vector3(0, -6, 0),
+      width: 50,
+      height: 1,
+      depth: 50,
       material: new Sein.BasicMaterial({
-        diffuse: game.resource.get<'CubeTexture'>('snow.tex'),
-        lightType: 'NONE',
-        side: Sein.Constants.FRONT_AND_BACK
+        diffuse: new Sein.Color(0.3, 0.3, 0.3),
+        lightType: 'PHONG'
       })
     });
+
+    ground.addComponent('groundRigidBody', Sein.RigidBodyComponent, {
+      mass: 0,
+      physicStatic: true,
+      restitution: 1
+    });
+    ground.addComponent('grounCollider', Sein.BoxColliderComponent, {
+      size: [50, 1, 50]
+    });
+
+    // add physic ball
+    const sphere = world.addActor('physicball', Sein.BSPSphereActor, {
+      radius: 2,
+      widthSegments: 32,
+      material: new Sein.BasicMaterial({
+        diffuse: new Sein.Color(1, 0.3, 0.3),
+        lightType: 'PHONG'
+      })
+    });
+    sphere.transform.setPosition(-5, 10, 0);
+    sphere.addComponent('ballRigidBody', Sein.RigidBodyComponent, {
+      mass: 1,
+      restitution: 0.7,
+      unControl: true
+    });
+    sphere.addComponent('ballCollider', Sein.SphereColliderComponent, {
+      radius: 2
+    });
+
+    // world.addActor('snow', Sein.BSPBoxActor, {
+    //   width: 150,
+    //   height: 150,
+    //   depth: 150,
+    //   material: new Sein.BasicMaterial({
+    //     diffuse: game.resource.get<'CubeTexture'>('snow.tex'),
+    //     lightType: 'NONE',
+    //     side: Sein.Constants.FRONT_AND_BACK
+    //   })
+    // });
 
     world.addActor('plane', Sein.BSPPlaneActor, {
       width: 2.56,
@@ -116,7 +257,10 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
       height: 1.92,
       position: new Sein.Vector3(4, 4, 0),
       material: new Sein.BasicMaterial({
-        diffuse: new Sein.Texture({image: game.resource.get<'Image'>('paradise.jpg'), flipY: true}),
+        diffuse: new Sein.Texture({
+          image: game.resource.get<'Image'>('paradise.jpg'),
+          flipY: true
+        }),
         lightType: 'NONE',
         side: Sein.Constants.FRONT_AND_BACK
       })
@@ -125,16 +269,31 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
     world.addActor('22', Sein.SpriteActor, {
       atlas: game.resource.get<'Atlas'>('22.atlas'),
       frameName: '01',
-      width: .66,
-      height: .9,
+      width: 0.66,
+      height: 0.9,
       materialOptions: {
         transparent: true
       }
     });
+
+    // const vector1 = new Sein.Vector3(0, 1, 0);
+    // const vector2 = new Sein.Vector3(1, 1, 1);
+
+    // console.log(vector1.length(), vector2.length());
+    // const angle = Math.acos(
+    //   vector1.dot(vector2) / (vector1.length() * vector2.length())
+    // );
+
+    // const cross = vector1.cross(vector2);
+    // console.log(Sein.radToDeg(angle), cross);
+
+    // ground.transform.rotate(cross,angle)
   }
 
   public onUpdate() {
-    const box2 = Sein.findActorByName(this.getWorld(), "box2");
+    const box2 = Sein.findActorByName(this.getWorld(), 'box2');
+    const ground = Sein.findActorByName(this.getWorld(), 'ground');
     box2.transform.rotate(box2.transform.upVector, 0.02);
+    // ground.transform.rotate(ground.transform.upVector, 0.01);
   }
 }

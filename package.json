@@ -85,9 +85,11 @@
     "webpack-dev-server": "^2.10.1"
   },
   "dependencies": {
+    "cannon-dtysky": "^0.6.4",
     "event-emitter": "^0.3.5",
     "preact": "^8.5.0",
     "prop-types": "^15.7.2",
-    "raw-loader": "^0.5.1"
+    "raw-loader": "^0.5.1",
+    "seinjs-camera-controls": "^0.8.12"
   }
 }

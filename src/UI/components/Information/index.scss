@@ -7,6 +7,20 @@
     .sein-inspector-infomation-value {
       font-size: 12px;
       color: #bbb;
+      padding-right: 5px;
+    }
+    .sein-inspector-infomation-editable {
+      font-size: 14px;
+      color: #bbb;
+      &:before {
+        content: '\e627';
+      }
+    }
+
+    &:hover {
+      .sein-inspector-infomation-editable {
+        color: #fff;
+      }
     }
   }
 }

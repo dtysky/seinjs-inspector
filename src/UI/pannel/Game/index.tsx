@@ -5,7 +5,7 @@
  * @Description:
  */
 import { h, Component } from 'preact';
-// import * as Sein from 'seinjs';
+import * as Sein from 'seinjs';
 import { List, Group, Information } from '../../components';
 import InspectorActor from '../../../Actor/InspectorActor';
 interface IComponentProps {
@@ -13,11 +13,10 @@ interface IComponentProps {
 }
 
 interface IComponentState {
+  InfoActors: Array<{ name: string; value: string }>;
   Bound: {
     [key: string]: any;
   };
-  InfoActors: Array<any>;
-  Actors: Array<any>;
   baseInfo: {
     [key: string]: any;
   };
@@ -41,19 +40,10 @@ export default class Game extends Component<IComponentProps, IComponentState> {
     const { fps, screenHeight, screenWidth, devMode, bound } = game;
     const baseInfo = { fps, screenHeight, screenWidth, devMode };
 
-    const Actors = [];
-    game.world.actors.forEach(item => {
-      Actors.push({
-        name: item.className.value,
-        value: item.name.value
-      });
-    });
-
     const { width, height, top, right, bottom, left } = bound;
     const Bound = { width, height, top, right, bottom, left };
     this.setState({
       Bound,
-      Actors,
       InfoActors,
       baseInfo
     });
@@ -72,14 +62,13 @@ export default class Game extends Component<IComponentProps, IComponentState> {
     return rs;
   }
   render() {
-    const { InfoActors, Actors, Bound } = this.state;
+    const { InfoActors, Bound } = this.state;
 
     return (
       <div className='sein-inspector-content-box u-scrollbar'>
         {this.getGroup()}
         <List label='Bound' list={Bound}></List>
         <List label='InfoActors' list={InfoActors}></List>
-        <List label='Actors' list={Actors}></List>
       </div>
     );
   }

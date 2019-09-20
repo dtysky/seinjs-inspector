@@ -1,0 +1,30 @@
+.sein-inspector-container
+  .sein-inspector-primitiveeditor-container.sein-inspector-component {
+  height: auto;
+  border-left: 0;
+  .sein-inspector-component-box {
+    display: flex;
+    .sein-inspector-label {
+      flex: 1;
+    }
+    .sein-inspector-primitiveeditor-value {
+      font-size: 12px;
+      color: #bbb;
+    }
+  }
+  .sein-inspector-primitiveeditor-detail {
+    .sein-inspector-component {
+      padding: 0;
+      border-left: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      &:hover {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      }
+    }
+    .sein-inspector-detail-title {
+      font-size: 12px;
+      font-weight: bold;
+      color: #fff;
+    }
+  }
+}

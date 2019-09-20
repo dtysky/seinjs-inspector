@@ -1,0 +1,49 @@
+.sein-inspector-container {
+  .sein-inspector-component.sein-inspector-folder-container {
+    height: auto;
+    padding-right: 0;
+    .sein-inspector-folder-content {
+      // border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .sein-inspector-component-box {
+      display: flex;
+      cursor: pointer;
+      .sein-inspector-label {
+        flex: 1;
+        cursor: pointer;
+      }
+      .sein-inspector-folder-value {
+        font-size: 12px;
+        color: #bbb;
+        padding-right: 5px;
+      }
+      .sein-inspector-folder-icon {
+        color: #aaaaaa;
+        font-size: 12px;
+        padding-right: 5px;
+        &:before {
+          font-size: 12px;
+          content: '\e613';
+        }
+        &.close {
+          &:before {
+            font-size: 12px;
+            content: '\e615';
+          }
+        }
+      }
+    }
+    .sein-inspector-folder-detail {
+      margin-top: 5px;
+      padding-left: 5px;
+      &.close {
+        display: none;
+      }
+
+      .sein-inspector-component {
+        border-left-width: 1px;
+        border-bottom-width: 0;
+      }
+    }
+  }
+}

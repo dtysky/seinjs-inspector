@@ -10,6 +10,7 @@ import Tab from './Tab';
 import Tree from './Tree';
 import Preview from './Preview';
 import List from './List';
+import Folder from './Folder';
 
 export {
   Group,
@@ -23,5 +24,6 @@ export {
   Tab,
   Tree,
   Preview,
-  List
+  List,
+  Folder
 };

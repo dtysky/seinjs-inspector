@@ -7,8 +7,8 @@
 /**
  * tab bar
  */
-import { h, Component } from "preact";
-import "./index.scss";
+import { h, Component } from 'preact';
+import './index.scss';
 interface IComponentProps {
   label?: string;
   checked: boolean;
@@ -18,7 +18,10 @@ interface IComponentState {
   checked: boolean;
 }
 
-export default class Switch extends Component<IComponentProps, IComponentState> {
+export default class Switch extends Component<
+  IComponentProps,
+  IComponentState
+> {
   constructor(props) {
     super(props);
     this.setState({
@@ -27,7 +30,7 @@ export default class Switch extends Component<IComponentProps, IComponentState> 
   }
 
   componentDidMount() {
-    console.log("switch did mount");
+    // console.log("switch did mount");
   }
 
   switchChange = () => {
@@ -42,18 +45,18 @@ export default class Switch extends Component<IComponentProps, IComponentState> 
     // console.log("switch render");
     const { label } = this.props;
     const { checked } = this.state;
-    const switchClassName = checked ? "switch-icon" : "switch-icon unchecked";
+    const switchClassName = checked ? 'switch-icon' : 'switch-icon unchecked';
     return (
-      <div className="sein-inspector-component sein-inspector-switch-container">
-        <div className="sein-inspector-component-box">
-          <label className="sein-inspector-label" title={label || "Label"}>
-            {label || "Label"}
+      <div className='sein-inspector-component sein-inspector-switch-container'>
+        <div className='sein-inspector-component-box'>
+          <label className='sein-inspector-label' title={label || 'Label'}>
+            {label || 'Label'}
           </label>
           <div className={switchClassName} onClick={this.switchChange}>
-            <div className="box-inside">
-              <span className="switch-text switch-text-on" />
-              <span className="switch-text switch-text-off" />
-              <i className="switch-circle" />
+            <div className='box-inside'>
+              <span className='switch-text switch-text-on' />
+              <span className='switch-text switch-text-off' />
+              <i className='switch-circle' />
             </div>
           </div>
         </div>

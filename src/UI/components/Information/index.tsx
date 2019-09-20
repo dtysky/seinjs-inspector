@@ -11,6 +11,10 @@ import { h, Component } from 'preact';
 import './index.scss';
 interface IComponentProps {
   label?: string;
+  // 是否可以点击
+  interactive?: boolean;
+  // 点击回调
+  onTrigger?: Function;
   value: string | number | boolean;
 }
 interface IComponentState {}
@@ -24,10 +28,15 @@ export default class Infomation extends Component<
   }
 
   componentDidMount() {}
-
+  private onClick = () => {
+    const { onTrigger, interactive } = this.props;
+    if (interactive && onTrigger) {
+      onTrigger();
+    }
+  };
   render(props, state) {
     // console.log("infomation render");
-    let { label, value } = this.props;
+    let { label, value, interactive } = this.props;
 
     if (typeof value === 'boolean') {
       value = value ? 'True' : 'False';
@@ -35,11 +44,14 @@ export default class Infomation extends Component<
 
     return (
       <div className='sein-inspector-component sein-inspector-infomation-container'>
-        <div className='sein-inspector-component-box'>
+        <div className='sein-inspector-component-box' onClick={this.onClick}>
           <label className='sein-inspector-label' title={label || 'Label'}>
             {label || 'Label'}
           </label>
           <div className='sein-inspector-infomation-value'>{value}</div>
+          {interactive && (
+            <div className='iconfont sein-inspector-infomation-editable'></div>
+          )}
         </div>
       </div>
     );

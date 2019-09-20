@@ -7,8 +7,8 @@
 /**
  * tab bar
  */
-import { h, Component } from "preact";
-import "./index.scss";
+import { h, Component } from 'preact';
+import './index.scss';
 interface IComponentProps {
   label?: string;
   value?: number;
@@ -54,34 +54,47 @@ export default class Range extends Component<IComponentProps, IComponentState> {
     const { label, min, max, step } = this.props;
     const { curValue } = this.state;
 
+    let mintext = min.toString(),
+      maxtext = max.toString();
+
+    if (min === Math.PI) {
+      mintext = 'PI';
+    } else if (min === -Math.PI) {
+      mintext = '-PI';
+    }
+
+    if (max === Math.PI) {
+      maxtext = 'PI';
+    } else if (max === -Math.PI) {
+      maxtext = '-PI';
+    }
     const width = {
       width: `${max.toString().length * 12}px`
     };
     return (
-      <div className="sein-inspector-component sein-inspector-range-container">
-        <div className="sein-inspector-component-box">
-          <label className="sein-inspector-label" title={label || "Label"}>
-            {label || "Label"}
+      <div className='sein-inspector-component sein-inspector-range-container'>
+        <div className='sein-inspector-component-box'>
+          <label className='sein-inspector-label' title={label || 'Label'}>
+            {label || 'Label'}
           </label>
-          <div className="sein-inspector-range">
-            <span className="sein-inspector-range-min">{min}</span>
+          <div className='sein-inspector-range'>
+            <span className='sein-inspector-range-min'>{mintext}</span>
             <input
               onInput={this.rangeInput}
               onChange={this.rangeChange}
-              className="sein-inspector-range-input"
-              type="range"
+              className='sein-inspector-range-input'
+              type='range'
               value={curValue}
               min={min}
               max={max}
               step={step}
             />
-            <span className="sein-inspector-range-max">{max}</span>
+            <span className='sein-inspector-range-max'>{maxtext}</span>
           </div>
           <div
-            style={width}
-            className="sein-inspector-range-value"
-            title={curValue.toString()}
-          >
+            // style={width}
+            className='sein-inspector-range-value'
+            title={curValue.toString()}>
             {curValue}
           </div>
         </div>

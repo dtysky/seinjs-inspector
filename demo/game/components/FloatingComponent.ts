@@ -16,24 +16,28 @@ export interface IFloatingComponentState {
   amp?: number;
 }
 
-export default class FloatingComponent extends Sein.Component<IFloatingComponentState> {
+export default class FloatingComponent extends Sein.Component<
+  IFloatingComponentState
+> {
   public initPosition: Sein.Vector3 = new Sein.Vector3();
   public omega: number;
   public phase: number;
   public amp: number;
-  
+
   private component: Sein.SceneComponent;
   private time: number = 0;
 
   public onAdd(initState: IFloatingComponentState) {
-    this.component = this.getOwner().findComponentByName(initState.componentName || 'root');
+    this.component = this.getOwner().findComponentByName(
+      initState.componentName || 'root'
+    );
 
     if (initState.position) {
       this.initPosition.copy(initState.position);
     } else {
       this.initPosition.copy(this.component.position);
     }
-    this.amp = initState.amp || .5;
+    this.amp = initState.amp || 0.5;
     this.omega = initState.omega || 1;
     this.phase = initState.phase || 0;
   }
@@ -41,8 +45,9 @@ export default class FloatingComponent extends Sein.Component<IFloatingComponent
   public onUpdate(delta: number) {
     const transform = this.component;
     this.time += delta / 1000;
-    const omega = this.omega * this.getGame<GameState>().state.floatingSpeedFactor;
+    const omega =
+      this.omega * this.getGame<GameState>().state.floatingSpeedFactor;
 
-    transform.position.y = this.initPosition.y + Math.sin(this.time * omega + this.phase) * this.amp;
+    // transform.position.y = this.initPosition.y + Math.sin(this.time * omega + this.phase) * this.amp;
   }
 }

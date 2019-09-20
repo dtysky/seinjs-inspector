@@ -4,12 +4,6 @@
  * @Date   : 7/28/2019, 3:55:56 PM
  * @Description:
  */
-/**
- * @File   : index.tsx
- * @Author : dtysky (dtysky@outlook.com)
- * @Date   : 7/28/2019, 3:55:56 PM
- * @Description:
- */
 import { h, render as preactRender, Component } from 'preact';
 
 import { TabItem } from '../constant';
@@ -21,10 +15,12 @@ import Resource from './pannel/Resource';
 import Event from './pannel/Event';
 import Player from './pannel/Player';
 import Render from './pannel/Render';
+import World from './pannel/World';
 import { Tab } from './components';
 import InspectorActor from '../Actor/InspectorActor';
 import * as SPECTOR from 'spectorjs';
 import './index.scss';
+import * as Sein from 'seinjs';
 
 interface IComponentProps {
   actor: InspectorActor;
@@ -36,7 +32,7 @@ interface IComponentState {
 }
 class Inspector extends Component<IComponentProps, IComponentState> {
   public state: IComponentState = {
-    tabIndex: 2
+    tabIndex: 3
   };
 
   protected container: HTMLElement;
@@ -60,6 +56,9 @@ class Inspector extends Component<IComponentProps, IComponentState> {
     console.log(value);
     this.isChecked = value;
   };
+  private editComponent = (component: Sein.Component) => {
+    console.log('UI', component);
+  };
   getComponent() {
     const { tabIndex } = this.state;
     switch (tabIndex) {
@@ -68,10 +67,14 @@ class Inspector extends Component<IComponentProps, IComponentState> {
       case 2:
         return <Game actor={this.props.actor} />;
       case 3:
-        return <Level actor={this.props.actor} />;
+        return <World actor={this.props.actor} />;
       case 4:
-        return <Resource actor={this.props.actor} />;
+        return (
+          <Level onTrigger={this.editComponent} actor={this.props.actor} />
+        );
       case 5:
+        return <Resource actor={this.props.actor} />;
+      case 6:
         return (
           <Event
             actor={this.props.actor}
@@ -79,9 +82,9 @@ class Inspector extends Component<IComponentProps, IComponentState> {
             dataChange={this.dataUpdate}
           />
         );
-      case 6:
-        return <Player actor={this.props.actor} />;
       case 7:
+        return <Player actor={this.props.actor} />;
+      case 8:
         if (!this.spector) {
           this.spector = new SPECTOR.Spector();
         }
@@ -93,14 +96,16 @@ class Inspector extends Component<IComponentProps, IComponentState> {
 
   render() {
     return (
-      <Framework title='SeinJS Inspector'>
-        <Tab
-          data={TabItem}
-          currentId={this.state.tabIndex}
-          onTabChange={this.onTabChange}
-        />
-        {this.getComponent()}
-      </Framework>
+      <div>
+        <Framework title='SeinJS Inspector'>
+          <Tab
+            data={TabItem}
+            currentId={this.state.tabIndex}
+            onTabChange={this.onTabChange}
+          />
+          {this.getComponent()}
+        </Framework>
+      </div>
     );
   }
 }
