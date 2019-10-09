@@ -6,13 +6,14 @@
  */
 import * as Sein from 'seinjs';
 import { h, Component } from 'preact';
-import { List } from '../../components';
+import { List, Information } from '../../components';
 import InspectorActor from '../../../Actor/InspectorActor';
 interface IComponentProps {
   actor: InspectorActor;
 }
 
 interface IComponentState {
+  name: string;
   Actors: Array<Sein.SceneActor>;
 }
 
@@ -32,13 +33,17 @@ export default class World extends Component<IComponentProps, IComponentState> {
     });
 
     this.setState({
+      name: game.world.name.value,
       Actors
     });
   }
+
   render() {
-    const { Actors } = this.state;
+    const { Actors, name } = this.state;
+
     return (
       <div className='sein-inspector-content-box u-scrollbar'>
+        <Information label='World Name' value={name}></Information>
         <List label='Actors' list={Actors}></List>
       </div>
     );

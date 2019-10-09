@@ -8,6 +8,7 @@ import * as Sein from 'seinjs';
 
 import GameState from '../states/GameState';
 
+@Sein.SClass({className: 'MainGameMode'})
 export default class MainGameMode extends Sein.GameModeActor {
   private delta: number;
 

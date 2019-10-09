@@ -27,6 +27,8 @@ export async function main(canvas: HTMLCanvasElement): Promise<Sein.Game> {
   engine.addGame(game);
 
   game.addWorld('main', MainGameMode, MainLevelScript);
+  game.addLevel('main', 'test', MainLevelScript);
+  game.addWorld('main2', MainGameMode, MainLevelScript);
 
   await game.start();
 

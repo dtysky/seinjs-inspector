@@ -8,49 +8,52 @@
  * tab bar
  */
 import { h, Component } from 'preact';
+import * as cx from 'classnames';
+
 import './index.scss';
 interface IComponentProps {
   children?;
   name: string;
+  isClose?: boolean;
 }
-interface IComponentState {}
+interface IComponentState {
+  isClose: boolean;
+}
 
 export default class Group extends Component<IComponentProps, IComponentState> {
+  public state: IComponentState = {
+    isClose: false
+  }
+
   protected groupBar: HTMLElement;
   protected content: HTMLElement;
-  protected isClose: boolean = true;
-  constructor() {
-    super();
-  }
-  toggle = () => {
-    this.groupBar.classList.toggle('close');
-    this.content.classList.toggle('close');
-    this.isClose = this.groupBar.classList.contains('close');
+
+  handleToggle = () => {
+    if (this.props.isClose === undefined) {
+      this.setState({isClose: !this.state.isClose});
+    }
   };
-  componentDidMount() {
-    // console.log(this.isClose);
-    // this.content.style.height = `${this.content.clientHeight}px`;
-    this.groupBar.addEventListener('click', this.toggle);
-  }
-  componentWillUnmount() {
-    // console.log(this.isClose);
-    this.groupBar.classList.remove('close');
-    this.content.classList.remove('close');
-    this.groupBar.removeEventListener('click', this.toggle);
-  }
-  render(props, state) {
+
+  componentDidMount() {}
+
+  componentWillUnmount() {}
+
+  render() {
     const { name } = this.props;
+    const isClose = this.props.isClose !== undefined ? this.props.isClose : this.state.isClose;
+
     return (
       <div className='sein-inspector-group'>
         <div
           ref={group => (this.groupBar = group)}
-          className='sein-inspector-group-bar close'>
+          onClick={this.handleToggle}
+          className={cx('sein-inspector-group-bar', isClose && 'close')}>
           {name}
           <i>&nbsp;</i>
         </div>
         <div
           ref={content => (this.content = content)}
-          className='sein-inspector-group-content close'>
+          className={cx('sein-inspector-group-content', isClose && 'close')}>
           {this.props.children}
         </div>
       </div>

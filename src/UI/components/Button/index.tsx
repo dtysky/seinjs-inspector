@@ -11,7 +11,7 @@ import { h, Component } from "preact";
 import "./index.scss";
 interface IComponentProps {
   label?: string;
-  onButtonClick: Function;
+  onButtonClick?: Function;
 }
 interface IComponentState {}
 
@@ -23,7 +23,7 @@ export default class Button extends Component<IComponentProps, IComponentState> 
   componentDidMount() {}
   bottonClick = () => {
     const { onButtonClick } = this.props;
-    onButtonClick();
+   onButtonClick && onButtonClick();
   };
   render(props, state) {
     const { label } = this.props;

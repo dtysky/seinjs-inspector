@@ -22,13 +22,7 @@ export default class Level extends Component<IComponentProps, IComponentState> {
   componentDidMount() {
     const resultSet: any = {};
     const game = this.props.actor.getGame();
-    // console.log(game);
-    // InfoActor
-    const infoActors = game.actors;
-    // console.log('InfoActors', infoActors);
-    // console.log('level', game.world.level);
 
-    resultSet.infoActors = infoActors.array;
     resultSet.sceneActors = [];
     const level = game.world.level;
 
@@ -82,20 +76,10 @@ export default class Level extends Component<IComponentProps, IComponentState> {
     if (!resultSet) {
       return null;
     }
-    const { infoActors, sceneActors } = resultSet;
+    const { sceneActors } = resultSet;
     return (
       <div className='sein-inspector-content-box u-scrollbar'>
-        <Information label='LevelName' value={name}></Information>
-        <Group name='InfoActors'>
-          {infoActors.map(item => {
-            return (
-              <Information
-                label={item.className.value}
-                value={item.name.value}></Information>
-            );
-          })}
-        </Group>
-
+        <Information label='Level Name' value={name}></Information>
         <Group name='SceneActors'>
           {sceneActors.map(item => {
             return (

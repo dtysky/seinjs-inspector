@@ -32,7 +32,7 @@ interface IComponentState {
 }
 class Inspector extends Component<IComponentProps, IComponentState> {
   public state: IComponentState = {
-    tabIndex: 3
+    tabIndex: 2
   };
 
   protected container: HTMLElement;
@@ -40,9 +40,7 @@ class Inspector extends Component<IComponentProps, IComponentState> {
   protected isChecked: boolean = false;
 
   private spector: any;
-  constructor() {
-    super();
-  }
+
   componentDidMount() {}
 
   componentWillUnmount() {}

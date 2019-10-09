@@ -18,6 +18,7 @@ interface IComponentProps {
         [key: string]: any;
       };
   close?: boolean;
+  onSelect?: (item: {name: string, value: string}) => void;
 }
 interface IComponentState {
   isClose: boolean;
@@ -42,12 +43,12 @@ export default class Infomation extends Component<
   }
 
   private getFromArray() {
-    const { list } = this.props;
+    const { list, onSelect } = this.props;
     const rs = [];
     list.map(item => {
       const { name, value } = item;
       rs.push(
-        <li>
+        <li onClick={onSelect ? () => onSelect(item) : () => {}}>
           <label className='sein-inspector-label' title={name || 'Label'}>
             {name}
           </label>
@@ -66,11 +67,11 @@ export default class Infomation extends Component<
   private getFromObject() {
     const rs = [];
 
-    const { list } = this.props;
+    const { list, onSelect } = this.props;
     for (const key in list) {
       const element = list[key];
       rs.push(
-        <li>
+        <li onClick={onSelect ? () => onSelect({name: key, value: element}) : () => {}}>
           <label className='sein-inspector-label' title={key || 'Label'}>
             {key}
           </label>
@@ -99,6 +100,7 @@ export default class Infomation extends Component<
       isClose: !this.state.isClose
     });
   };
+
   render() {
     const { isClose } = this.state;
     const { label } = this.props;
