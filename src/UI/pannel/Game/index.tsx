@@ -4,10 +4,13 @@
  * @Date   : 7/28/2019, 3:55:56 PM
  * @Description:
  */
-import { h, Component } from 'preact';
+import { h, Component, Fragment } from 'preact';
 import * as Sein from 'seinjs';
-import { List, Group, Information, Button } from '../../components';
+
+import { List, Group, Information, Button, WithDetails } from '../../components';
 import InspectorActor from '../../../Actor/InspectorActor';
+import WorldDetails from '../../details/WorldDetails';
+
 interface IComponentProps {
   actor: InspectorActor;
 }
@@ -20,9 +23,10 @@ interface IComponentState {
   baseInfo: {
     [key: string]: any;
   };
-  worlds: Array<{ name: string; value: string }>;
-  details: {type: string, item: {name: string; value: string}};
+  worlds: {name: string; value: string}[];
+  details: {type: string, item: {name: string; value: string, actor?: Sein.InfoActor}};
 }
+
 export default class Game extends Component<IComponentProps, IComponentState> {
   public state: IComponentState = {
     infoActors: [],
@@ -40,8 +44,8 @@ export default class Game extends Component<IComponentProps, IComponentState> {
   private calcState() {
     const game = this.props.actor.getGame();
 
-    const infoActors = game.actors.array.map(item => {
-      return { name: item.className.value, value: item.name.value };
+    const infoActors = game.actors.array.filter(item => this.props.actor.isHidden(item)).map(item => {
+      return { name: item.name.value, value: item.className.value };
     });
 
     const { name, devMode, bound, _worldsMeta: worlds } = game as any;
@@ -59,11 +63,6 @@ export default class Game extends Component<IComponentProps, IComponentState> {
     });
   }
 
-  private handleSelectBound = () => {
-    console.log('bound');
-    this.setState({details: {type: 'bound', item: null}});
-  }
-
   private handleSelectActor = (item: {name: string, value: string}) => {
     console.log('actor', item);
     this.setState({details: {type: 'actor', item}});
@@ -74,32 +73,25 @@ export default class Game extends Component<IComponentProps, IComponentState> {
     this.setState({details: {type: 'world', item}});
   }
 
-  render() {
+  public render() {
     const { infoActors, bound, worlds } = this.state;
 
     return (
-      <div style={{height: '100vh'}}>
-        <div
-          className='sein-inspector-content-box u-scrollbar'
-          style={{maxHeight: '60%', marginBottom: 12}}
-        >
-          {this.renderBase()}
-          <List onSelect={this.handleSelectBound} label='Bound' list={bound}></List>
-          <List onSelect={this.handleSelectWorld} label='Worlds' list={worlds}></List>
-          <List onSelect={this.handleSelectActor} label='Actors' list={infoActors}></List>
-        </div>
-        {
-          this.state.details.type !== 'bound' && (
-            <Group name='Details' isClose={false}>
-              {this.renderDetails()}
-            </Group>
-          )
-        }
-      </div>
+      <WithDetails
+        main={(
+          <Fragment>
+            {this.renderBase()}
+            <List label='Bound' list={bound}></List>
+            <List onSelect={this.handleSelectWorld} label='Worlds' list={worlds}></List>
+            <List onSelect={this.handleSelectActor} label='Actors' list={infoActors}></List>  
+          </Fragment>
+        )}
+        details={this.renderDetails()}
+      />
     );
   }
 
-  renderBase() {
+  private renderBase() {
     const { baseInfo } = this.state;
     const rs = [];
     for (const key in baseInfo) {
@@ -114,37 +106,19 @@ export default class Game extends Component<IComponentProps, IComponentState> {
     return rs;
   }
 
-  renderDetails() {
+  private renderDetails() {
     if (this.state.details.type === 'actor') {
       return this.renderActorDetails(this.state.details.item);
     }
 
     if (this.state.details.type === 'world') {
-      return this.renderWorldDetails(this.state.details.item);
+      return <WorldDetails actor={this.props.actor} worldName={this.state.details.item.name} />;
     }
 
     return null;
   }
 
-  renderWorldDetails(item: {name: string, value: string}) {
-    const game = this.props.actor.getGame();
-
-    const {levels} = (game as any)._worldsMeta[item.name];
-    console.log(levels);
-
-    return (
-      <div>
-        {
-          game.world.name.equalsTo(item.name)
-            ? <Button label={'Current World'} />
-            : <Button label={'Switch to world'} onButtonClick={() => game.switchWorld(item.name)} />
-        }
-        <List label='Levels' list={levels} close={false}></List>
-      </div>
-    );
-  }
-
-  renderActorDetails(item: {name: string, value: string}) {
-
+  private renderActorDetails(item: {name: string, value: string}) {
+    return null;
   }
 }

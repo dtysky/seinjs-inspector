@@ -5,8 +5,10 @@
  *
  */
 import * as Sein from "seinjs";
+
 import { ISystemInfo, IControlEvent, EControlType } from "./types";
 import render from "../UI/index";
+import AxisActor from '../Components/AxisActor';
 
 export interface IInspectorActorOptions {
   /**
@@ -34,6 +36,8 @@ export default class InspectorActor extends Sein.InfoActor<
   public isInspectorActor = true;
   public updatePriority = Sein.InfoActor.UPDATE_PRIORITY.Others;
 
+  protected _hiddenObjects: {[uuid: string]: Sein.SObject} = {};
+  protected _selfHidden: Sein.SObject[] = [];
   protected _info: ISystemInfo = {
     system: null,
     engine: null,
@@ -53,7 +57,7 @@ export default class InspectorActor extends Sein.InfoActor<
   protected _physicAlive = false;
   protected _enableSync = false;
   protected _container: HTMLElement = document.body;
-  // protected _popWindow: InspectorWindow;
+
   /**
    * 事件管理器。
    */
@@ -62,6 +66,23 @@ export default class InspectorActor extends Sein.InfoActor<
       Update: { info: ISystemInfo };
       Control: IControlEvent;
     }>;
+  }
+
+  public addHidden(object: Sein.SObject) {
+    this._hiddenObjects[object.uuid] = object;
+  }
+
+  public removeHidden(object: Sein.SObject) {
+    delete this._hiddenObjects[object.uuid];
+  }
+
+  public isHidden(object: Sein.SObject) {
+    return !!this._hiddenObjects[object.uuid];
+  }
+
+  private addSelfHidden(object: Sein.SObject) {
+    this._hiddenObjects[object.uuid] = object;
+    this._selfHidden.push(object);
   }
 
   public onInit(initOptions: IInspectorActorOptions) {
@@ -103,6 +124,7 @@ export default class InspectorActor extends Sein.InfoActor<
     actor.onUpdate = () => {
       this._levelAlive = true;
     };
+    this.addSelfHidden(actor);
 
     if (this.getPhysicWorld()) {
       const rigidBody = actor.addComponent(
@@ -115,10 +137,15 @@ export default class InspectorActor extends Sein.InfoActor<
         this._physicAlive = true;
       };
     }
+
+    const axis = this.getWorld().addActor('Axis', AxisActor);
+    this.addSelfHidden(axis);
   }
 
   private clearActor = () => {
     this._actor = null;
+    this._selfHidden.forEach(obj => this.removeHidden(obj));
+    this._selfHidden = [];
   }
 
   private handleControl = (event: IControlEvent) => {

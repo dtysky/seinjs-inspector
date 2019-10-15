@@ -30,6 +30,10 @@ export default class Level extends Component<IComponentProps, IComponentState> {
     // SceneActor
     const sceneActors = level.actors;
     sceneActors.forEach(item => {
+      if (this.props.actor.isHidden(item)) {
+        return;
+      }
+
       const rs = {
         actor: null,
         components: {}

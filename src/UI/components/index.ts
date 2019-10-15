@@ -11,6 +11,7 @@ import Tree from './Tree';
 import Preview from './Preview';
 import List from './List';
 import Folder from './Folder';
+import WithDetails from './WithDetails';
 
 export {
   Group,
@@ -25,5 +26,6 @@ export {
   Tree,
   Preview,
   List,
-  Folder
+  Folder,
+  WithDetails
 };

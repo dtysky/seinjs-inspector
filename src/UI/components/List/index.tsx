@@ -9,14 +9,11 @@ import { h, Component } from 'preact';
 import './index.scss';
 interface IComponentProps {
   label?: string;
-  list:
-    | Array<{
-        name?: string;
-        value?: string;
-      }>
-    | {
-        [key: string]: any;
-      };
+  list: Array<{
+    [key: string]: any;
+    name?: string;
+    value?: string;
+  }> | {[key: string]: any};
   close?: boolean;
   onSelect?: (item: {name: string, value: string}) => void;
 }

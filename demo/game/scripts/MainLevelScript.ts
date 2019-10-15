@@ -58,41 +58,6 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
     const game = this.getGame();
     const world = this.getWorld();
 
-    const y = world.addActor('AxisLineY', Sein.BSPBoxActor, {
-      width: 0.02,
-      height: 20,
-      depth: 0.02,
-      material: new Sein.BasicMaterial({
-        diffuse: new Sein.Color(0, 1, 0),
-        lightType: 'NONE',
-        shininess: 0
-      })
-    });
-    y.transform.translate(new Sein.Vector3(0, 1, 0), 10);
-    const x = world.addActor('AxisLineX', Sein.BSPBoxActor, {
-      width: 20,
-      height: 0.02,
-      depth: 0.02,
-      material: new Sein.BasicMaterial({
-        diffuse: new Sein.Color(1, 0, 0),
-        lightType: 'NONE',
-        shininess: 0
-      })
-    });
-    x.transform.translate(new Sein.Vector3(1, 0, 0), 10);
-
-    const z = world.addActor('AxisLineZ', Sein.BSPBoxActor, {
-      width: 0.02,
-      height: 0.02,
-      depth: 20,
-      material: new Sein.BasicMaterial({
-        diffuse: new Sein.Color(0, 0, 1),
-        lightType: 'NONE',
-        shininess: 0
-      })
-    });
-    z.transform.translate(new Sein.Vector3(0, 0, 1), 10);
-
     game.addActor('inspector', Sein.Inspector.Actor, {
       dom: document.body,
       updateRate: 10
