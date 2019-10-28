@@ -57,8 +57,9 @@ export default class ToolsBar extends Component<IComponentProps> {
 
     // 关闭事件
     this.closeIcon.addEventListener("click", () => {
-      const { onClose } = this.props;
-      onClose();
+      const { onVisible, visible } = this.props;
+      onVisible();
+      this.hideIcon.classList.toggle("show");
     });
 
     // 隐藏按钮点击

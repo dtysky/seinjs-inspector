@@ -19,78 +19,48 @@ interface IComponentProps {
 
 interface IComponentState {
   name: string;
-  resultSet: any;
+  sceneActors: Sein.SceneActor[];
   currentDetailsObj: Sein.Component;
 }
 export default class Level extends Component<IComponentProps, IComponentState> {
-  componentDidMount() {
-    const resultSet: any = {};
-    const game = this.props.actor.getGame();
+  public state: IComponentState = {
+    name: '',
+    sceneActors: [],
+    currentDetailsObj: null
+  }
 
-    resultSet.sceneActors = [];
+  componentDidMount() {
+    const game = this.props.actor.getGame();
     const level = game.world.level;
 
     const { name } = level;
     // SceneActor
     const sceneActors = level.actors;
-    sceneActors.forEach(item => {
-      if (this.props.actor.isHidden(item)) {
-        return;
-      }
-
-      const rs = {
-        actor: null,
-        components: {}
-      };
-      rs.actor = item;
-      rs.components = item.findComponentsByFilter<Sein.SceneComponent>(
-        () => true
-      );
-      resultSet.sceneActors.push(rs);
-    });
 
     this.setState({
       name: name.value,
-      resultSet
+      sceneActors: sceneActors.findAllByFilter(actor => !this.props.actor.isHidden(actor))
     });
   }
-  private componentClick(component) {}
 
-  private getComponents(components: []) {
-    if (!components.length) {
-      return null;
-    }
-    return components.map(component => {
-      return (
-        <Information
-          label={(component as Sein.SceneComponent).className.value}
-          value={(component as Sein.SceneComponent).name.value}
-          onTrigger={() =>
-            this.setState({ currentDetailsObj: component })
-          }></Information>
-      );
-    });
-  }
   render() {
-    const { name, resultSet } = this.state;
+    const { name, sceneActors } = this.state;
 
-    if (!resultSet) {
-      return null;
-    }
-    const { sceneActors } = resultSet;
     return (
       <WithDetails
         main={
           <Fragment>
             <Information label='Level Name' value={name}></Information>
             <Group name='SceneActors' isClose={false}>
-              {sceneActors.map(item => {
+              {sceneActors.map(actor => {
                 return (
                   <Folder
-                    label={item.actor.className.value}
-                    value={item.actor.name.value}
-                    close={true}>
-                    {this.getComponents(item.components)}
+                    label={actor.className.value}
+                    value={actor.name.value}
+                    close={true}
+                  >
+                    {this.renderSceneComponents(actor.root)}
+                    {this.renderComponents(actor)}
                   </Folder>
                 );
               })}
@@ -100,6 +70,61 @@ export default class Level extends Component<IComponentProps, IComponentState> {
         details={this.renderDetails()}
       />
     );
+  }
+  renderSceneComponents(root: Sein.SceneComponent) {
+    if (!root) {
+      return;
+    }
+
+    console.log(root);
+
+    if (root.children.length == 0) {
+      return root.children.array.map(component => {
+        return (
+          <Information
+            label={component.name.value}
+            value={component.className.value}
+            onTrigger={() =>
+              this.setState({ currentDetailsObj: component })
+            }
+          />
+        );
+      });
+    }
+
+    return (
+      <Folder
+        label={root.name.value}
+        value={root.className.value}
+        close={true}
+        onTrigger={() =>
+          this.setState({ currentDetailsObj: root })
+        }
+      >
+        {
+          root.children.array.map(c => this.renderSceneComponents(c))
+        }
+      </Folder>
+    );
+  }
+  renderComponents(actor: Sein.SceneActor) {
+    if (!actor) {
+      return;
+    }
+
+    const components = actor.findComponentsByFilter(c => !Sein.isSceneComponent(c));
+    
+    return components.map(component => {
+      return (
+        <Information
+          label={component.className.value}
+          value={component.name.value}
+          onTrigger={() =>
+            this.setState({ currentDetailsObj: component })
+          }
+        />
+      );
+    });
   }
   renderDetails = () => {
     return (
