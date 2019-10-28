@@ -70,13 +70,13 @@ export default class Info extends Component<IComponentProps, IComponentState> {
     return (
       <div className='sein-inspector-content-box  u-scrollbar'>
         <p style={{ textAlign: 'center', margin: 4 }}>
-          <img src={this.state.qrcode} />
+          <img style={{border: '1px white solid'}} src={this.state.qrcode} />
         </p>
         <Group name='System' isClose={false}>
           <Button label={'Reload'} onButtonClick={() => location.reload()} />
           <Information label='FPS' value={system.fps.toFixed(2)} />
           <Information label='CPU' value={system.cpu} />
-          <Information label='Memory' value={system.memory} />
+          <Information label='Memory' value={system.memory && `${(system.memory / 1024 / 1024).toFixed(2)}MB`} />
         </Group>
         <Group name='Render' isClose={false}>
           <Information label='Buffers Count' value={render.buffers} />

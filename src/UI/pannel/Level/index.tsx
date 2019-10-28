@@ -55,8 +55,8 @@ export default class Level extends Component<IComponentProps, IComponentState> {
               {sceneActors.map(actor => {
                 return (
                   <Folder
-                    label={actor.className.value}
-                    value={actor.name.value}
+                    label={actor.name.value}
+                    value={actor.className.value}
                     close={true}
                   >
                     {this.renderSceneComponents(actor.root)}
@@ -76,20 +76,16 @@ export default class Level extends Component<IComponentProps, IComponentState> {
       return;
     }
 
-    console.log(root);
-
-    if (root.children.length == 0) {
-      return root.children.array.map(component => {
-        return (
-          <Information
-            label={component.name.value}
-            value={component.className.value}
-            onTrigger={() =>
-              this.setState({ currentDetailsObj: component })
-            }
-          />
-        );
-      });
+    if (root.children.length === 0) {
+      return (
+        <Information
+          label={root.name.value}
+          value={root.className.value}
+          onTrigger={() =>
+            this.setState({ currentDetailsObj: root })
+          }
+        />
+      );
     }
 
     return (

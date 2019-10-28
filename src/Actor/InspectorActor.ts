@@ -188,7 +188,7 @@ export default class InspectorActor extends Sein.InfoActor<
     this._info = {
       system: {
         fps: 1000 / delta,
-        memory: null,
+        memory: (performance as any).memory ? (performance as any).memory.totalJSHeapSize : null,
         cpu: null
       },
       engine: {
