@@ -5,10 +5,13 @@
  * @Description:
  */
 import { h, Component, Fragment } from 'preact';
-import { Group, Information, Folder, WithDetails, Tab } from '../../components';
-import getEditor from '../../editor';
-import InspectorActor from '../../../Actor/InspectorActor';
 import * as Sein from 'seinjs';
+
+import ComponentDetails from '../../details/ComponentDetails';
+import { Group, Information, Folder, WithDetails, Tab } from '../../components';
+import { getEditorForComponent } from '../../editor';
+import InspectorActor from '../../../Actor/InspectorActor';
+
 interface IComponentProps {
   actor: InspectorActor;
   onTrigger: Function;
@@ -17,7 +20,7 @@ interface IComponentProps {
 interface IComponentState {
   name: string;
   resultSet: any;
-  details: h.JSX.Element;
+  currentDetailsObj: Sein.Component;
 }
 export default class Level extends Component<IComponentProps, IComponentState> {
   componentDidMount() {
@@ -51,9 +54,7 @@ export default class Level extends Component<IComponentProps, IComponentState> {
       resultSet
     });
   }
-  private componentClick(component) {
-    console.log('click', component);
-  }
+  private componentClick(component) {}
 
   private getComponents(components: []) {
     if (!components.length) {
@@ -64,26 +65,14 @@ export default class Level extends Component<IComponentProps, IComponentState> {
         <Information
           label={(component as Sein.SceneComponent).className.value}
           value={(component as Sein.SceneComponent).name.value}
-          onTrigger={() => {
-            this.getDetails(component);
-          }}></Information>
+          onTrigger={() =>
+            this.setState({ currentDetailsObj: component })
+          }></Information>
       );
     });
   }
-  private getDetails = (component: Sein.SceneComponent) => {
-    const Editor = getEditor(component);
-    let details;
-    if (Editor) {
-      details = <Editor component={component}></Editor>;
-    } else {
-      details = <div class='sein-inspector-label'>暂未实现</div>;
-    }
-    this.setState({
-      details
-    });
-  };
   render() {
-    const { name, resultSet, details } = this.state;
+    const { name, resultSet } = this.state;
 
     if (!resultSet) {
       return null;
@@ -108,7 +97,16 @@ export default class Level extends Component<IComponentProps, IComponentState> {
             </Group>
           </Fragment>
         }
-        details={<Fragment>{details}</Fragment>}></WithDetails>
+        details={this.renderDetails()}
+      />
     );
   }
+  renderDetails = () => {
+    return (
+      <ComponentDetails
+        actor={this.props.actor}
+        component={this.state.currentDetailsObj}
+      />
+    );
+  };
 }

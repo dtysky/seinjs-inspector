@@ -2,7 +2,7 @@
  * @Description: StaticMeshComponentEditor.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-06 15:28:00
- * @LastEditTime: 2019-10-28 18:57:37
+ * @LastEditTime: 2019-10-28 19:44:58
  */
 
 import { h, Component, Fragment } from 'preact';
@@ -15,7 +15,7 @@ interface IComponentProps {
   private?: h.JSX.Element;
   geometry?: h.JSX.Element;
   materials?: h.JSX.Element;
-  transfom?: h.JSX.Element;
+  transform?: h.JSX.Element;
 
   hidePrivate?: boolean;
   hideGeometry?: boolean;
@@ -130,7 +130,7 @@ export default class StaticMeshComponentEditor extends Component<
           checked={visible}
           onCheckedChange={this.onCheckedChange}
         />
-        {this.props.geometry}
+        {this.props.transform}
 
         <Range
           label={'position.x'}

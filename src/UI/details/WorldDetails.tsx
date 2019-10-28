@@ -7,7 +7,7 @@
 import { h, Component, Fragment } from 'preact';
 
 import InspectorActor from '../../Actor/InspectorActor';
-import { Button, List } from '../components';
+import { Button, List, Information } from '../components';
 
 export interface IPropTypes {
   actor: InspectorActor;
@@ -23,6 +23,7 @@ export default class WorldDetails extends Component<IPropTypes> {
 
     return (
       <Fragment>
+        <Information label={'Name'} value={'name'} />
         {game.world.name.equalsTo(name) ? (
           <Button label={'Current World'} />
         ) : (

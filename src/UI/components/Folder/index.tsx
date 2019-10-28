@@ -11,6 +11,7 @@ interface IComponentProps {
   label?: string;
   value?: string;
   close?: boolean;
+  onTrigger?: () => void;
 }
 interface IComponentState {
   isClose: boolean;
@@ -44,7 +45,7 @@ export default class Folder extends Component<
   };
   render() {
     const { isClose } = this.state;
-    const { label, value } = this.props;
+    const { label, value, onTrigger } = this.props;
     const iconClassName = `iconfont sein-inspector-folder-icon${
       isClose ? '' : ' close'
     }`;
@@ -56,7 +57,7 @@ export default class Folder extends Component<
       <div className='sein-inspector-component sein-inspector-folder-container'>
         <div className='sein-inspector-folder-content'>
           <div className='sein-inspector-component-box' onClick={this.onClick}>
-            <label className='sein-inspector-label' title={label || 'Label'}>
+            <label className='sein-inspector-label' title={label || 'Label'} onClick={onTrigger && (() => onTrigger())}>
               {label || 'Label'}
             </label>
             {value && (

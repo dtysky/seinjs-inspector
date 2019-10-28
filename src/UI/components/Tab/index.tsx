@@ -19,7 +19,7 @@ interface IComponentProps {
 interface IComponentState {}
 
 export default class Tab extends Component<IComponentProps, IComponentState> {
-  private currentId: number = 0;
+  private currentId: number = 1;
   private showIcon: boolean = true;
   protected container: HTMLElement;
 
@@ -70,6 +70,8 @@ export default class Tab extends Component<IComponentProps, IComponentState> {
         passive: false
       }
     );
+    const { onTabChange } = this.props;
+    onTabChange(this.currentId);
   }
   changeTab = (id: number) => {
     if (this.currentId !== id) {
@@ -80,6 +82,7 @@ export default class Tab extends Component<IComponentProps, IComponentState> {
   };
   render() {
     const width = { width: `${100 / this.props.data.length}%` };
+
     return (
       <div>
         <ul
@@ -87,6 +90,7 @@ export default class Tab extends Component<IComponentProps, IComponentState> {
           className='sein-inspector-tab u-scrollbar'>
           {this.props.data.map(item => {
             const { id, hidden } = item;
+
             return !hidden ? (
               <li
                 className={

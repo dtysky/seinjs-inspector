@@ -2,7 +2,7 @@
  * @Description: InfoTab.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-06 15:28:00
- * @LastEditTime: 2019-10-28 18:57:45
+ * @LastEditTime: 2019-10-28 20:06:40
  */
 
 import { h, Component, Fragment } from 'preact';
@@ -27,28 +27,30 @@ interface ITabItem {
   text: string;
   hidden?: boolean;
 }
-const tabItem: Array<ITabItem> = [
-  {
-    id: 1,
-    text: 'Private'
-  },
-  {
-    id: 2,
-    text: 'Transform'
-  },
-  {
-    id: 3,
-    text: 'Geomerty'
-  },
-  {
-    id: 4,
-    text: 'Materials'
-  }
-];
+
 export default class InfoTab extends Component<
   IComponentProps,
   IComponentState
 > {
+  private currentId: number = 1;
+  private tabItem: Array<ITabItem> = [
+    {
+      id: 1,
+      text: 'Private'
+    },
+    {
+      id: 2,
+      text: 'Transform'
+    },
+    {
+      id: 3,
+      text: 'Geomerty'
+    },
+    {
+      id: 4,
+      text: 'Materials'
+    }
+  ];
   constructor() {
     super();
     this.setState({
@@ -63,10 +65,24 @@ export default class InfoTab extends Component<
       hideTransform
     } = this.props;
 
-    hidePrivate && (tabItem[0].hidden = true);
-    hideTransform && (tabItem[1].hidden = true);
-    hideGeometry && (tabItem[2].hidden = true);
-    hideMaterials && (tabItem[3].hidden = true);
+    if (hidePrivate) {
+      this.tabItem[0].hidden = true;
+      this.currentId === 1 && this.currentId++;
+    }
+
+    if (hideTransform) {
+      this.tabItem[1].hidden = true;
+      this.currentId === 2 && this.currentId++;
+    }
+
+    if (hideGeometry) {
+      this.tabItem[2].hidden = true;
+      this.currentId === 3 && this.currentId++;
+    }
+
+    if (hideMaterials) {
+      this.tabItem[3].hidden = true;
+    }
   }
   private getTransform() {
     return <Fragment>{this.props.transform}</Fragment>;
@@ -101,8 +117,9 @@ export default class InfoTab extends Component<
       <div className='sein-inspector-component sein-inspector-infotab-container'>
         <div className='sein-inspector-infotab-detail'>
           <Tab
-            data={tabItem}
+            data={this.tabItem}
             showIcon={false}
+            currentId={this.currentId}
             onTabChange={(id: number) =>
               this.setState({ detailTabId: id })
             }></Tab>

@@ -2,7 +2,7 @@
  * @Description: PrimitiveComponentEditor.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-06 15:28:00
- * @LastEditTime: 2019-10-28 17:54:35
+ * @LastEditTime: 2019-10-28 19:42:51
  */
 
 import { h, Component, Fragment } from 'preact';
