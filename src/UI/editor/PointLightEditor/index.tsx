@@ -2,12 +2,13 @@
  * @Description: PointLightComponentEditor.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-09 14:52:36
- * @LastEditTime: 2019-09-17 14:43:13
+ * @LastEditTime: 2019-10-28 19:04:07
  */
 
-import { h, Component } from 'preact';
+import { h, Component, Fragment } from 'preact';
 import './index.scss';
 import { ColorPicker, Range, Switch } from '../../components';
+import InfoTab from '../InfoTab';
 import * as Sein from 'seinjs';
 interface IComponentProps {
   component: Sein.PointLightComponent;
@@ -119,6 +120,74 @@ export default class PointLightComponentEditor extends Component<
       scaleRate
     );
   }
+  private getPrivate(component) {
+    const { amount, color, visible, position, range } = component;
+    return (
+      <Fragment>
+        <Switch
+          label='show helper'
+          checked={false}
+          onCheckedChange={this.onHelperChange}></Switch>
+
+        <Switch
+          label='visible'
+          checked={visible}
+          onCheckedChange={this.onVisibleChange}></Switch>
+        <Range
+          label={'amount'}
+          value={amount}
+          min={0}
+          max={500}
+          step={0.1}
+          onRangeInput={this.onAmountInput}
+        />
+        <ColorPicker
+          label='color'
+          value={'#' + color.toHEX()}
+          onColorInput={this.onColorInput}
+        />
+        <Range
+          label='range'
+          value={range}
+          min={0}
+          max={100}
+          step={0.1}
+          onRangeInput={this.onRangeInput}
+        />
+      </Fragment>
+    );
+  }
+  private getTransform(component) {
+    const { amount, color, visible, position, range } = component;
+    return (
+      <Fragment>
+        <Range
+          label='position.x'
+          value={position.x}
+          min={-50}
+          max={50}
+          step={0.1}
+          onRangeInput={this.onPositionXInput}
+        />
+        <Range
+          label='position.y'
+          value={position.y}
+          min={-50}
+          max={50}
+          step={0.1}
+          onRangeInput={this.onPositionYInput}
+        />
+        <Range
+          label='position.z'
+          value={position.z}
+          min={-50}
+          max={50}
+          step={0.1}
+          onRangeInput={this.onPositionZInput}
+        />
+      </Fragment>
+    );
+  }
   render() {
     const { component } = this.props;
 
@@ -127,67 +196,12 @@ export default class PointLightComponentEditor extends Component<
       return null;
     }
 
-    const { amount, color, visible, position, range } = component;
     return (
-      <div className='sein-inspector-component sein-inspector-pointeditor-container'>
-        <div className='sein-inspector-pointeditor-detail'>
-          <Switch
-            label='show helper'
-            checked={false}
-            onCheckedChange={this.onHelperChange}></Switch>
-
-          <Switch
-            label='visible'
-            checked={visible}
-            onCheckedChange={this.onVisibleChange}></Switch>
-          <Range
-            label={'amount'}
-            value={amount}
-            min={0}
-            max={500}
-            step={0.1}
-            onRangeInput={this.onAmountInput}
-          />
-          <ColorPicker
-            label='color'
-            value={'#' + color.toHEX()}
-            onColorInput={this.onColorInput}
-          />
-
-          <Range
-            label='position.x'
-            value={position.x}
-            min={-50}
-            max={50}
-            step={0.1}
-            onRangeInput={this.onPositionXInput}
-          />
-          <Range
-            label='position.y'
-            value={position.y}
-            min={-50}
-            max={50}
-            step={0.1}
-            onRangeInput={this.onPositionYInput}
-          />
-          <Range
-            label='position.z'
-            value={position.z}
-            min={-50}
-            max={50}
-            step={0.1}
-            onRangeInput={this.onPositionZInput}
-          />
-          <Range
-            label='range'
-            value={range}
-            min={0}
-            max={100}
-            step={0.1}
-            onRangeInput={this.onRangeInput}
-          />
-        </div>
-      </div>
+      <InfoTab
+        hideGeometry={true}
+        hideMaterials={true}
+        private={this.getPrivate(component)}
+        transform={this.getTransform(component)}></InfoTab>
     );
   }
 }

@@ -66,7 +66,6 @@ export default class BoxColliderComponentEditor extends Component<
   }
   private onVisibleChange = value => {
     const { component } = this.props;
-    console.log(component.getOwner());
     this.colliderShape.visible = value;
   };
   render() {

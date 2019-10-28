@@ -9,7 +9,7 @@ import * as Sein from 'seinjs';
 
 import ComponentDetails from '../../details/ComponentDetails';
 import { Group, Information, Folder, WithDetails, Tab } from '../../components';
-import {getEditorForComponent} from '../../editor';
+import { getEditorForComponent } from '../../editor';
 import InspectorActor from '../../../Actor/InspectorActor';
 
 interface IComponentProps {
@@ -54,9 +54,7 @@ export default class Level extends Component<IComponentProps, IComponentState> {
       resultSet
     });
   }
-  private componentClick(component) {
-
-  }
+  private componentClick(component) {}
 
   private getComponents(components: []) {
     if (!components.length) {
@@ -67,8 +65,9 @@ export default class Level extends Component<IComponentProps, IComponentState> {
         <Information
           label={(component as Sein.SceneComponent).className.value}
           value={(component as Sein.SceneComponent).name.value}
-          onTrigger={() => this.setState({currentDetailsObj: component})}>
-        </Information>
+          onTrigger={() =>
+            this.setState({ currentDetailsObj: component })
+          }></Information>
       );
     });
   }
@@ -90,8 +89,7 @@ export default class Level extends Component<IComponentProps, IComponentState> {
                   <Folder
                     label={item.actor.className.value}
                     value={item.actor.name.value}
-                    close={true}
-                  >
+                    close={true}>
                     {this.getComponents(item.components)}
                   </Folder>
                 );
@@ -110,5 +108,5 @@ export default class Level extends Component<IComponentProps, IComponentState> {
         component={this.state.currentDetailsObj}
       />
     );
-  }
+  };
 }

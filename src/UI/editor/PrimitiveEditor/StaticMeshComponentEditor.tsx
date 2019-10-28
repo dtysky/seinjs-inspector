@@ -1,29 +1,42 @@
 /*
- * @Description: SceneComponentEditor.tsx
+ * @Description: StaticMeshComponentEditor.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-06 15:28:00
- * @LastEditTime: 2019-10-28 19:11:49
+ * @LastEditTime: 2019-10-28 19:44:58
  */
 
 import { h, Component, Fragment } from 'preact';
 import './index.scss';
-import { Range, Switch, Folder } from '../../components';
+import { Range, Switch, Folder, Information, Tab } from '../../components';
 import * as Sein from 'seinjs';
 import InfoTab from '../InfoTab';
 interface IComponentProps {
-  component: Sein.SceneComponent;
-}
-interface IComponentState {}
+  component: Sein.StaticMeshComponent;
+  private?: h.JSX.Element;
+  geometry?: h.JSX.Element;
+  materials?: h.JSX.Element;
+  transform?: h.JSX.Element;
 
-export default class SceneComponentEditor extends Component<
+  hidePrivate?: boolean;
+  hideGeometry?: boolean;
+  hideMaterials?: boolean;
+  hideTransform?: boolean;
+}
+interface IComponentState {
+  detailTabId: number;
+}
+
+export default class StaticMeshComponentEditor extends Component<
   IComponentProps,
   IComponentState
 > {
   constructor() {
     super();
+    this.setState({
+      detailTabId: 1
+    });
   }
 
-  componentDidMount() {}
   private onXRangeInput = value => {
     const { component } = this.props;
     component.position.x = value;
@@ -66,20 +79,38 @@ export default class SceneComponentEditor extends Component<
     const { component } = this.props;
     component.visible = visible;
   };
+  private getAttributes = () => {
+    const { material } = this.props.component;
 
-  private getPrivate(component) {
-    const { visible } = component;
-    return (
-      <Fragment>
-        <Switch
-          label={'visible'}
-          checked={visible}
-          onCheckedChange={this.onCheckedChange}
-        />
-      </Fragment>
-    );
-  }
-  private getTransform(component) {
+    const { attributes } = material;
+
+    const rs = [];
+
+    for (const key in attributes) {
+      if (attributes.hasOwnProperty(key)) {
+        const element = attributes[key];
+        rs.push(<Information label={key} value={element}></Information>);
+      }
+    }
+    return rs;
+  };
+  private getUniforms = () => {
+    const { material } = this.props.component;
+
+    const { uniforms } = material;
+
+    const rs = [];
+
+    for (const key in uniforms) {
+      if (uniforms.hasOwnProperty(key)) {
+        const element = uniforms[key];
+        rs.push(<Information label={key} value={element}></Information>);
+      }
+    }
+    return rs;
+  };
+  private getTransform() {
+    const { component } = this.props;
     const {
       x,
       y,
@@ -89,10 +120,18 @@ export default class SceneComponentEditor extends Component<
       scaleZ,
       rotationX,
       rotationY,
-      rotationZ
+      rotationZ,
+      visible
     } = component;
     return (
       <Fragment>
+        <Switch
+          label={'visible'}
+          checked={visible}
+          onCheckedChange={this.onCheckedChange}
+        />
+        {this.props.transform}
+
         <Range
           label={'position.x'}
           value={x}
@@ -171,21 +210,61 @@ export default class SceneComponentEditor extends Component<
       </Fragment>
     );
   }
-  render() {
+  private getPrivate() {
     const { component } = this.props;
-    // console.log(component);
 
-    // 是否是SceneComponent类型
-    if (!Sein.isSceneComponent(component)) {
+    return <Fragment>{this.props.private}</Fragment>;
+  }
+  private getMaterials() {
+    return (
+      <Fragment>
+        <Folder label='attributes'>{this.getAttributes()}</Folder>
+        <Folder label='uniforms'>{this.getUniforms()}</Folder>
+        {this.props.materials}
+      </Fragment>
+    );
+  }
+  private getGeometry() {
+    const { component } = this.props;
+    const { geometry } = component;
+    const { currentIndicesCount, currentVerticesCount } = geometry as any;
+    return (
+      <Fragment>
+        <Information
+          label='currentIndicesCount'
+          value={currentIndicesCount}></Information>
+        <Information
+          label='currentIndicesCount'
+          value={currentVerticesCount}></Information>
+        {this.props.geometry}
+      </Fragment>
+    );
+  }
+
+  render() {
+    const {
+      component,
+      hidePrivate,
+      hideGeometry,
+      hideMaterials,
+      hideTransform
+    } = this.props;
+
+    // 是否是StaticMeshComponent类型
+    if (!Sein.isStaticMeshComponent(component)) {
       return null;
     }
 
     return (
       <InfoTab
-        hideGeometry={true}
-        hideMaterials={true}
-        private={this.getPrivate(component)}
-        transform={this.getTransform(component)}></InfoTab>
+        hidePrivate={hidePrivate}
+        hideGeometry={hideGeometry}
+        hideMaterials={hideMaterials}
+        hideTransform={hideTransform}
+        private={this.getPrivate()}
+        geometry={this.getGeometry()}
+        materials={this.getMaterials()}
+        transform={this.getTransform()}></InfoTab>
     );
   }
 }
