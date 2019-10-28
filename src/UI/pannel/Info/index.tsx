@@ -30,7 +30,7 @@ export default class Info extends Component<IComponentProps, IComponentState> {
 
     this.setState({
       qrcode: new QRious({
-        value: location.href
+        value: location.href + '?qrcode=true'
       }).toDataURL()
     });
 
