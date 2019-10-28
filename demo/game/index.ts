@@ -17,7 +17,7 @@ export async function main(canvas: HTMLCanvasElement): Promise<Sein.Game> {
     'intro-game',
     {
       canvas,
-      clearColor: new Sein.Color(0, .6, .9, 1),
+      clearColor: new Sein.Color(0, 0.6, 0.9, 1),
       width: canvas.offsetWidth,
       height: canvas.offsetHeight
     },
@@ -27,7 +27,11 @@ export async function main(canvas: HTMLCanvasElement): Promise<Sein.Game> {
   engine.addGame(game);
 
   game.addWorld('main', MainGameMode, MainLevelScript);
-  game.addLevel('main', 'test', MainLevelScript);
+  game.addLevel('main', 'testLevel1', MainLevelScript);
+  game.addLevel('main', 'testLevel2', MainLevelScript);
+  game.addLevel('main', 'testLevel3', MainLevelScript);
+  game.addLevel('main', 'testLevel4', MainLevelScript);
+  game.addLevel('main', 'testLevel5', MainLevelScript);
   game.addWorld('main2', MainGameMode, MainLevelScript);
 
   await game.start();

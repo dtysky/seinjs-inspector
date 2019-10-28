@@ -2,22 +2,26 @@
  * @Description: List.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-03 16:51:23
- * @LastEditTime: 2019-09-03 22:14:43
+ * @LastEditTime: 2019-10-22 16:12:10
  */
 
 import { h, Component } from 'preact';
 import './index.scss';
 interface IComponentProps {
   label?: string;
-  list: Array<{
-    [key: string]: any;
-    name?: string;
-    value?: string;
-  }> | {[key: string]: any};
+  list:
+    | Array<{
+        [key: string]: any;
+        name?: string;
+        value?: string;
+        current?: boolean;
+      }>
+    | { [key: string]: any };
   close?: boolean;
-  onSelect?: (item: {name: string, value: string}) => void;
+  onSelect?: (item: { name: string; value: string }) => void;
 }
 interface IComponentState {
+  label: string;
   isClose: boolean;
 }
 
@@ -34,16 +38,27 @@ export default class Infomation extends Component<
 
   componentDidMount() {
     const { close } = this.props;
+    let isClose = close;
+    if (isClose === undefined) {
+      isClose = true;
+    }
     this.setState({
-      isClose: !!close
+      label: this.props.label,
+      isClose: isClose
     });
   }
-
+  private currentIcon(isCurrent: boolean) {
+    let className = 'iconfont sein-inspector-preview-icon';
+    if (isCurrent !== undefined) {
+      className += isCurrent ? ' current' : '';
+    }
+    return <i class={className}></i>;
+  }
   private getFromArray() {
     const { list, onSelect } = this.props;
     const rs = [];
     list.map(item => {
-      const { name, value } = item;
+      const { name, value, current } = item;
       rs.push(
         <li onClick={onSelect ? () => onSelect(item) : () => {}}>
           <label className='sein-inspector-label' title={name || 'Label'}>
@@ -54,6 +69,7 @@ export default class Infomation extends Component<
               {value}
             </div>
           )}
+          {this.currentIcon(current)}
         </li>
       );
     });
@@ -68,7 +84,10 @@ export default class Infomation extends Component<
     for (const key in list) {
       const element = list[key];
       rs.push(
-        <li onClick={onSelect ? () => onSelect({name: key, value: element}) : () => {}}>
+        <li
+          onClick={
+            onSelect ? () => onSelect({ name: key, value: element }) : () => {}
+          }>
           <label className='sein-inspector-label' title={key || 'Label'}>
             {key}
           </label>
@@ -102,8 +121,9 @@ export default class Infomation extends Component<
     const { isClose } = this.state;
     const { label } = this.props;
     const iconClassName = `iconfont sein-inspector-list-icon${
-      isClose ? '' : ' close'
+      isClose ? ' close' : ' '
     }`;
+
     return (
       <div className='sein-inspector-component sein-inspector-list-container'>
         <div className='sein-inspector-list-content'>

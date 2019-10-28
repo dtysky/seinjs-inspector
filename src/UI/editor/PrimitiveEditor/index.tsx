@@ -2,12 +2,12 @@
  * @Description: PrimitiveComponentEditor.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-06 15:28:00
- * @LastEditTime: 2019-09-20 14:44:29
+ * @LastEditTime: 2019-10-28 11:17:30
  */
 
-import { h, Component } from 'preact';
+import { h, Component, Fragment } from 'preact';
 import './index.scss';
-import { Range, Switch, Folder, Information } from '../../components';
+import { Range, Switch, Folder, Information, Tab } from '../../components';
 import * as Sein from 'seinjs';
 interface IComponentProps {
   component: Sein.PrimitiveComponent;
@@ -97,7 +97,6 @@ export default class PrimitiveComponentEditor extends Component<
   };
   render() {
     const { component } = this.props;
-    console.log(component);
 
     // 是否是PrimitiveComponent类型
     if (!Sein.isPrimitiveComponent(component)) {
@@ -117,10 +116,34 @@ export default class PrimitiveComponentEditor extends Component<
       material
     } = component;
 
-    const { attributes, uniforms } = material;
+    const tabItem = [
+      {
+        id: 1,
+        text: 'Private'
+      },
+      {
+        id: 2,
+        text: 'Transform'
+      },
+      {
+        id: 3,
+        text: 'Geomerty'
+      },
+      {
+        id: 4,
+        text: 'Materials'
+      }
+    ];
     return (
       <div className='sein-inspector-component sein-inspector-primitiveeditor-container'>
         <div className='sein-inspector-primitiveeditor-detail'>
+          <Tab
+            data={tabItem}
+            showIcon={false}
+            onTabChange={id => {
+              console.log(id);
+            }}></Tab>
+          {this.getTabDetail()}
           <Switch
             label={'visible'}
             checked={visible}

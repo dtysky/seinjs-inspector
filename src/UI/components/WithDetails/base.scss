@@ -4,11 +4,28 @@
  * @Date   : 10/15/2019, 4:06:55 PM
  * @Description:
  */
-.sein-inspector-with-details {
-  height: 100%;
-}
 
-.sein-inspector-with-main {
-  max-height: 60%;
-  margin-bottom: 12;
+.sein-inspector-container {
+  .sein-inspector-with-details {
+    height: calc(100vh - 72px);
+    // overflow: auto;
+    .sein-inspector-with-main {
+      // margin-bottom: 12;
+      max-height: 50%;
+      .sein-inspector-group-bar {
+        position: sticky;
+        z-index: 1;
+        top: 0;
+      }
+    }
+    .sein-inspector-with-bottom {
+      // margin-bottom: 12;
+      max-height: 50%;
+      .sein-inspector-group-bar {
+        position: sticky;
+        z-index: 1;
+        top: 0;
+      }
+    }
+  }
 }

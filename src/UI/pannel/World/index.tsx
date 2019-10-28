@@ -5,8 +5,8 @@
  * @Description:
  */
 import * as Sein from 'seinjs';
-import { h, Component } from 'preact';
-import { List, Information } from '../../components';
+import { h, Component, Fragment } from 'preact';
+import { List, Information, WithDetails } from '../../components';
 import InspectorActor from '../../../Actor/InspectorActor';
 interface IComponentProps {
   actor: InspectorActor;
@@ -15,6 +15,7 @@ interface IComponentProps {
 interface IComponentState {
   name: string;
   Actors: Array<Sein.SceneActor>;
+  Levels: Array<Sein.Level>;
 }
 
 export default class World extends Component<IComponentProps, IComponentState> {
@@ -23,29 +24,48 @@ export default class World extends Component<IComponentProps, IComponentState> {
   }
   private calcState() {
     const game = this.props.actor.getGame();
-    // game.switchLevel('level1');
     const Actors = [];
-    game.world.actors.forEach(item => {
-      Actors.push({
-        name: item.className.value,
-        value: item.name.value
+    game.world.actors.array
+      .filter(item => (item as any).iteratable !== false)
+      .forEach(item => {
+        Actors.push({
+          name: item.className.value,
+          value: item.name.value
+        });
       });
-    });
 
+    const Levels = [];
+    const levels = (game.world as any)._levels;
+    for (const key in levels) {
+      if (levels.hasOwnProperty(key)) {
+        const item = levels[key];
+
+        Levels.push({
+          name: key,
+          value: item.Script.name,
+          current: key === game.world.level.name.value
+        });
+      }
+    }
     this.setState({
       name: game.world.name.value,
-      Actors
+      Actors,
+      Levels
     });
   }
 
   render() {
-    const { Actors, name } = this.state;
+    const { Actors, name, Levels } = this.state;
 
     return (
-      <div className='sein-inspector-content-box u-scrollbar'>
-        <Information label='World Name' value={name}></Information>
-        <List label='Actors' list={Actors}></List>
-      </div>
+      <WithDetails
+        main={
+          <Fragment>
+            <Information label='World Name' value={name}></Information>
+            <List label='Levels' list={Levels} close={false}></List>
+          </Fragment>
+        }
+      />
     );
   }
 }

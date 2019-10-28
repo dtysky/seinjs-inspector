@@ -11,16 +11,22 @@ interface IData {
 interface IComponentProps {
   data: IData[];
   onTabChange: Function;
-  currentId: IData['id'];
+  currentId?: IData['id'];
+  showIcon?: boolean;
 }
 
 interface IComponentState {}
 
 export default class Tab extends Component<IComponentProps, IComponentState> {
+  private currentId: number = 0;
+  private showIcon: boolean = true;
   protected container: HTMLElement;
 
   public state: IComponentState = {};
-
+  public componentWillMount() {
+    this.currentId = this.props.currentId || 1;
+    this.props.showIcon !== undefined && (this.showIcon = this.props.showIcon);
+  }
   private debounce(method: Function, wait: number = 0) {
     let timer: number = 0;
 
@@ -65,15 +71,14 @@ export default class Tab extends Component<IComponentProps, IComponentState> {
     );
   }
   changeTab = (id: number) => {
-    const { currentId } = this.props;
-    if (currentId !== id) {
+    if (this.currentId !== id) {
       const { onTabChange } = this.props;
       onTabChange(id);
+      this.currentId = id;
     }
   };
   render() {
     const width = { width: `${100 / this.props.data.length}%` };
-    const { currentId } = this.props;
     return (
       <div>
         <ul
@@ -85,14 +90,14 @@ export default class Tab extends Component<IComponentProps, IComponentState> {
               <li
                 className={
                   'sein-inspector-tab-item' +
-                  (id === currentId ? ' current' : '')
+                  (id === this.currentId ? ' current' : '')
                 }
                 // style={width}
                 key={item.id}
                 onClick={() => {
                   this.changeTab(item.id);
                 }}>
-                <i className={`icon` + id} />
+                {this.showIcon && <i className={`icon` + id} />}
                 {item.text}
               </li>
             );

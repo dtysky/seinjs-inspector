@@ -4,8 +4,8 @@
  * @Date   : 7/28/2019, 3:56:03 PM
  * @Description:
  */
-import { h, Component } from 'preact';
-import { Group, Information, Folder } from '../../components';
+import { h, Component, Fragment } from 'preact';
+import { Group, Information, Folder, WithDetails, Tab } from '../../components';
 import getEditor from '../../editor';
 import InspectorActor from '../../../Actor/InspectorActor';
 import * as Sein from 'seinjs';
@@ -17,6 +17,7 @@ interface IComponentProps {
 interface IComponentState {
   name: string;
   resultSet: any;
+  details: h.JSX.Element;
 }
 export default class Level extends Component<IComponentProps, IComponentState> {
   componentDidMount() {
@@ -59,44 +60,57 @@ export default class Level extends Component<IComponentProps, IComponentState> {
       return null;
     }
     return components.map(component => {
-      const Editor = getEditor(component);
-
       return (
-        <Folder
+        <Information
           label={(component as Sein.SceneComponent).className.value}
-          value={(component as Sein.SceneComponent).name.value}>
-          {Editor ? (
-            <Editor component={component}></Editor>
-          ) : (
-            <div class='sein-inspector-label'>暂未实现</div>
-          )}
-        </Folder>
+          value={(component as Sein.SceneComponent).name.value}
+          onTrigger={() => {
+            this.getDetails(component);
+          }}></Information>
       );
     });
   }
+  private getDetails = (component: Sein.SceneComponent) => {
+    console.log(component);
+
+    const Editor = getEditor(component);
+    let details;
+    if (Editor) {
+      details = <Editor component={component}></Editor>;
+    } else {
+      details = <div class='sein-inspector-label'>暂未实现</div>;
+    }
+    this.setState({
+      details
+    });
+  };
   render() {
-    const { name, resultSet } = this.state;
+    const { name, resultSet, details } = this.state;
 
     if (!resultSet) {
       return null;
     }
     const { sceneActors } = resultSet;
     return (
-      <div className='sein-inspector-content-box u-scrollbar'>
-        <Information label='Level Name' value={name}></Information>
-        <Group name='SceneActors'>
-          {sceneActors.map(item => {
-            return (
-              <Folder
-                label={item.actor.className.value}
-                value={item.actor.name.value}
-                close={true}>
-                {this.getComponents(item.components)}
-              </Folder>
-            );
-          })}
-        </Group>
-      </div>
+      <WithDetails
+        main={
+          <Fragment>
+            <Information label='Level Name' value={name}></Information>
+            <Group name='SceneActors' isClose={false}>
+              {sceneActors.map(item => {
+                return (
+                  <Folder
+                    label={item.actor.className.value}
+                    value={item.actor.name.value}
+                    close={true}>
+                    {this.getComponents(item.components)}
+                  </Folder>
+                );
+              })}
+            </Group>
+          </Fragment>
+        }
+        details={<Fragment>{details}</Fragment>}></WithDetails>
     );
   }
 }

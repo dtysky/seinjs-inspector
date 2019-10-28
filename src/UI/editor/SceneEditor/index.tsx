@@ -2,7 +2,7 @@
  * @Description: SceneComponentEditor.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-06 15:28:00
- * @LastEditTime: 2019-09-20 11:33:02
+ * @LastEditTime: 2019-10-23 11:47:55
  */
 
 import { h, Component } from 'preact';
@@ -67,7 +67,7 @@ export default class SceneComponentEditor extends Component<
   };
   render() {
     const { component } = this.props;
-    console.log(component);
+    // console.log(component);
 
     // 是否是SceneComponent类型
     if (!Sein.isSceneComponent(component)) {

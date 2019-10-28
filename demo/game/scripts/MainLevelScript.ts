@@ -142,15 +142,15 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
       position: new Sein.Vector3(0, 8, 8)
     });
 
-    // const miku = game.resource.instantiate<'GlTF'>('miku.gltf').get(0);
-    // miku.transform.setPosition(0, 0, 4);
+    const miku = game.resource.instantiate<'GlTF'>('miku.gltf').get(0);
+    miku.transform.setPosition(0, 0, 4);
 
-    // // add animator component
-    // miku.addComponent('animator', Sein.AnimatorComponent);
-    // miku.animator.register('custom', new MyAnimation({ speed: 1 }));
-    // miku.animator.play('custom', 180);
+    // add animator component
+    miku.addComponent('animator', Sein.AnimatorComponent);
+    miku.animator.register('custom', new MyAnimation({ speed: 1 }));
+    miku.animator.play('custom', 180);
 
-    // miku.animator.register('custom1', new MyAnimation({ speed: 2 }));
+    miku.animator.register('custom1', new MyAnimation({ speed: 2 }));
     // add physic engin
     world.enablePhysic(
       new Sein.CannonPhysicWorld(CANNON, new Sein.Vector3(0, -9.81, 0))

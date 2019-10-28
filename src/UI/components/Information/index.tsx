@@ -30,7 +30,8 @@ export default class Infomation extends Component<
   componentDidMount() {}
   private onClick = () => {
     const { onTrigger, interactive } = this.props;
-    if (interactive && onTrigger) {
+
+    if (onTrigger) {
       onTrigger();
     }
   };

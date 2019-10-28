@@ -4,9 +4,7 @@
  * @Date   : 7/28/2019, 3:55:56 PM
  * @Description:
  */
-/**
- * tab bar
- */
+
 import { h, Component } from 'preact';
 import * as cx from 'classnames';
 
@@ -22,25 +20,29 @@ interface IComponentState {
 
 export default class Group extends Component<IComponentProps, IComponentState> {
   public state: IComponentState = {
-    isClose: false
-  }
+    isClose: true
+  };
 
   protected groupBar: HTMLElement;
   protected content: HTMLElement;
 
   handleToggle = () => {
-    if (this.props.isClose === undefined) {
-      this.setState({isClose: !this.state.isClose});
-    }
+    this.setState({ isClose: !this.state.isClose });
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    if (this.props.isClose === undefined) {
+      this.setState({ isClose: true });
+    } else {
+      this.setState({ isClose: this.props.isClose });
+    }
+  }
 
   componentWillUnmount() {}
 
   render() {
     const { name } = this.props;
-    const isClose = this.props.isClose !== undefined ? this.props.isClose : this.state.isClose;
+    const { isClose } = this.state;
 
     return (
       <div className='sein-inspector-group'>

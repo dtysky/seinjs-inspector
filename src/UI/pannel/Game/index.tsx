@@ -7,7 +7,13 @@
 import { h, Component, Fragment } from 'preact';
 import * as Sein from 'seinjs';
 
-import { List, Group, Information, Button, WithDetails } from '../../components';
+import {
+  List,
+  Group,
+  Information,
+  Button,
+  WithDetails
+} from '../../components';
 import InspectorActor from '../../../Actor/InspectorActor';
 import WorldDetails from '../../details/WorldDetails';
 
@@ -23,8 +29,11 @@ interface IComponentState {
   baseInfo: {
     [key: string]: any;
   };
-  worlds: {name: string; value: string}[];
-  details: {type: string, item: {name: string; value: string, actor?: Sein.InfoActor}};
+  worlds: { name: string; value: string }[];
+  details: {
+    type: string;
+    item: { name: string; value: string; actor?: Sein.InfoActor };
+  };
 }
 
 export default class Game extends Component<IComponentProps, IComponentState> {
@@ -33,8 +42,8 @@ export default class Game extends Component<IComponentProps, IComponentState> {
     bound: {},
     baseInfo: {},
     worlds: [],
-    details: {type: 'bound', item: null}
-  }
+    details: { type: 'bound', item: null }
+  };
 
   componentDidMount() {
     this.calcState();
@@ -44,17 +53,20 @@ export default class Game extends Component<IComponentProps, IComponentState> {
   private calcState() {
     const game = this.props.actor.getGame();
 
-    const infoActors = game.actors.array.filter(item => this.props.actor.isHidden(item)).map(item => {
+    const infoActors = game.actors.array;
+    let result = [];
+    infoActors.filter(item => item);
+    result = infoActors.map(item => {
       return { name: item.name.value, value: item.className.value };
     });
 
     const { name, devMode, bound, _worldsMeta: worlds } = game as any;
     const baseInfo = { 'Game Name': name.value, 'Dev Mode': devMode };
-    const {left, right, top, bottom, width, height} = bound;
+    const { left, right, top, bottom, width, height } = bound;
 
     this.setState({
-      bound: {left, right, top, bottom, width, height},
-      infoActors,
+      bound: { left, right, top, bottom, width, height },
+      infoActors: result,
       baseInfo,
       worlds: Object.keys(worlds).map(name => ({
         name: name,
@@ -63,29 +75,39 @@ export default class Game extends Component<IComponentProps, IComponentState> {
     });
   }
 
-  private handleSelectActor = (item: {name: string, value: string}) => {
+  private handleSelectActor = (item: { name: string; value: string }) => {
     console.log('actor', item);
-    this.setState({details: {type: 'actor', item}});
-  }
+    this.setState({ details: { type: 'actor', item } });
+  };
 
-  private handleSelectWorld = (item: {name: string, value: string}) => {
+  private handleSelectWorld = (item: { name: string; value: string }) => {
     console.log('world', item);
-    this.setState({details: {type: 'world', item}});
-  }
+    this.setState({ details: { type: 'world', item } });
+  };
 
   public render() {
     const { infoActors, bound, worlds } = this.state;
 
     return (
       <WithDetails
-        main={(
+        main={
           <Fragment>
             {this.renderBase()}
-            <List label='Bound' list={bound}></List>
-            <List onSelect={this.handleSelectWorld} label='Worlds' list={worlds}></List>
-            <List onSelect={this.handleSelectActor} label='Actors' list={infoActors}></List>  
+            <List key={'Bound'} label='Bound' list={bound}></List>
+            <List
+              key={'Worlds'}
+              onSelect={this.handleSelectWorld}
+              label='Worlds'
+              close={false}
+              list={worlds}></List>
+            <List
+              key={'infoActors'}
+              onSelect={this.handleSelectActor}
+              label='infoActors'
+              close={false}
+              list={infoActors}></List>
           </Fragment>
-        )}
+        }
         details={this.renderDetails()}
       />
     );
@@ -112,13 +134,18 @@ export default class Game extends Component<IComponentProps, IComponentState> {
     }
 
     if (this.state.details.type === 'world') {
-      return <WorldDetails actor={this.props.actor} worldName={this.state.details.item.name} />;
+      return (
+        <WorldDetails
+          actor={this.props.actor}
+          worldName={this.state.details.item.name}
+        />
+      );
     }
 
     return null;
   }
 
-  private renderActorDetails(item: {name: string, value: string}) {
+  private renderActorDetails(item: { name: string; value: string }) {
     return null;
   }
 }

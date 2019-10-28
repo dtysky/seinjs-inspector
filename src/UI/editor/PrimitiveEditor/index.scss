@@ -2,6 +2,8 @@
   .sein-inspector-primitiveeditor-container.sein-inspector-component {
   height: auto;
   border-left: 0;
+  padding-top: 0;
+  margin-top: -1px;
   .sein-inspector-component-box {
     display: flex;
     .sein-inspector-label {
