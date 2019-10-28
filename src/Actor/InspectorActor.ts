@@ -57,6 +57,7 @@ export default class InspectorActor extends Sein.InfoActor<
   protected _physicAlive = false;
   protected _enableSync = false;
   protected _container: HTMLElement = document.body;
+  protected _dom: HTMLDivElement;
 
   /**
    * 事件管理器。
@@ -138,8 +139,8 @@ export default class InspectorActor extends Sein.InfoActor<
       };
     }
 
-    const axis = this.getWorld().addActor('Axis', AxisActor);
-    this.addSelfHidden(axis);
+    // const axis = this.getWorld().addActor('Axis', AxisActor);
+    // this.addSelfHidden(axis);
   }
 
   private clearActor = () => {
@@ -239,7 +240,7 @@ export default class InspectorActor extends Sein.InfoActor<
         alive: this._physicAlive
       }
     };
-    this.event.trigger("Update", this._info);
+    this.event.trigger('Update', this._info);
   }
 
   protected getResource() {
@@ -260,10 +261,21 @@ export default class InspectorActor extends Sein.InfoActor<
   public onDestroy() {
     if (this._actor) {
       this._actor.removeFromParent();
+      this._actor = null;
+    }
+
+    if (this._dom) {
+      this._container.removeChild(this._dom);
+      this._dom = null;
     }
   }
 
   protected renderUI() {
-    render(document.body, this);
+    if (!this._dom) {
+      this._dom = document.createElement('div');
+      this._container.appendChild(this._dom);  
+    }
+
+    render(this._dom, this);
   }
 }

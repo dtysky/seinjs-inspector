@@ -63,7 +63,6 @@ export default class Preview extends Component<
     });
   };
   render() {
-    console.log('render');
     const { name, url } = this.props;
     const { canEdit } = this.state;
 

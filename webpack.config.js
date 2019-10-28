@@ -6,24 +6,25 @@
  */
 const webpack = require('webpack');
 const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const outPath = path.resolve(__dirname, 'lib');
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'none',
 
   entry: {
     main: [
-      'webpack-dev-server/client?/',
-      'webpack/hot/dev-server',
-      path.resolve(__dirname, './index.ts')
+      path.resolve(__dirname, './src/index.ts')
     ]
   },
 
   output: {
-    path: path.resolve(__dirname),
-    filename: 'main.js',
-    publicPath: '/'
+    path: outPath,
+    filename: 'index.js',
+    publicPath: '/',
+    library: 'seinjs-inspector',
+    libraryTarget: 'window'
   },
 
   resolve: {
@@ -31,8 +32,7 @@ module.exports = {
   },
 
   externals: {
-    'fs': true,
-    'path': true,
+    'seinjs': 'Sein'
   },
 
   module: {
@@ -46,22 +46,12 @@ module.exports = {
           {
             loader: 'awesome-typescript-loader',
             options: {
-              configFileName: path.resolve(__dirname, '../tsconfig.json'),
+              configFileName: path.resolve(__dirname, './tsconfig.json'),
               transpileOnly: true
             }
-          },
-          // {
-          //   loader: 'tslint-loader',
-          //   query: {
-          //     configFile: path.resolve(__dirname, './tslintConfig.js')
-          //   }
-          // }
+          }
         ],
         exclude: /node_modules/
-      },
-      {
-        test: /\.(tpl|html)$/,
-        loader: "raw-loader"
       },
       {
         test: /\.(css|scss)$/,
@@ -116,14 +106,14 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './index.html')
-    }),
+    new CleanWebpackPlugin(
+      ['*'],
+      {root: outPath}
+    ),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('development')
+        NODE_ENV: JSON.stringify('production')
       }
-    }),
-    new webpack.HotModuleReplacementPlugin()
+    })
   ]
 };

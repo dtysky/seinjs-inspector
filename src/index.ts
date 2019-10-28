@@ -21,4 +21,6 @@ declare module "seinjs" {
   Actor: InspectorActor
 };
 
-export { InspectorActor as Actor };
+export {
+  InspectorActor as Actor
+};

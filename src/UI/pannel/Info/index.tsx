@@ -27,7 +27,8 @@ interface IComponentState {
 }
 export default class Info extends Component<IComponentProps, IComponentState> {
   public state: IComponentState = {
-    info: {} as any
+    info: {} as any,
+    qrcode: ''
   };
 
   componentDidMount() {
@@ -46,6 +47,7 @@ export default class Info extends Component<IComponentProps, IComponentState> {
   componentWillUnmount() {
     const {event} = this.props.actor;
 
+    event.remove('Update', this.handleUpdateInfo);
     event.trigger('Control', {type: EControlType.EndSync});
   }
 

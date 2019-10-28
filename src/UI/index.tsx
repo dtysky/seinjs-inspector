@@ -18,7 +18,6 @@ import Render from './pannel/Render';
 import World from './pannel/World';
 import { Tab } from './components';
 import InspectorActor from '../Actor/InspectorActor';
-import * as SPECTOR from 'spectorjs';
 import './index.scss';
 import * as Sein from 'seinjs';
 
@@ -39,24 +38,23 @@ class Inspector extends Component<IComponentProps, IComponentState> {
   protected _width: number = 0;
   protected isChecked: boolean = false;
 
-  private spector: any;
-
   componentDidMount() {}
 
   componentWillUnmount() {}
 
   onTabChange = (id: number) => {
-    this.setState({
-      tabIndex: id
-    });
+    this.setState({tabIndex: id});
   };
+
   dataUpdate = value => {
     this.isChecked = value;
   };
+
   private editComponent = (component: Sein.Component) => {
   };
   getComponent() {
     const { tabIndex } = this.state;
+
     switch (tabIndex) {
       case 1:
         return <Info actor={this.props.actor} />;
@@ -81,10 +79,7 @@ class Inspector extends Component<IComponentProps, IComponentState> {
       case 7:
         return <Player actor={this.props.actor} />;
       case 8:
-        if (!this.spector) {
-          this.spector = new SPECTOR.Spector();
-        }
-        return <Render spector={this.spector} />;
+        return <Render actor={this.props.actor} />;
       default:
         return null;
     }

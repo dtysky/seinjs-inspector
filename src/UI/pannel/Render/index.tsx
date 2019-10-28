@@ -6,68 +6,68 @@
  */
 
 import { h, Component } from 'preact';
+import * as SPECTOR from 'spectorjs';
+
 import { Group, Button } from '../../components';
 import InspectorActor from '../../../Actor/InspectorActor';
 
 interface IComponentProps {
-  spector: any;
+  actor: InspectorActor
 }
 
 interface IComponentState {
   isSpectorShow: boolean;
 }
+
+let spector: SPECTOR.Sepctor;
+
 export default class Render extends Component<
   IComponentProps,
   IComponentState
 > {
-  private spectorUI: HTMLElement;
-  constructor() {
-    super();
+  public state: IComponentState = {
+    isSpectorShow: false
+  };
 
-    this.spectorUI = document.querySelector('.captureMenuComponent');
-    let isShow = false;
-    if (
-      this.spectorUI &&
-      this.spectorUI.parentElement.style.getPropertyValue('display') !== 'none'
-    ) {
-      isShow = true;
-    }
-    this.setState({
-      isSpectorShow: isShow
-    });
-  }
+  private spectorUI: HTMLElement;
+  
   componentDidMount() {
-    this.spectorUI = document.querySelector('.captureMenuComponent');
+    if (!spector) {
+      spector = new SPECTOR.Spector();
+    }
   }
+
   componentWillUnmount() {
-    // this.hideSpectorUI();
+    this.hideSpectorUI();
   }
+
   private triggerClick = () => {
-    const { isSpectorShow } = this.state;
+    const {isSpectorShow} = this.state;
 
     if (isSpectorShow) {
       this.hideSpectorUI();
-      this.setState({
-        isSpectorShow: false
-      });
+      this.setState({isSpectorShow: false});
     } else {
-      this.props.spector.displayUI();
       if (!this.spectorUI) {
-        this.spectorUI = document.querySelector('.captureMenuComponent');
+        spector.displayUI();
+        setTimeout(() => {
+          this.spectorUI = document.querySelector('.captureMenuComponent');
+        }, 1000);
       }
-      this.spectorUI &&
+      else {
         this.spectorUI.parentElement.style.removeProperty('display');
+      }
 
-      this.setState({
-        isSpectorShow: true
-      });
+      this.setState({isSpectorShow: true});
     }
   };
 
   private hideSpectorUI() {
-    this.spectorUI &&
+    if (this.spectorUI) {
       this.spectorUI.parentElement.style.setProperty('display', 'none');
+    }
   }
+
   render() {
     const { isSpectorShow } = this.state;
     const label = isSpectorShow ? '隐藏 Spector' : '显示 Spector';
