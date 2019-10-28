@@ -5,6 +5,7 @@
  * @Description:
  */
 import { h, Component } from "preact";
+import * as QRious from 'qrious';
 import {
   Group,
   Select,
@@ -22,6 +23,7 @@ interface IComponentProps {
 
 interface IComponentState {
   info: ISystemInfo;
+  qrcode: string;
 }
 export default class Info extends Component<IComponentProps, IComponentState> {
   public state: IComponentState = {
@@ -30,6 +32,12 @@ export default class Info extends Component<IComponentProps, IComponentState> {
 
   componentDidMount() {
     const {event} = this.props.actor;
+
+    this.setState({
+      qrcode: new QRious({
+        value: location.href
+      }).toDataURL()
+    });
 
     event.add('Update', this.handleUpdateInfo);
     event.trigger('Control', {type: EControlType.StartSync});
@@ -54,10 +62,26 @@ export default class Info extends Component<IComponentProps, IComponentState> {
 
     return (
       <div className="sein-inspector-content-box  u-scrollbar">
-        <Group name="System">
+        <p style={{textAlign: 'center', margin: 4}}>
+          <img src={this.state.qrcode} />
+        </p>
+        <Group name="System" isClose={false}>
+          <Button label={'Reload'} onButtonClick={() => location.reload()} />
           <Information label="FPS" value={system.fps.toFixed(2)} />
           <Information label="CPU" value={system.cpu} />
           <Information label="Memory" value={system.memory} />
+        </Group>
+        <Group name="Render" isClose={false}>
+          <Information label="Buffers Count" value={render.buffers} />
+          <Information label="Buffers bytes" value={render.bufferBytes} />
+          <Information label="Shaders Count" value={render.shaders} />
+          <Information label="Programs Count" value={render.programs} />
+          <Information label="Textures Count" value={render.textures} />
+        </Group>
+        <Group name="Resource" isClose={false}>
+          {Object.keys(resource).map(name => (
+            <Information label={name} value={resource[name]} />
+          ))}
         </Group>
         <Group name="Engine">
           <Information label="Ticker Running" value={engine.tickerRunning} />
@@ -89,20 +113,9 @@ export default class Info extends Component<IComponentProps, IComponentState> {
             ))
           }
         </Group>
-        <Group name="Render">
-          <Information label="Buffers Count" value={render.buffers} />
-          <Information label="Shaders Count" value={render.shaders} />
-          <Information label="Programs Count" value={render.programs} />
-          <Information label="Textures Count" value={render.textures} />
-        </Group>
         <Group name="Physic">
           <Information label="Active" value={physic.active} />
           <Information label="Alive" value={physic.alive} />
-        </Group>
-        <Group name="Resource">
-          {Object.keys(resource).map(name => (
-            <Information label={name} value={resource[name]} />
-          ))}
         </Group>
         <Group name="Events">
           <Information label="Global Event Count" value={events.global} />

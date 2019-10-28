@@ -46,6 +46,7 @@ export interface ISystemInfo {
     programs: number;
     textures: number;
     buffers: number;
+    bufferBytes: number;
   };
   resource: {
     [type: string]: number;

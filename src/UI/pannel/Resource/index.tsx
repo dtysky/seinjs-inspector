@@ -40,7 +40,6 @@ export default class Resource extends Component<
   private calcResources() {
     const game = this.props.actor.getGame();
 
-    console.log(game);
     const info: IComponentState = {};
 
     const store = (game.resource as any)._store;

@@ -19,14 +19,14 @@ export const TabItem = [
     id: 5,
     text: 'Resource'
   },
-  {
-    id: 6,
-    text: 'Event'
-  },
-  {
-    id: 7,
-    text: 'Player'
-  },
+  // {
+  //   id: 6,
+  //   text: 'Event'
+  // },
+  // {
+  //   id: 7,
+  //   text: 'Player'
+  // },
   {
     id: 8,
     text: 'Render'

@@ -179,6 +179,10 @@ export default class InspectorActor extends Sein.InfoActor<
     const world = this.getWorld();
     const level = this.getLevel();
     const physicWorld = this.getPhysicWorld();
+    let bufferBytes = 0;
+    Object.keys((Sein.Buffer.cache as any)._cache).forEach(key => {
+      bufferBytes += (Sein.Buffer.cache as any)._cache[key].data.byteLength || 0;
+    });
 
     this._info = {
       system: {
@@ -219,14 +223,11 @@ export default class InspectorActor extends Sein.InfoActor<
         actors: level.actors
       },
       render: {
-        /**
-         * @todo: update Sein.js to 1.3.5
-         */
-        // buffers: Object.keys((Sein.Buffer.cache as any)._cache).length,
-        buffers: Object.keys((Sein.Shader.cache as any)._cache).length,
+        buffers: Object.keys((Sein.Buffer.cache as any)._cache).length,
         shaders: Object.keys((Sein.Shader.cache as any)._cache).length,
         programs: Object.keys((Sein.Program.cache as any)._cache).length,
-        textures: Object.keys((Sein.Texture as any).cache._cache).length
+        textures: Object.keys((Sein.Texture as any).cache._cache).length,
+        bufferBytes: bufferBytes
       },
       resource: this.getResource(),
       events: {
@@ -263,8 +264,6 @@ export default class InspectorActor extends Sein.InfoActor<
   }
 
   protected renderUI() {
-    console.log(this._container);
-
     render(document.body, this);
   }
 }

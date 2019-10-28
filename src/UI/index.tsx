@@ -32,7 +32,7 @@ interface IComponentState {
 }
 class Inspector extends Component<IComponentProps, IComponentState> {
   public state: IComponentState = {
-    tabIndex: 2
+    tabIndex: 1
   };
 
   protected container: HTMLElement;
@@ -51,11 +51,9 @@ class Inspector extends Component<IComponentProps, IComponentState> {
     });
   };
   dataUpdate = value => {
-    console.log(value);
     this.isChecked = value;
   };
   private editComponent = (component: Sein.Component) => {
-    console.log('UI', component);
   };
   getComponent() {
     const { tabIndex } = this.state;

@@ -1,3 +1,7 @@
+import {h, Component} from 'preact';
+import 'seinjs-audio';
+
+import ComponentEditor from './ComponentEditor';
 import SceneComponentEditor from './SceneEditor';
 import AnimatorComponentEditor from './AnimatorEditor';
 import RigidBodyComponentEditor from './RigidBodyEditor';
@@ -12,8 +16,12 @@ import SpotLightComponentEditor from './SpotLightEditor';
 import PrimitiveComponentEditor from './PrimitiveEditor';
 import * as Sein from 'seinjs';
 
-export default function getEditor(component: Sein.SceneComponent) {
-  let Editor: any = null;
+export function getEditorForComponent(component: Sein.Component) {
+  if (!component) {
+    return ComponentEditor;
+  }
+
+  let Editor: any;
   if (Sein.isAnimatorComponent(component)) {
     Editor = AnimatorComponentEditor;
   } else if (Sein.isRigidBodyComponent(component)) {
@@ -36,11 +44,18 @@ export default function getEditor(component: Sein.SceneComponent) {
     Editor = SpotLightComponentEditor;
   } else if (Sein.isPrimitiveComponent(component)) {
     Editor = PrimitiveComponentEditor;
+  } else if (Sein.Audio.isSourceComponent(component)) {
+    Editor = PrimitiveComponentEditor;
+  } else if (Sein.Audio.isListenerComponent(component)) {
+    Editor = PrimitiveComponentEditor;
+  } else if (Sein.isSceneComponent(component)) {
+    Editor = SceneComponentEditor;
   }
   // Todo
   // SpriteComponent
   else {
-    Editor = SceneComponentEditor;
+    Editor = ComponentEditor;
   }
+
   return Editor;
 }

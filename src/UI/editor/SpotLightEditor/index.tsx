@@ -23,9 +23,6 @@ interface IStateTypes extends Sein.ISceneComponentState {
 }
 
 class SpotLightModelActor extends Sein.SceneActor<IStateTypes> {
-  public onInit(initState: IStateTypes) {
-    console.log('OnInit(Actor)', initState);
-  }
   public onAdd(initState: IStateTypes) {
     const { range, cutoff, outerCutoff } = initState;
     const start = new Sein.Vector3(0, 0, 0);
@@ -192,7 +189,7 @@ class SpotLightModelActor extends Sein.SceneActor<IStateTypes> {
     );
   }
   public onDestroy() {
-    console.log('onDestroy(Actor)');
+
   }
 }
 export default class SpotLightComponentEditor extends Component<

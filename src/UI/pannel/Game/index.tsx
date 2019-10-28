@@ -76,12 +76,10 @@ export default class Game extends Component<IComponentProps, IComponentState> {
   }
 
   private handleSelectActor = (item: { name: string; value: string }) => {
-    console.log('actor', item);
     this.setState({ details: { type: 'actor', item } });
   };
 
   private handleSelectWorld = (item: { name: string; value: string }) => {
-    console.log('world', item);
     this.setState({ details: { type: 'world', item } });
   };
 

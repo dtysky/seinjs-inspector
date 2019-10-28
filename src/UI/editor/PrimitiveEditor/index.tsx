@@ -119,11 +119,11 @@ export default class PrimitiveComponentEditor extends Component<
     const tabItem = [
       {
         id: 1,
-        text: 'Private'
+        text: 'Transform'
       },
       {
         id: 2,
-        text: 'Transform'
+        text: 'Self'
       },
       {
         id: 3,
@@ -143,7 +143,6 @@ export default class PrimitiveComponentEditor extends Component<
             onTabChange={id => {
               console.log(id);
             }}></Tab>
-          {this.getTabDetail()}
           <Switch
             label={'visible'}
             checked={visible}
