@@ -71,8 +71,6 @@ export default class Level extends Component<IComponentProps, IComponentState> {
     });
   }
   private getDetails = (component: Sein.SceneComponent) => {
-    console.log(component);
-
     const Editor = getEditor(component);
     let details;
     if (Editor) {

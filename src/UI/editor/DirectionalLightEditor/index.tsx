@@ -2,12 +2,13 @@
  * @Description: DirectionalLightComponentEditor.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-09 14:52:36
- * @LastEditTime: 2019-09-20 11:03:58
+ * @LastEditTime: 2019-10-28 18:59:41
  */
 
-import { h, Component } from 'preact';
+import { h, Component, Fragment } from 'preact';
 import './index.scss';
 import { ColorPicker, Range, Switch } from '../../components';
+import InfoTab from '../InfoTab';
 import * as Sein from 'seinjs';
 import { BSPLineComponent } from '../../utils/utils';
 interface IComponentProps {
@@ -132,66 +133,79 @@ export default class DirectionalLightComponentEditor extends Component<
     this.lightLine.visible = value;
   };
 
+  private getPrivate(component) {
+    const { amount, color, visible } = component;
+    const { showHelper } = this.state;
+    return (
+      <Fragment>
+        <Switch
+          label='show helper'
+          checked={showHelper}
+          onCheckedChange={this.onShowHelperChange}></Switch>
+        <Switch
+          label='visible'
+          checked={visible}
+          onCheckedChange={this.onVisibleChange}></Switch>
+        <Range
+          label={'amount'}
+          value={amount}
+          min={0}
+          max={10}
+          step={0.1}
+          onRangeInput={this.onAmountInput}
+        />
+        <ColorPicker
+          label='color'
+          value={'#' + color.toHEX()}
+          onColorInput={this.onColorInput}
+        />
+      </Fragment>
+    );
+  }
+  private getTransform(component) {
+    const { direction } = component;
+    return (
+      <Fragment>
+        <Range
+          label='direction.x'
+          value={direction.x}
+          min={-1}
+          max={1}
+          step={0.001}
+          onRangeInput={this.onDirectionXInput}
+        />
+        <Range
+          label='direction.y'
+          value={direction.y}
+          min={-1}
+          max={1}
+          step={0.001}
+          onRangeInput={this.onDirectionYInput}
+        />
+        <Range
+          label='direction.z'
+          value={direction.z}
+          min={-1}
+          max={1}
+          step={0.001}
+          onRangeInput={this.onDirectionZInput}
+        />
+      </Fragment>
+    );
+  }
   render() {
     const { component } = this.props;
-    const { showHelper } = this.state;
     // 是否是DirectionalLightComponent类型
     if (!Sein.isDirectionalLightComponent(component)) {
       return null;
     }
 
-    const { direction, amount, color, visible } = component;
     return (
-      <div className='sein-inspector-component sein-inspector-animatoreditor-container'>
-        <div className='sein-inspector-animatoreditor-detail'>
-          <Switch
-            label='show helper'
-            checked={showHelper}
-            onCheckedChange={this.onShowHelperChange}></Switch>
-          <Switch
-            label='visible'
-            checked={visible}
-            onCheckedChange={this.onVisibleChange}></Switch>
-          <Range
-            label={'amount'}
-            value={amount}
-            min={0}
-            max={10}
-            step={0.1}
-            onRangeInput={this.onAmountInput}
-          />
-          <ColorPicker
-            label='color'
-            value={'#' + color.toHEX()}
-            onColorInput={this.onColorInput}
-          />
-
-          <Range
-            label='direction.x'
-            value={direction.x}
-            min={-1}
-            max={1}
-            step={0.001}
-            onRangeInput={this.onDirectionXInput}
-          />
-          <Range
-            label='direction.y'
-            value={direction.y}
-            min={-1}
-            max={1}
-            step={0.001}
-            onRangeInput={this.onDirectionYInput}
-          />
-          <Range
-            label='direction.z'
-            value={direction.z}
-            min={-1}
-            max={1}
-            step={0.001}
-            onRangeInput={this.onDirectionZInput}
-          />
-        </div>
-      </div>
+      <InfoTab
+        hideMaterials={true}
+        hideGeometry={true}
+        private={this.getPrivate(component)}
+        transform={this.getTransform(component)}></InfoTab>
     );
   }
 }

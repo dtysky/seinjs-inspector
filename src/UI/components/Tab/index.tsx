@@ -7,6 +7,7 @@ import './index.scss';
 interface IData {
   id: number;
   text: string;
+  hidden?: boolean;
 }
 interface IComponentProps {
   data: IData[];
@@ -85,8 +86,8 @@ export default class Tab extends Component<IComponentProps, IComponentState> {
           ref={container => (this.container = container)}
           className='sein-inspector-tab u-scrollbar'>
           {this.props.data.map(item => {
-            const id = item.id;
-            return (
+            const { id, hidden } = item;
+            return !hidden ? (
               <li
                 className={
                   'sein-inspector-tab-item' +
@@ -100,7 +101,7 @@ export default class Tab extends Component<IComponentProps, IComponentState> {
                 {this.showIcon && <i className={`icon` + id} />}
                 {item.text}
               </li>
-            );
+            ) : null;
           })}
         </ul>
       </div>

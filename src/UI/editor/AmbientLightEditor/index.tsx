@@ -2,7 +2,7 @@
  * @Description: AmbientLightComponentEditor.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-09 14:52:36
- * @LastEditTime: 2019-09-11 21:12:24
+ * @LastEditTime: 2019-10-28 18:51:37
  */
 
 import { h, Component } from 'preact';

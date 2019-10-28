@@ -115,6 +115,14 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
       position: new Sein.Vector3(8, 10, 0)
     });
 
+    world.addActor('cylinder', Sein.BSPCylinderActor, {
+      radiusTop: 1,
+      radiusBottom: 2,
+      height: 2,
+      radialSegments: 16,
+      material: new Sein.PBRMaterial({ baseColor: new Sein.Color(0, 0, 1) })
+    });
+
     world.addActor('aLight', Sein.AmbientLightActor, {
       color: new Sein.Color(1, 1, 1),
       amount: 0.5

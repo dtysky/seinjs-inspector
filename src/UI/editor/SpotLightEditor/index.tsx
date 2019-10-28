@@ -2,13 +2,14 @@
  * @Description: SpotLightComponentEditor.tsx
  * @Author: 修雷(lc199444@alibaba-inc.com)
  * @Date: 2019-09-09 14:52:36
- * @LastEditTime: 2019-09-19 20:16:29
+ * @LastEditTime: 2019-10-28 19:07:34
  */
 
-import { h, Component } from 'preact';
+import { h, Component, Fragment } from 'preact';
 import './index.scss';
 import { ColorPicker, Range, Switch } from '../../components';
 import * as Sein from 'seinjs';
+import InfoTab from '../InfoTab';
 
 import { BSPCircleComponent, BSPLineComponent } from '../../utils/utils';
 interface IComponentProps {
@@ -307,6 +308,116 @@ export default class SpotLightComponentEditor extends Component<
     this.lightModeActor.transform.rotationZ = 0;
     this.lightModeActor.transform.rotate(axis, angle);
   }
+  private getPrivate(component) {
+    const { amount, color, visible, range, outerCutoff, cutoff } = component;
+    return (
+      <Fragment>
+        <Switch
+          label='show helper'
+          checked={false}
+          onCheckedChange={this.onHelperChange}></Switch>
+
+        <Switch
+          label='visible'
+          checked={visible}
+          onCheckedChange={this.onVisibleChange}></Switch>
+        <Range
+          label={'amount'}
+          value={amount}
+          min={0}
+          max={500}
+          step={0.1}
+          onRangeInput={this.onAmountInput}
+        />
+        <ColorPicker
+          label='color'
+          value={'#' + color.toHEX()}
+          onColorInput={this.onColorInput}
+        />
+        <Range
+          label='range'
+          value={range}
+          min={0}
+          max={100}
+          step={0.1}
+          onRangeInput={this.onRangeInput}
+        />
+        <Range
+          label='cutoff'
+          value={cutoff}
+          min={0}
+          max={100}
+          step={0.1}
+          onRangeInput={this.onCutoffInput}
+        />
+
+        <Range
+          label='outerCutoff'
+          value={outerCutoff}
+          min={0}
+          max={100}
+          step={0.1}
+          onRangeInput={this.onOuterCutoffInput}
+        />
+      </Fragment>
+    );
+  }
+  private getTransform(component) {
+    const { position, direction } = component;
+    return (
+      <Fragment>
+        <Range
+          label='position.x'
+          value={position.x}
+          min={-50}
+          max={50}
+          step={0.1}
+          onRangeInput={this.onPositionXInput}
+        />
+        <Range
+          label='position.y'
+          value={position.y}
+          min={-50}
+          max={50}
+          step={0.1}
+          onRangeInput={this.onPositionYInput}
+        />
+        <Range
+          label='position.z'
+          value={position.z}
+          min={-50}
+          max={50}
+          step={0.1}
+          onRangeInput={this.onPositionZInput}
+        />
+
+        <Range
+          label='direction.x'
+          value={direction.x}
+          min={-1}
+          max={1}
+          step={0.001}
+          onRangeInput={this.onDirectionXInput}
+        />
+        <Range
+          label='direction.y'
+          value={direction.y}
+          min={-1}
+          max={1}
+          step={0.001}
+          onRangeInput={this.onDirectionYInput}
+        />
+        <Range
+          label='direction.z'
+          value={direction.z}
+          min={-1}
+          max={1}
+          step={0.001}
+          onRangeInput={this.onDirectionZInput}
+        />
+      </Fragment>
+    );
+  }
   render() {
     const { component } = this.props;
 
@@ -315,118 +426,12 @@ export default class SpotLightComponentEditor extends Component<
       return null;
     }
 
-    const {
-      amount,
-      color,
-      visible,
-      position,
-      range,
-      direction,
-      outerCutoff,
-      cutoff
-    } = component;
     return (
-      <div className='sein-inspector-component sein-inspector-spotditor-container'>
-        <div className='sein-inspector-spotditor-detail'>
-          <Switch
-            label='show helper'
-            checked={false}
-            onCheckedChange={this.onHelperChange}></Switch>
-
-          <Switch
-            label='visible'
-            checked={visible}
-            onCheckedChange={this.onVisibleChange}></Switch>
-          <Range
-            label={'amount'}
-            value={amount}
-            min={0}
-            max={500}
-            step={0.1}
-            onRangeInput={this.onAmountInput}
-          />
-          <ColorPicker
-            label='color'
-            value={'#' + color.toHEX()}
-            onColorInput={this.onColorInput}
-          />
-
-          <Range
-            label='position.x'
-            value={position.x}
-            min={-50}
-            max={50}
-            step={0.1}
-            onRangeInput={this.onPositionXInput}
-          />
-          <Range
-            label='position.y'
-            value={position.y}
-            min={-50}
-            max={50}
-            step={0.1}
-            onRangeInput={this.onPositionYInput}
-          />
-          <Range
-            label='position.z'
-            value={position.z}
-            min={-50}
-            max={50}
-            step={0.1}
-            onRangeInput={this.onPositionZInput}
-          />
-
-          <Range
-            label='direction.x'
-            value={direction.x}
-            min={-1}
-            max={1}
-            step={0.001}
-            onRangeInput={this.onDirectionXInput}
-          />
-          <Range
-            label='direction.y'
-            value={direction.y}
-            min={-1}
-            max={1}
-            step={0.001}
-            onRangeInput={this.onDirectionYInput}
-          />
-          <Range
-            label='direction.z'
-            value={direction.z}
-            min={-1}
-            max={1}
-            step={0.001}
-            onRangeInput={this.onDirectionZInput}
-          />
-          <Range
-            label='range'
-            value={range}
-            min={0}
-            max={100}
-            step={0.1}
-            onRangeInput={this.onRangeInput}
-          />
-          <Range
-            label='cutoff 无效？'
-            value={cutoff}
-            min={0}
-            max={100}
-            step={0.1}
-            onRangeInput={this.onCutoffInput}
-          />
-
-          <Range
-            label='outerCutoff 无效？'
-            value={outerCutoff}
-            min={0}
-            max={100}
-            step={0.1}
-            onRangeInput={this.onOuterCutoffInput}
-          />
-        </div>
-      </div>
+      <InfoTab
+        hideMaterials={true}
+        hideGeometry={true}
+        private={this.getPrivate(component)}
+        transform={this.getTransform(component)}></InfoTab>
     );
   }
 }
