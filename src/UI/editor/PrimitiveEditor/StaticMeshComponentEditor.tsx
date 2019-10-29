@@ -123,6 +123,9 @@ export default class StaticMeshComponentEditor extends Component<
       rotationZ,
       visible
     } = component;
+
+    const bounds = component.getBounds(null, null);
+
     return (
       <Fragment>
         <Switch
@@ -130,8 +133,18 @@ export default class StaticMeshComponentEditor extends Component<
           checked={visible}
           onCheckedChange={this.onCheckedChange}
         />
-        {this.props.transform}
-
+        <Information
+          label={'bounds.x'}
+          value={`[${bounds.xMax.toFixed(2)}, ${bounds.xMin.toFixed(2)}]`}
+        />
+        <Information
+          label={'bounds.y'}
+          value={`[${bounds.yMax.toFixed(2)}, ${bounds.yMin.toFixed(2)}]`}
+        />
+        <Information
+          label={'bounds.z'}
+          value={`[${bounds.zMax.toFixed(2)}, ${bounds.zMin.toFixed(2)}]`}
+        />
         <Range
           label={'position.x'}
           value={x}
@@ -227,15 +240,15 @@ export default class StaticMeshComponentEditor extends Component<
   private getGeometry() {
     const { component } = this.props;
     const { geometry } = component;
-    const { currentIndicesCount, currentVerticesCount } = geometry as any;
+    const { vertices, indices } = geometry;
     return (
       <Fragment>
         <Information
           label='currentIndicesCount'
-          value={currentIndicesCount}></Information>
+          value={vertices.length}></Information>
         <Information
           label='currentIndicesCount'
-          value={currentVerticesCount}></Information>
+          value={indices.length}></Information>
         {this.props.geometry}
       </Fragment>
     );

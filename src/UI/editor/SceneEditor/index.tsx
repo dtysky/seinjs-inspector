@@ -7,7 +7,7 @@
 
 import { h, Component, Fragment } from 'preact';
 import './index.scss';
-import { Range, Switch, Folder } from '../../components';
+import { Range, Switch, Folder, Information } from '../../components';
 import * as Sein from 'seinjs';
 import InfoTab from '../InfoTab';
 interface IComponentProps {
@@ -91,8 +91,23 @@ export default class SceneComponentEditor extends Component<
       rotationY,
       rotationZ
     } = component;
+    const bounds = component.getBounds(null, null);
+
     return (
       <Fragment>
+        <Information
+          label={'bounds.x'}
+          value={`[${bounds.xMax.toFixed(2)}, ${bounds.xMin.toFixed(2)}]`}
+        />
+        <Information
+          label={'bounds.y'}
+          value={`[${bounds.yMax.toFixed(2)}, ${bounds.yMin.toFixed(2)}]`}
+        />
+        <Information
+          label={'bounds.z'}
+          value={`[${bounds.zMax.toFixed(2)}, ${bounds.zMin.toFixed(2)}]`}
+        />
+
         <Range
           label={'position.x'}
           value={x}
