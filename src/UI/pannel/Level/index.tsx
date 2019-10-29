@@ -113,8 +113,8 @@ export default class Level extends Component<IComponentProps, IComponentState> {
     return components.map(component => {
       return (
         <Information
-          label={component.className.value}
-          value={component.name.value}
+          label={component.name.value}
+          value={component.className.value}
           onTrigger={() =>
             this.setState({ currentDetailsObj: component })
           }

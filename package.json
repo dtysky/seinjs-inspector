@@ -1,6 +1,6 @@
 {
   "name": "seinjs-inspector",
-  "version": "0.8.5",
+  "version": "0.8.7",
   "description": "Inspector for Sein.js.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
