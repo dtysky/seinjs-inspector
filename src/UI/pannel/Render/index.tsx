@@ -12,7 +12,7 @@ import { Group, Button } from '../../components';
 import InspectorActor from '../../../Actor/InspectorActor';
 
 interface IComponentProps {
-  actor: InspectorActor
+  actor: InspectorActor;
 }
 
 interface IComponentState {
@@ -30,7 +30,7 @@ export default class Render extends Component<
   };
 
   private spectorUI: HTMLElement;
-  
+
   componentDidMount() {
     if (!spector) {
       spector = new SPECTOR.Spector();
@@ -42,23 +42,23 @@ export default class Render extends Component<
   }
 
   private triggerClick = () => {
-    const {isSpectorShow} = this.state;
+    const { isSpectorShow } = this.state;
 
     if (isSpectorShow) {
       this.hideSpectorUI();
-      this.setState({isSpectorShow: false});
+      this.setState({ isSpectorShow: false });
     } else {
       if (!this.spectorUI) {
         spector.displayUI();
         setTimeout(() => {
           this.spectorUI = document.querySelector('.captureMenuComponent');
-        }, 1000);
-      }
-      else {
+          this.spectorUI.parentElement.style.removeProperty('display');
+        }, 100);
+      } else {
         this.spectorUI.parentElement.style.removeProperty('display');
       }
 
-      this.setState({isSpectorShow: true});
+      this.setState({ isSpectorShow: true });
     }
   };
 
