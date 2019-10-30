@@ -19,7 +19,7 @@ interface IComponentState {
   isSpectorShow: boolean;
 }
 
-let spector: SPECTOR.Sepctor;
+let spector: SPECTOR.Spector;
 
 export default class Render extends Component<
   IComponentProps,
