@@ -18,28 +18,22 @@ interface IComponentState {
     value: string | number;
     selected?: boolean;
   }>;
+  current: string;
 }
 
 export default class AnimatorComponentEditor extends Component<
   IComponentProps,
   IComponentState
 > {
-  constructor() {
-    super();
-    this.setState({
-      options: []
-    });
-  }
+  public state: IComponentState = {
+    options: [],
+    current: ''
+  };
 
   componentDidMount() {
     const { component } = this.props;
 
-    // console.log(component.animationNames);
-
     const options = component.animationNames.map(item => {
-      const animation = component.getAnimation(item);
-      // console.log(animation);
-      // console.log(animation.currentTime);
       return {
         text: item,
         value: item,
@@ -55,12 +49,16 @@ export default class AnimatorComponentEditor extends Component<
     const { component } = this.props;
     component.stop();
     component.play(value);
-    // component.
+
+    this.setState({current: value});
   };
+
   playAnimation = () => {
     const { component } = this.props;
-    component.play();
+    const { current } = this.state;
+    component.play(current);
   };
+
   pauseAnimation = () => {
     const { component } = this.props;
     component.pause();
@@ -73,6 +71,7 @@ export default class AnimatorComponentEditor extends Component<
     const { component } = this.props;
     component.resume();
   };
+
   render() {
     const { component } = this.props;
     const { options } = this.state;
