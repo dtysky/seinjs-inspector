@@ -6,6 +6,8 @@
  */
 import * as Sein from 'seinjs';
 
+window['Sein'] = Sein;
+
 import GameState from './states/GameState';
 import MainGameMode from './scripts/MainGameMode';
 import MainLevelScript from './scripts/MainLevelScript';

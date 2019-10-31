@@ -32,7 +32,8 @@ module.exports = {
   },
 
   externals: {
-    'seinjs': 'Sein'
+    'seinjs': 'Sein',
+    'seinjs-audio': 'Sein.Audio'
   },
 
   module: {

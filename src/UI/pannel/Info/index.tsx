@@ -80,8 +80,8 @@ export default class Info extends Component<IComponentProps, IComponentState> {
         </Group>
         <Group name='Render' isClose={false}>
           <Information label='Buffers bytes' value={`${(render.bufferBytes / 1024 / 1024).toFixed(2)}MB`} />
-          <Information label='Vertices' value={render.totalVertices} />
-          <Information label='Triangles' value={render.totalTriangles} />
+          {render.totalVertices && <Information label='Vertices' value={render.totalVertices} />}
+          {render.totalTriangles && <Information label='Triangles' value={render.totalTriangles} />}
           <Information label='Buffers Count' value={render.buffers} />
           <Information label='Shaders Count' value={render.shaders} />
           <Information label='Programs Count' value={render.programs} />

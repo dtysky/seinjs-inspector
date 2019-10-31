@@ -44,10 +44,10 @@ export function getEditorForComponent(component: Sein.Component) {
     Editor = SpotLightComponentEditor;
   } else if (Sein.isPrimitiveComponent(component)) {
     Editor = PrimitiveComponentEditor;
-  } else if (Sein.Audio.isSourceComponent(component)) {
-    Editor = PrimitiveComponentEditor;
-  } else if (Sein.Audio.isListenerComponent(component)) {
-    Editor = PrimitiveComponentEditor;
+  } else if (Sein.Audio && Sein.Audio.isSourceComponent(component)) {
+    Editor = SceneComponentEditor;
+  } else if (Sein.Audio && Sein.Audio.isListenerComponent(component)) {
+    Editor = SceneComponentEditor;
   } else if (Sein.isSceneComponent(component)) {
     Editor = SceneComponentEditor;
   }
