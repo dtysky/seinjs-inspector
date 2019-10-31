@@ -257,12 +257,12 @@ export default class InspectorActor extends Sein.InfoActor<
         if (materials.length === 1) {
           const geometry = component.geometry;
           if (geometry.vertices) {
-            totalVertices += geometry.vertices.length;
+            totalVertices += geometry.vertices.length / 3;
 
             if (geometry.indices) {
               totalTriangles += geometry.indices.length / 3;
             } else {
-              totalTriangles += geometry.vertices.length / 3;
+              totalTriangles += geometry.vertices.length / 3 / 3;
             }
           }
 
@@ -272,12 +272,12 @@ export default class InspectorActor extends Sein.InfoActor<
         component.getMaterials().forEach(mat => {
           const geometry = component.getGeometry((mat as any).name);
           if (geometry.vertices) {
-            totalVertices += geometry.vertices.length;
+            totalVertices += geometry.vertices.length / 3;
 
             if (geometry.indices) {
               totalTriangles += geometry.indices.length / 3;
             } else {
-              totalTriangles += geometry.vertices.length / 3;
+              totalTriangles += geometry.vertices.length / 3 / 3;
             }
           }
         });
