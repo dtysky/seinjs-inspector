@@ -58,7 +58,7 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
     const game = this.getGame();
     const world = this.getWorld();
 
-    game.addActor('inspector', Sein.Inspector.Actor, {
+    const inspector = game.addActor('inspector', Sein.Inspector.Actor, {
       dom: document.body,
       updateRate: 10
     });
@@ -249,18 +249,7 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
       }
     });
 
-    // const vector1 = new Sein.Vector3(0, 1, 0);
-    // const vector2 = new Sein.Vector3(1, 1, 1);
-
-    // console.log(vector1.length(), vector2.length());
-    // const angle = Math.acos(
-    //   vector1.dot(vector2) / (vector1.length() * vector2.length())
-    // );
-
-    // const cross = vector1.cross(vector2);
-    // console.log(Sein.radToDeg(angle), cross);
-
-    // ground.transform.rotate(cross,angle)
+    inspector.syncVerticesInfo();
   }
 
   public onUpdate() {

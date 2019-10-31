@@ -47,6 +47,8 @@ export interface ISystemInfo {
     textures: number;
     buffers: number;
     bufferBytes: number;
+    totalVertices?: number;
+    totalTriangles?: number;
   };
   resource: {
     [type: string]: number;

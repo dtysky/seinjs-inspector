@@ -244,7 +244,7 @@ export default class StaticMeshComponentEditor extends Component<
     return (
       <Fragment>
         <Information
-          label='currentIndicesCount'
+          label='currentVerticesCount'
           value={vertices.length}></Information>
         <Information
           label='currentIndicesCount'

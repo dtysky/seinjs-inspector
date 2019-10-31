@@ -106,7 +106,7 @@ export default class InspectorActor extends Sein.InfoActor<
       this.generateActor();
     }
 
-    this.sync(0);
+    this.sync(0, true);
 
     this.renderUI();
   }
@@ -174,13 +174,15 @@ export default class InspectorActor extends Sein.InfoActor<
     }
   }
 
-  protected sync(delta: number) {
+  protected sync(delta: number, first: boolean = false) {
     const game = this.getGame();
     const engine = game.parent as any;
     const world = this.getWorld();
     const level = this.getLevel();
     const physicWorld = this.getPhysicWorld();
+
     let bufferBytes = 0;
+
     Object.keys((Sein.Buffer.cache as any)._cache).forEach(key => {
       bufferBytes += (Sein.Buffer.cache as any)._cache[key].data.byteLength || 0;
     });
@@ -228,7 +230,9 @@ export default class InspectorActor extends Sein.InfoActor<
         shaders: Object.keys((Sein.Shader.cache as any)._cache).length,
         programs: Object.keys((Sein.Program.cache as any)._cache).length,
         textures: Object.keys((Sein.Texture as any).cache._cache).length,
-        bufferBytes: bufferBytes
+        bufferBytes: bufferBytes,
+        totalTriangles: this._info && this._info.render && (this._info.render.totalTriangles || null),
+        totalVertices: this._info && this._info.render && (this._info.render.totalVertices || null)
       },
       resource: this.getResource(),
       events: {
@@ -241,6 +245,47 @@ export default class InspectorActor extends Sein.InfoActor<
       }
     };
     this.event.trigger('Update', this._info);
+  }
+
+  public syncVerticesInfo() {
+    let totalVertices = 0;
+    let totalTriangles = 0;
+
+    this.getWorld().actors.forEach(actor => {
+      actor.findComponentsByFilter<Sein.PrimitiveComponent>(c => Sein.isPrimitiveComponent(c)).forEach(component => {
+        const materials = component.getMaterials();
+        if (materials.length === 1) {
+          const geometry = component.geometry;
+          if (geometry.vertices) {
+            totalVertices += geometry.vertices.length;
+
+            if (geometry.indices) {
+              totalTriangles += geometry.indices.length / 3;
+            } else {
+              totalTriangles += geometry.vertices.length / 3;
+            }
+          }
+
+          return;
+        }
+
+        component.getMaterials().forEach(mat => {
+          const geometry = component.getGeometry((mat as any).name);
+          if (geometry.vertices) {
+            totalVertices += geometry.vertices.length;
+
+            if (geometry.indices) {
+              totalTriangles += geometry.indices.length / 3;
+            } else {
+              totalTriangles += geometry.vertices.length / 3;
+            }
+          }
+        });
+      });
+    });
+
+    this._info.render.totalVertices = totalVertices;
+    this._info.render.totalTriangles = totalTriangles;
   }
 
   protected getResource() {

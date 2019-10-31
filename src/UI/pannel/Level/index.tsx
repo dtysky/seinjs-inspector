@@ -8,8 +8,7 @@ import { h, Component, Fragment } from 'preact';
 import * as Sein from 'seinjs';
 
 import ComponentDetails from '../../details/ComponentDetails';
-import { Group, Information, Folder, WithDetails, Tab } from '../../components';
-import { getEditorForComponent } from '../../editor';
+import { Group, Information, Folder, WithDetails } from '../../components';
 import InspectorActor from '../../../Actor/InspectorActor';
 
 interface IComponentProps {
