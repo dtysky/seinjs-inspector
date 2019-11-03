@@ -1,0 +1,32 @@
+{
+  "name": "Sein.js Inspector",
+  "version": "0.8",
+  "description": "Add inspector to Sein.js project(if use es module, you must add 'import * Sein from 'seinjs'; window.Sein = Sein;' yourself!)",
+  "manifest_version": 2,
+  "icons": {
+    "128": "icon.png"
+  },
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_title": "Sein.js Inspector",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    "inspector.js",
+    "inject.js"
+  ],
+  "permissions": [
+    "activeTab"
+  ]
+}

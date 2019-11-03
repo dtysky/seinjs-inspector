@@ -6,9 +6,10 @@
  */
 const webpack = require('webpack');
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const outPath = path.resolve(__dirname, 'lib');
+const isChrome = !!process.env.IS_CHROME;
+
+const outPath = path.resolve(__dirname, isChrome ? 'chrome-extension' : 'lib');
 
 module.exports = {
   devtool: 'none',
@@ -21,7 +22,7 @@ module.exports = {
 
   output: {
     path: outPath,
-    filename: 'index.js',
+    filename: isChrome ? 'inspector.js' : 'index.js',
     publicPath: '/',
     library: 'seinjs-inspector',
     libraryTarget: 'window'
@@ -107,10 +108,6 @@ module.exports = {
   },
 
   plugins: [
-    new CleanWebpackPlugin(
-      ['*'],
-      {root: outPath}
-    ),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')

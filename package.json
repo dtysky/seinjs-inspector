@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "node ./demo/server.dev.js",
     "build": "webpack && tsc -p ./tsconfig.json",
+    "build-chrome": "export IS_CHROME=true && webpack",
     "prepublishOnly": "npm run build"
   },
   "repository": {
