@@ -1,0 +1,68 @@
+/**
+ * @File   : base.scss
+ * @Author : dtysky (dtysky@outlook.com)
+ * @Date   : 3/6/2020, 2:05:49 PM
+ * @Description:
+ */
+@mixin text-transition {
+  transition: all 0.5s linear;
+}
+
+// container
+.seinjs-inspector-text {
+  // @include auto-prefixed-flex;
+  width: 100%;
+  font-size: 14px;
+  height: 30px;
+}
+
+// input
+.seinjs-inspector-input {
+  @include text-transition;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  background: transparent;
+  color: #fff;
+  font-weight: 300;
+  width: 100%;
+  font-size: 13px;
+  height: 13px;
+
+  &-underline {
+    border-bottom: 1px solid;
+  }
+
+  &-box {
+    padding-left: 4px;
+    border: 1px solid;
+    border-radius: 5px;
+
+    &.seinjs-inspector-text-input-with-prefix {
+      border-radius: 0 5px 5px 0;
+    }
+  }
+}
+
+.seinjs-inspector-text-icon {
+  @include text-transition;
+  float: left;
+  white-space: nowrap;
+  box-sizing: border-box;
+  cursor: pointer;
+  line-height: normal;
+}
+
+.seinjs-inspector-text-icon-underline {
+  padding-right: 4px;
+  padding-top: 12px;
+}
+
+.seinjs-inspector-text-icon-box {
+  color: #fff;
+  text-align: center;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding: 0 14px;
+  line-height: 30px;
+}

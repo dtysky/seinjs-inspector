@@ -6,9 +6,10 @@
  */
 import * as Sein from "seinjs";
 
-import { ISystemInfo, IControlEvent, EControlType } from "./types";
-import render from "../UI/index";
+import {ISystemInfo, IControlEvent, EControlType} from '../types';
+import render from '../UI/index';
 import AxisActor from '../Components/AxisActor';
+import {initCore} from '../Controllers';
 
 export interface IInspectorActorOptions {
   /**
@@ -93,6 +94,8 @@ export default class InspectorActor extends Sein.InfoActor<
     if (!initOptions) {
       return;
     }
+
+    initCore();
 
     const {updateRate, dom} = initOptions;
 

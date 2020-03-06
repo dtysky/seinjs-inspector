@@ -5,6 +5,16 @@
  * @Description:
  */
 import * as Sein from 'seinjs';
+import {JSX} from 'preact';
+
+export type TController<TValue = any, TOptions = any> = (
+  name: string,
+  value: TValue,
+  readonly: boolean,
+  options: TOptions,
+  object: Sein.SObject,
+  onChange: (value: TValue) => void
+) => JSX.Element;
 
 export interface ISystemInfo {
   system: {

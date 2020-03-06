@@ -14,42 +14,24 @@ interface IComponentProps {
   checked: boolean;
   onCheckedChange: Function;
 }
+
 interface IComponentState {
-  checked: boolean;
 }
 
 export default class Switch extends Component<
   IComponentProps,
   IComponentState
 > {
-  constructor(props) {
-    super(props);
-    this.setState({
-      checked: props.checked || false
-    });
-  }
 
-  componentDidMount() {
-    // console.log("switch did mount");
-  }
-
-  switchChange = () => {
-    const { onCheckedChange } = this.props;
-    const { checked } = this.state;
-    this.setState(
-      {
-        checked: !checked
-      },
-      function() {
-        onCheckedChange(this.state.checked);
-      }
-    );
+  private switchChange = () => {
+    const { onCheckedChange, checked } = this.props;
+    onCheckedChange(!checked);
   };
-  render() {
-    // console.log("switch render");
-    const { label } = this.props;
-    const { checked } = this.state;
+
+  public render() {
+    const { label, checked } = this.props;
     const switchClassName = checked ? 'switch-icon' : 'switch-icon unchecked';
+
     return (
       <div className='sein-inspector-component sein-inspector-switch-container'>
         <div className='sein-inspector-component-box'>

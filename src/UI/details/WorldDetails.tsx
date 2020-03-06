@@ -14,12 +14,12 @@ export interface IPropTypes {
   worldName: string;
 }
 
-export default class WorldDetails extends Component<IPropTypes> {
+export interface IStateTypes {}
+
+export default class WorldDetails extends Component<IPropTypes, IStateTypes> {
   public render() {
     const game = this.props.actor.getGame();
     const name = this.props.worldName;
-
-    const { levels } = (game as any)._worldsMeta[name];
 
     return (
       <Fragment>
@@ -32,7 +32,6 @@ export default class WorldDetails extends Component<IPropTypes> {
             onButtonClick={() => game.switchWorld(name)}
           />
         )}
-        <List label='Levels' list={levels} close={false}></List>
       </Fragment>
     );
   }

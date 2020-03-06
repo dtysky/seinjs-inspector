@@ -13,43 +13,53 @@ import InspectorActor from '../../../Actor/InspectorActor';
 
 interface IComponentProps {
   actor: InspectorActor;
-  onTrigger: Function;
 }
 
 interface IComponentState {
-  name: string;
+  infoActors: Sein.InfoActor[];
   sceneActors: Sein.SceneActor[];
   currentDetailsObj: Sein.Component;
 }
-export default class Level extends Component<IComponentProps, IComponentState> {
+export default class Actor extends Component<IComponentProps, IComponentState> {
   public state: IComponentState = {
-    name: '',
+    infoActors: [],
     sceneActors: [],
     currentDetailsObj: null
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     const game = this.props.actor.getGame();
     const level = game.world.level;
 
-    const { name } = level;
-    // SceneActor
+    const infoActors = game.actors;
     const sceneActors = level.actors;
 
     this.setState({
-      name: name.value,
+      infoActors: infoActors.findAllByFilter(() => true),
       sceneActors: sceneActors.findAllByFilter(actor => !this.props.actor.isHidden(actor))
     });
   }
 
-  render() {
-    const { name, sceneActors } = this.state;
+  public render() {
+    const { infoActors, sceneActors } = this.state;
 
     return (
       <WithDetails
         main={
           <Fragment>
-            <Information label='Level Name' value={name}></Information>
+            <Group name='InfoActors' isClose={false}>
+              {infoActors.map(actor => {
+                return (
+                  <Folder
+                    label={actor.name.value}
+                    value={actor.className.value}
+                    close={true}
+                  >
+                    {this.renderComponents(actor)}
+                  </Folder>
+                );
+              })}
+            </Group>
             <Group name='SceneActors' isClose={false}>
               {sceneActors.map(actor => {
                 return (
@@ -70,7 +80,8 @@ export default class Level extends Component<IComponentProps, IComponentState> {
       />
     );
   }
-  renderSceneComponents(root: Sein.SceneComponent) {
+
+  private renderSceneComponents(root: Sein.SceneComponent) {
     if (!root) {
       return;
     }
@@ -102,7 +113,8 @@ export default class Level extends Component<IComponentProps, IComponentState> {
       </Folder>
     );
   }
-  renderComponents(actor: Sein.SceneActor) {
+
+  private renderComponents(actor: Sein.Actor) {
     if (!actor) {
       return;
     }
@@ -121,7 +133,8 @@ export default class Level extends Component<IComponentProps, IComponentState> {
       );
     });
   }
-  renderDetails = () => {
+
+  private renderDetails() {
     return (
       <ComponentDetails
         actor={this.props.actor}

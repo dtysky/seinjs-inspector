@@ -8,7 +8,7 @@ import { h, Component } from 'preact';
 import * as QRious from 'qrious';
 import { Group, Select, Switch, Button, Information } from '../../components';
 
-import { ISystemInfo, EControlType } from '../../../Actor/types';
+import { ISystemInfo, EControlType } from '../../../types';
 import InspectorActor from '../../../Actor/InspectorActor';
 
 interface IComponentProps {

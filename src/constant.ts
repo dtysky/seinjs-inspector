@@ -1,3 +1,5 @@
+import {TController} from './types';
+
 export const TabItem = [
   {
     id: 1,

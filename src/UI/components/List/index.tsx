@@ -20,6 +20,7 @@ interface IComponentProps {
   close?: boolean;
   onSelect?: (item: { name: string; value: string }) => void;
 }
+
 interface IComponentState {
   label: string;
   isClose: boolean;
@@ -29,12 +30,10 @@ export default class Infomation extends Component<
   IComponentProps,
   IComponentState
 > {
-  constructor() {
-    super();
-    this.setState({
-      isClose: true
-    });
-  }
+  public state: IComponentState = {
+    label: '',
+    isClose: true
+  };
 
   componentDidMount() {
     const { close } = this.props;
@@ -42,11 +41,13 @@ export default class Infomation extends Component<
     if (isClose === undefined) {
       isClose = true;
     }
+
     this.setState({
       label: this.props.label,
       isClose: isClose
     });
   }
+
   private currentIcon(isCurrent: boolean) {
     let className = 'iconfont sein-inspector-preview-icon';
     if (isCurrent !== undefined) {
@@ -54,6 +55,7 @@ export default class Infomation extends Component<
     }
     return <i class={className}></i>;
   }
+
   private getFromArray() {
     const { list, onSelect } = this.props;
     const rs = [];
@@ -99,6 +101,7 @@ export default class Infomation extends Component<
     }
     return rs;
   }
+
   private getList() {
     const { list } = this.props;
     if (!list) {
@@ -111,6 +114,7 @@ export default class Infomation extends Component<
       </ul>
     );
   }
+  
   private onClick = () => {
     this.setState({
       isClose: !this.state.isClose
