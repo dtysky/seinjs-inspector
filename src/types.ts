@@ -7,6 +7,10 @@
 import * as Sein from 'seinjs';
 import {JSX} from 'preact';
 
+import InspectorActor from './Actor/InspectorActor';
+
+export type TEditor = (actor: InspectorActor, object: Sein.SObject) => JSX.Element;
+
 export type TController<TValue = any, TOptions = any> = (
   name: string,
   value: TValue,

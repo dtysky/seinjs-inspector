@@ -7,10 +7,11 @@
 import * as Sein from 'seinjs';
 
 import {TController} from '../types';
+import DefaultController from './DefaultController';
 import VectorController from './VectorController';
 import BasicController from './BasicController';
 
-export const CONTROLLERS: {[type: string]: TController} = {};
+const CONTROLLERS: {[type: string]: TController} = {};
 
 export function registerController<TValue = any, TOptions = any>(
   type: string,
@@ -27,6 +28,15 @@ export function unregisterController(type: string) {
   if (CONTROLLERS[type]) {
     delete CONTROLLERS[type];
   }
+}
+
+export function getController(type: string): TController {
+  if (!CONTROLLERS[type]) {
+    Sein.Debug.warn(`Type ${type} is not existed, return Default...`);
+    return DefaultController;
+  }
+
+  return CONTROLLERS[type];
 }
 
 export function initCore() {

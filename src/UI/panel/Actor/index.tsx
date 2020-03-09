@@ -7,8 +7,8 @@
 import { h, Component, Fragment } from 'preact';
 import * as Sein from 'seinjs';
 
-import ComponentDetails from '../../details/ComponentDetails';
-import { Group, Information, Folder, WithDetails } from '../../components';
+import {Group, Information, Folder, WithDetails} from '../../components';
+import CommonDetails from '../../details/CommonDetails';
 import InspectorActor from '../../../Actor/InspectorActor';
 
 interface IComponentProps {
@@ -18,7 +18,7 @@ interface IComponentProps {
 interface IComponentState {
   infoActors: Sein.InfoActor[];
   sceneActors: Sein.SceneActor[];
-  currentDetailsObj: Sein.Component;
+  currentDetailsObj: Sein.Actor | Sein.Component;
 }
 export default class Actor extends Component<IComponentProps, IComponentState> {
   public state: IComponentState = {
@@ -47,7 +47,7 @@ export default class Actor extends Component<IComponentProps, IComponentState> {
       <WithDetails
         main={
           <Fragment>
-            <Group name='InfoActors' isClose={false}>
+            <Group name='InfoActors' isClose={true}>
               {infoActors.map(actor => {
                 return (
                   <Folder
@@ -66,6 +66,9 @@ export default class Actor extends Component<IComponentProps, IComponentState> {
                   <Folder
                     label={actor.name.value}
                     value={actor.className.value}
+                    onTrigger={() =>
+                      this.setState({ currentDetailsObj: actor })
+                    }
                     close={true}
                   >
                     {this.renderSceneComponents(actor.root)}
@@ -135,10 +138,16 @@ export default class Actor extends Component<IComponentProps, IComponentState> {
   }
 
   private renderDetails() {
+    const {currentDetailsObj} = this.state;
+
+    if (!currentDetailsObj) {
+      return null;
+    }
+
     return (
-      <ComponentDetails
+      <CommonDetails
         actor={this.props.actor}
-        component={this.state.currentDetailsObj}
+        object={currentDetailsObj}
       />
     );
   };
