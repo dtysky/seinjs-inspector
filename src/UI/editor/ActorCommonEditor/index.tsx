@@ -9,6 +9,7 @@ import * as Sein from 'seinjs';
 
 import InspectorActor from '../../../Actor/InspectorActor';
 import CustomPropertiesEditor from '../CustomPropertiesEditor';
+import {getController} from '../../../Controllers';
 
 interface IComponentProps {
   actor: InspectorActor;
@@ -26,6 +27,8 @@ export default class ActorCommonEditor extends Component<
   public render() {
     return (
       <div>
+        {getController('basic')('linked', true, null, this.props.object, () => {})}
+        {getController('basic')('tag', true, null, this.props.object, () => {})}
         <CustomPropertiesEditor {...this.props} />
       </div>
     );

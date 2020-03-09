@@ -51,8 +51,11 @@ export default class Actor extends Component<IComponentProps, IComponentState> {
               {infoActors.map(actor => {
                 return (
                   <Folder
-                    label={actor.name.value}
+                    label={`${actor.name.value}`}
                     value={actor.className.value}
+                    onTrigger={() =>
+                      this.setState({ currentDetailsObj: actor })
+                    }
                     close={true}
                   >
                     {this.renderComponents(actor)}
@@ -64,7 +67,7 @@ export default class Actor extends Component<IComponentProps, IComponentState> {
               {sceneActors.map(actor => {
                 return (
                   <Folder
-                    label={actor.name.value}
+                    label={`${actor.name.value}`}
                     value={actor.className.value}
                     onTrigger={() =>
                       this.setState({ currentDetailsObj: actor })
@@ -92,7 +95,7 @@ export default class Actor extends Component<IComponentProps, IComponentState> {
     if (root.children.length === 0) {
       return (
         <Information
-          label={root.name.value}
+          label={`${root.name.value}`}
           value={root.className.value}
           onTrigger={() =>
             this.setState({ currentDetailsObj: root })
@@ -103,7 +106,7 @@ export default class Actor extends Component<IComponentProps, IComponentState> {
 
     return (
       <Folder
-        label={root.name.value}
+        label={`${root.name.value}`}
         value={root.className.value}
         close={true}
         onTrigger={() =>

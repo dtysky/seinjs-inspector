@@ -31,7 +31,7 @@ interface IComponentState {
 export default class Text extends Component<IComponentProps, IComponentState> {
   static defaultProps: IComponentProps = {
     type: 'float',
-    view: 'underline',
+    view: 'box',
     value: '',
     prefix: null,
     disabled: false,

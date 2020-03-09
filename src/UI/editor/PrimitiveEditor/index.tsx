@@ -10,7 +10,7 @@ import { Information } from '../../components';
 import * as Sein from 'seinjs';
 import StaticMeshComponentEditor from './StaticMeshComponentEditor';
 import Hilo3d from 'seinjs/Core/Hilo3d';
-import Infomation from '../../components/Information';
+import Information from '../../components/Information';
 interface IComponentProps {
   component: Sein.PrimitiveComponent;
 }
@@ -158,7 +158,7 @@ export default class PrimitiveComponentEditor extends Component<
   }
   private _info(label, value) {
     if (value !== undefined) {
-      return <Infomation label={label} value={value}></Infomation>;
+      return <Information label={label} value={value}></Information>;
     } else {
       return null;
     }

@@ -10,6 +10,7 @@ import {TController} from '../types';
 import DefaultController from './DefaultController';
 import VectorController from './VectorController';
 import BasicController from './BasicController';
+import './base.scss';
 
 const CONTROLLERS: {[type: string]: TController} = {};
 
@@ -44,6 +45,15 @@ export function initCore() {
   registerController('basic', BasicController);
   // registerController('color', ColorController);
 
-  // Texture, CubeTexture, Image, Material
+  // Texture, CubeTexture, Image, Material, Atlas
   // Array, Object
+
+
+  initInspectableClasses();
+}
+
+function initInspectableClasses() {
+  Sein.InfoActor.INSPECTABLE_PROPERTIES = {
+    updatePriority: {type: 'basic', readonly: true}
+  };
 }

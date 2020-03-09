@@ -10,47 +10,66 @@ import {h} from 'preact';
 import Text from '../UI/components/Text';
 import Switch from '../UI/components/Switch';
 import {TController} from '../types';
+import Information from '../UI/components/Information';
 
-type TBasicValue = string | number | boolean;
+type TBasicValue = string | number | boolean | Sein.SName;
 
 const BasicController: TController<TBasicValue> = (
   name: string,
-  value: TBasicValue,
   readonly: boolean,
   options: any,
   object: Sein.SObject,
   onChange: (value: TBasicValue) => void
 ) => {
-  return (
-    <div>
-      <div>{name}</div>
-      {
-        typeof value === 'boolean' && (
-          <Switch
-            checked={value}
-            onCheckedChange={v => {
-              if (!readonly) {
-                object[name] = v;
-                onChange(v);
-              }
-            }}
-          />
-        )
-      }
-      {
-        (typeof value === 'number' || typeof value === 'string') && (
-          <Text
-            value={value}
-            disabled={readonly}
-            onChange={(_, v) => {
-              object[name] = v;
-              onChange(v);
-            }}
-          />
-        )
-      }
-    </div>
-  )
+  const value = object[name];
+
+  if (typeof value === 'boolean') {
+    return (
+      <Switch
+        label={name}
+        checked={value}
+        onCheckedChange={v => {
+          if (!readonly) {
+            object[name] = v;
+            onChange(v);
+          }
+        }}
+      />
+    );
+  }
+
+  if (typeof value === 'number' || typeof value === 'string') {
+    if (readonly) {
+      return (
+        <Information
+          label={name}
+          value={value}
+        />
+      );
+    } else {
+      return (
+        <Text
+          prefix={name}
+          value={value}
+          onChange={(_, v) => {
+            object[name] = v;
+            onChange(v);
+          }}
+        />
+      );
+    }
+  }
+
+  if (value && value.isSName) {
+    return (
+      <Information
+        label={name}
+        value={value.value}
+      />
+    );
+  }
+
+  return null;
 }
 
 export default BasicController;

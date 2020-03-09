@@ -10,7 +10,7 @@ import {h, Fragment} from 'preact';
 import Text from '../UI/components/Text';
 import {TController} from '../types';
 
-type TVectorValue = Sein.Vector2 | Sein.Vector3 | Sein.Vector4;
+type TVectorValue = Sein.Vector2 | Sein.Vector3 | Sein.Vector4 | Sein.Euler;
 
 function RenderOne(value: TVectorValue, key: string, readonly: boolean, onChange: (value: TVectorValue) => void) {
   return (
@@ -28,15 +28,17 @@ function RenderOne(value: TVectorValue, key: string, readonly: boolean, onChange
 
 const VectorController: TController<TVectorValue> = (
   name: string,
-  value: TVectorValue,
   readonly: boolean,
   options: any,
   object: Sein.SObject,
   onChange: (value: TVectorValue) => void
 ) => {
+  const value = object[name];
+
   return (
-    <div>
-      <div>{name}</div>
+    <div className={'sein-controller-vector'}>
+      <div className={'sein-controller-vector-name'}>{name}</div>
+      <div className={'sein-controller-vector-content'}>
       {
         Sein.isVector2(value) && (
           <Fragment>
@@ -46,7 +48,7 @@ const VectorController: TController<TVectorValue> = (
         )
       }
       {
-        Sein.isVector3(value) && (
+        (Sein.isVector3(value) || Sein.isEuler(value)) && (
           <Fragment>
             {RenderOne(value, 'x', readonly, onChange)}
             {RenderOne(value, 'y', readonly, onChange)}
@@ -64,6 +66,7 @@ const VectorController: TController<TVectorValue> = (
           </Fragment>
         )
       }
+      </div>
     </div>
   )
 }

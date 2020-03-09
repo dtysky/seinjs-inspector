@@ -9,15 +9,18 @@
 }
 
 // container
-.seinjs-inspector-text {
+.sein-inspector-text {
   // @include auto-prefixed-flex;
+  display: flex;
+  justify-content: start;
+  align-items: baseline;
   width: 100%;
   font-size: 14px;
   height: 30px;
 }
 
 // input
-.seinjs-inspector-input {
+.sein-inspector-text-input {
   @include text-transition;
   border: none;
   outline: none;
@@ -27,42 +30,38 @@
   font-weight: 300;
   width: 100%;
   font-size: 13px;
-  height: 13px;
 
   &-underline {
     border-bottom: 1px solid;
+    height: 16px;
   }
 
   &-box {
     padding-left: 4px;
     border: 1px solid;
-    border-radius: 5px;
-
-    &.seinjs-inspector-text-input-with-prefix {
-      border-radius: 0 5px 5px 0;
-    }
+    border-radius: 4px;
+    height: 18px;
   }
 }
 
-.seinjs-inspector-text-icon {
+.sein-inspector-text-prefix {
   @include text-transition;
+  font-size: 14px;
+  font-weight: bolder;
   float: left;
   white-space: nowrap;
   box-sizing: border-box;
-  cursor: pointer;
   line-height: normal;
 }
 
-.seinjs-inspector-text-icon-underline {
+.sein-inspector-text-prefix-underline {
   padding-right: 4px;
   padding-top: 12px;
 }
 
-.seinjs-inspector-text-icon-box {
+.sein-inspector-text-prefix-box {
   color: #fff;
   text-align: center;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  padding: 0 14px;
+  padding: 0 4px 0 12px;
   line-height: 30px;
 }

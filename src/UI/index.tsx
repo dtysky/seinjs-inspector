@@ -105,7 +105,8 @@ class Inspector extends Component<IComponentProps, IComponentState> {
       return null;
     }
 
-    return createElement(PANELS[tab], {actor: this.props.actor});
+    // return createElement(PANELS[tab], {actor: this.props.actor});
+    return createElement(PANELS['Actor'], {actor: this.props.actor});
   }
 }
 

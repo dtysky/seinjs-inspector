@@ -37,7 +37,7 @@ export default class CustomPropertiesEditor extends Component<
           Object.keys(props).map(key => {
             const {type, options, readonly} = props[key];
 
-            return getController(type)(key, object[key], readonly, options, object, this.handleChange);
+            return getController(type)(key, readonly, options, object, this.handleChange);
           })
         }
       </div>

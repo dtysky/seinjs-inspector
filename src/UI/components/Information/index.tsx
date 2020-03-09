@@ -19,15 +19,10 @@ interface IComponentProps {
 }
 interface IComponentState {}
 
-export default class Infomation extends Component<
+export default class Information extends Component<
   IComponentProps,
   IComponentState
 > {
-  constructor() {
-    super();
-  }
-
-  componentDidMount() {}
   private onClick = () => {
     const { onTrigger, interactive } = this.props;
 
@@ -35,8 +30,8 @@ export default class Infomation extends Component<
       onTrigger();
     }
   };
-  render(props, state) {
-    // console.log("infomation render");
+
+  public render() {
     let { label, value, interactive } = this.props;
 
     if (typeof value === 'boolean') {

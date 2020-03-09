@@ -31,26 +31,24 @@ export default class ComponentCommonEditor extends Component<
   public render() {
     return (
       <div>
-        {this.renderSceneCommon()}
+        {this.renderCommon()}
         <CustomPropertiesEditor {...this.props} />
       </div>
     );
   }
 
-  private renderSceneCommon() {
+  private renderCommon() {
     if (!Sein.isSceneComponent(this.props.object)) {
       return null;
     }
 
-    const {visible, position, rotation, scale} = this.props.object;
-
     /** @todo: bounding box 包括灯光、相机啥的 */
     return (
       <div>
-        {getController('basic')('visible', visible, false, null, this.props.object, this.handleChange)}
-        {getController('vector')('position', position, false, null, this.props.object, this.handleChange)}
-        {getController('vector')('rotation', rotation, false, null, this.props.object, this.handleChange)}
-        {getController('vector')('scale', scale, false, null, this.props.object, this.handleChange)}
+        {getController('basic')('visible', false, null, this.props.object, this.handleChange)}
+        {getController('vector')('position', false, null, this.props.object, this.handleChange)}
+        {getController('vector')('rotation', false, null, this.props.object, this.handleChange)}
+        {getController('vector')('scale', false, null, this.props.object, this.handleChange)}
       </div>
     )
   }

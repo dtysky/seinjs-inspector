@@ -12,7 +12,6 @@ import {TController} from '../types';
 
 const DefaultController: TController<any> = (
   name: string,
-  value: any,
   readonly: boolean,
   options: any,
   object: Sein.SObject,

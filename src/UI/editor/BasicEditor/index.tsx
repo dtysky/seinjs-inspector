@@ -9,6 +9,7 @@ import * as Sein from 'seinjs';
 
 import InspectorActor from '../../../Actor/InspectorActor';
 import {Tab} from '../../components';
+import {getController} from '../../../Controllers';
 import './base.scss';
 
 interface IComponentProps {
@@ -39,21 +40,23 @@ export default class BaseEditor extends Component<
   }
 
   public render() {
+    const {editors, object} = this.props;
+
     return (
       <div className='sein-inspector-component sein-inspector-editor-container'>
         <div className='sein-inspector-editor-detail'>
-          {this.props.editors.length > 0 && (
+          {editors.length > 1 && (
             <Tab
-                names={this.props.editors.map(item => item.name)}
+                names={editors.map(item => item.name)}
                 current={this.state.currentTab}
                 onTabChange={(name: string) =>
                   this.setState({currentTab: name})
                 }
             />
           )}
+          {getController('basic')('uuid', true, null, this.props.object, () => {})}
           {this.renderTabDetail()}
         </div>
-        }
       </div>
     );
   }

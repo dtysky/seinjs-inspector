@@ -13,7 +13,6 @@ export type TEditor = (actor: InspectorActor, object: Sein.SObject) => JSX.Eleme
 
 export type TController<TValue = any, TOptions = any> = (
   name: string,
-  value: TValue,
   readonly: boolean,
   options: TOptions,
   object: Sein.SObject,

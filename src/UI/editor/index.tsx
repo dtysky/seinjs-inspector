@@ -35,9 +35,9 @@ export function unregisterEditor(clz: Sein.TConstructor<Sein.SObject>) {
   }
 }
 
-export function getEditor(clz: Sein.SObject): TEditor {
-  if (EDITORS[clz.className.value]) {
-    return EDITORS[clz.className.value];
+export function getEditor(obj: Sein.SObject): TEditor {
+  if (EDITORS[obj.className.value]) {
+    return EDITORS[obj.className.value];
   }
 
   let editors: {
@@ -45,23 +45,16 @@ export function getEditor(clz: Sein.SObject): TEditor {
     componentClass: ComponentClass<{actor: InspectorActor, object: Sein.SObject}>
   }[] = [];
 
-  if (Sein.isPrimitiveComponent) {
+  // if (Sein.isPrimitiveComponent(obj)) {
 
-  }
-
-  if (Sein.isActor) {
+  // } else 
+  if (Sein.isActor(obj)) {
     editors = [{name: 'common', componentClass: ActorCommonEditor}];
-  }
-
-  if (Sein.isComponent) {
+  } else if (Sein.isComponent(obj)) {
     editors = [{name: 'common', componentClass: ComponentCommonEditor}];
-  }
+  } else if (Sein.isResourceManager(obj)) {
 
-  if (Sein.isResourceManager) {
-
-  }
-
-  if (Sein.isEventManager) {
+  } else if (Sein.isEventManager(obj)) {
     
   }
 
