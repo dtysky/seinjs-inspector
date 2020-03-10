@@ -15,6 +15,7 @@ import EventController from './EventController';
 import ShadowController from './ShadowController';
 import NumberArrayController from './NumberArrayController';
 import ColliderActionController from './ColliderActionController';
+import AnimatorActionController from './AnimatorActionController';
 import './base.scss';
 
 export {registerController, unregisterController, getController};
@@ -28,6 +29,7 @@ export function initCore() {
   registerController('shadow', ShadowController);
   registerController('number-array', NumberArrayController);
   registerController('collider-action', ColliderActionController);
+  registerController('animator-action', AnimatorActionController);
   // Texture, CubeTexture, Image, Material, Atlas
 
   initInspectableClasses();
@@ -104,12 +106,14 @@ function initInspectableClasses() {
     __action: {type: 'collider-action', readonly: true, options: {initState: {
       offset: {type: 'number-array', readonly: true, options: {}},
       quaternion: {type: 'number-array', readonly: true, options: {}},
+      scale: {type: 'number-array', readonly: true, options: {}},
     }}},
   };
   Sein.BoxColliderComponent.INSPECTABLE_PROPERTIES = Object.assign({}, Sein.ColliderComponent.INSPECTABLE_PROPERTIES, {
     __action: {type: 'collider-action', readonly: true, options: {initState: {
       offset: {type: 'number-array', readonly: true, options: {}},
       quaternion: {type: 'number-array', readonly: true, options: {}},
+      scale: {type: 'number-array', readonly: true, options: {}},
       size: {type: 'number-array', readonly: true, options: {}},
     }}},
   });
@@ -117,6 +121,7 @@ function initInspectableClasses() {
     __action: {type: 'collider-action', readonly: true, options: {initState: {
       offset: {type: 'number-array', readonly: true, options: {}},
       quaternion: {type: 'number-array', readonly: true, options: {}},
+      scale: {type: 'number-array', readonly: true, options: {}},
       radius: {type: 'basic', readonly: true, options: {}},
     }}},
   });
@@ -124,10 +129,16 @@ function initInspectableClasses() {
     __action: {type: 'collider-action', readonly: true, options: {initState: {
       offset: {type: 'number-array', readonly: true, options: {}},
       quaternion: {type: 'number-array', readonly: true, options: {}},
+      scale: {type: 'number-array', readonly: true, options: {}},
       radiusTop: {type: 'basic', readonly: true, options: {}},
       radiusBottom: {type: 'basic', readonly: true, options: {}},
       height: {type: 'basic', readonly: true, options: {}},
       numSegments: {type: 'basic', readonly: true, options: {}},
     }}},
   });
+
+  Sein.AnimatorComponent.INSPECTABLE_PROPERTIES = {
+    current: {type: 'basic', readonly: true, options: {}},
+    __action: {type: 'animator-action', readonly: true, options: {}},
+  };
 }
