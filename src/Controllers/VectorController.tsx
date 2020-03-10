@@ -10,13 +10,15 @@ import {h, Fragment} from 'preact';
 import Text from '../UI/components/Text';
 import {TController} from '../types';
 
-type TVectorValue = Sein.Vector2 | Sein.Vector3 | Sein.Vector4 | Sein.Euler;
+type TVectorValue = Sein.Vector2 | Sein.Vector3 | Sein.Vector4 | Sein.Euler | Sein.Quaternion;
 
 function RenderOne(value: TVectorValue, key: string, readonly: boolean, onChange: (value: TVectorValue) => void) {
   return (
     <Text
       prefix={key}
       value={value[key]}
+      type={'float'}
+      view={'box'}
       onChange={(_, v) => {
         value[key] = v;
         onChange(value);
@@ -57,7 +59,7 @@ const VectorController: TController<TVectorValue> = (
         )
       }
       {
-        Sein.isVector4(value) && (
+        (Sein.isVector4(value) || Sein.isQuaternion(value)) && (
           <Fragment>
             {RenderOne(value, 'x', readonly, onChange)}
             {RenderOne(value, 'y', readonly, onChange)}

@@ -1,14 +1,16 @@
 .sein-inspector-tab {
   list-style-type: none;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   padding: 0;
   margin: 0;
   border-top: 1px solid #4d4d4d;
   user-select: none;
   font-size: 0;
-  white-space: nowrap;
+  // white-space: nowrap;
   overflow: auto;
+
   .sein-inspector-tab-item {
     font-size: 12px;
     color: #fff;
@@ -17,25 +19,17 @@
     text-align: center;
     border-left: 1px solid #4d4d4d;
     border-bottom: 1px solid #4d4d4d;
-    padding: 1px 6px 3px;
-    min-width: 40px;
+    padding: 8px 6px;
     display: inline-block;
     box-sizing: border-box;
     cursor: pointer;
-    width: min-content;
     overflow: hidden;
     transition: all 0.1s ease 0s;
-    i {
-      display: block;
-      width: 20px;
-      height: 20px;
-      margin: 3px auto 0;
-      background: url(https://gw.alicdn.com/tfs/TB1QIE5cED1gK0jSZFGXXbd3FXa-50-50.png)
-        center center no-repeat / 100% 100%;
-    }
+
     &:first-child {
       border-left: none;
     }
+
     &:hover,
     &.current {
       background-color: #333;

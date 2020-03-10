@@ -11,9 +11,11 @@ import Tree from './Tree';
 import Preview from './Preview';
 import List from './List';
 import Folder from './Folder';
+import Text from './Text';
 import WithDetails from './WithDetails';
 
 export {
+  Text,
   Group,
   Switch,
   Select,

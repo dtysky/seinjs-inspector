@@ -19,42 +19,31 @@ interface IComponentProps {
   // 默认颜色 例如：#FFFFFF
   value?: string;
 }
-interface IComponentState {
-  curColor: string;
-}
+interface IComponentState {}
 
 export default class ColorPicker extends Component<
   IComponentProps,
   IComponentState
 > {
-  constructor(porps: IComponentProps) {
-    super();
-    this.setState({ curColor: porps.value || "#000000" });
+  private colorInput = event => {
+    const {onColorInput} = this.props;
+
+    if (onColorInput) {
+      onColorInput(event.target.value);
+    }
   }
 
-  componentDidMount() {}
-  colorInput = event => {
-    const { onColorInput } = this.props;
-    this.setState({
-      curColor: event.target.value
-    });
-    if (onColorInput) {
-      onColorInput(this.state.curColor);
-    }
-  };
-  colorChange = event => {
-    const { onColorChange } = this.props;
-    this.setState({
-      curColor: event.target.value
-    });
+  private colorChange = event => {
+    const {onColorChange} = this.props;
+
     if (onColorChange) {
-      onColorChange(this.state.curColor);
+      onColorChange(event.target.value);
     }
-  };
-  render() {
-    // console.log("ColorPicker render");
-    const { label } = this.props;
-    const { curColor } = this.state;
+  }
+
+  public render() {
+    const {label, value} = this.props;
+
     return (
       <div className="sein-inspector-component sein-inspector-color-container">
         <div className="sein-inspector-component-box">
@@ -64,11 +53,11 @@ export default class ColorPicker extends Component<
           <input
             className="sein-inspector-color"
             type="color"
-            value={curColor}
+            value={value}
             onInput={this.colorInput}
             onChange={this.colorChange}
           />
-          <div className="sein-inspector-color-value">{curColor}</div>
+          <div className="sein-inspector-color-value">{value}</div>
         </div>
       </div>
     );

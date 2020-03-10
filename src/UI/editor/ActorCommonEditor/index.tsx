@@ -4,7 +4,7 @@
  * @Date   : 3/9/2020, 4:39:51 PM
  * @Description:
  */
-import {h, Component} from 'preact';
+import {h, Component, Fragment} from 'preact';
 import * as Sein from 'seinjs';
 
 import InspectorActor from '../../../Actor/InspectorActor';
@@ -26,11 +26,13 @@ export default class ActorCommonEditor extends Component<
 > {
   public render() {
     return (
-      <div>
-        {getController('basic')('linked', true, null, this.props.object, () => {})}
-        {getController('basic')('tag', true, null, this.props.object, () => {})}
+      <Fragment>
+        {getController('basic')('linked', true, {}, this.props.object, () => {})}
+        {getController('basic')('tag', true, {}, this.props.object, () => {})}
+        {Sein.isSceneActor(this.props.object) && getController('basic')('persistent', false, {}, this.props.object, () => {})}
+        {getController('event')('event', true, {}, this.props.object, () => {})}
         <CustomPropertiesEditor {...this.props} />
-      </div>
+      </Fragment>
     );
   }
 }

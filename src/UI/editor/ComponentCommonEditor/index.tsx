@@ -4,10 +4,11 @@
  * @Date   : 3/9/2020, 5:03:55 PM
  * @Description:
  */
-import {h, Component} from 'preact';
+import {h, Component, Fragment} from 'preact';
 import * as Sein from 'seinjs';
 
 import InspectorActor from '../../../Actor/InspectorActor';
+import {Folder} from '../../components';
 import CustomPropertiesEditor from '../CustomPropertiesEditor';
 import {getController} from '../../../Controllers';
 
@@ -30,26 +31,44 @@ export default class ComponentCommonEditor extends Component<
 
   public render() {
     return (
-      <div>
-        {this.renderCommon()}
+      <Fragment>
+        {this.renderSceneCommon()}
+        {getController('event')('event', true, {}, this.props.object, this.handleChange)}
         <CustomPropertiesEditor {...this.props} />
-      </div>
+      </Fragment>
     );
   }
 
-  private renderCommon() {
+  private renderSceneCommon() {
     if (!Sein.isSceneComponent(this.props.object)) {
-      return null;
+      return this.renderCommon();
     }
 
     /** @todo: bounding box 包括灯光、相机啥的 */
     return (
-      <div>
-        {getController('basic')('visible', false, null, this.props.object, this.handleChange)}
-        {getController('vector')('position', false, null, this.props.object, this.handleChange)}
-        {getController('vector')('rotation', false, null, this.props.object, this.handleChange)}
-        {getController('vector')('scale', false, null, this.props.object, this.handleChange)}
-      </div>
+      <Fragment>
+        {getController('basic')('visible', false, {}, this.props.object, this.handleChange)}
+        <Folder label={'BaseInfo'}>
+          {getController('layers')('layers', false, {}, this.props.object, this.handleChange)}
+          {getController('basic')('isStatic', false, {}, this.props.object, this.handleChange)}
+          {this.renderCommon()}
+          {getController('basic')('needReleaseGlRes', false, {}, this.props.object, this.handleChange)}
+        </Folder>
+        <Folder label={'Transform'} close={false}>
+          {getController('vector')('position', false, {}, this.props.object, this.handleChange)}
+          {getController('vector')('rotation', false, {}, this.props.object, this.handleChange)}
+          {getController('vector')('scale', false, {}, this.props.object, this.handleChange)}
+        </Folder>
+      </Fragment>
+    )
+  }
+
+  private renderCommon() {
+    return (
+      <Fragment>
+        {getController('basic')('needUpdateAndDestroy', false, {}, this.props.object, this.handleChange)}
+        {getController('basic')('updateOnEverTick', false, {}, this.props.object, this.handleChange)}
+      </Fragment>
     )
   }
 }

@@ -54,7 +54,7 @@ export default class BaseEditor extends Component<
                 }
             />
           )}
-          {getController('basic')('uuid', true, null, this.props.object, () => {})}
+          {getController('basic')('uuid', true, {}, this.props.object, () => {})}
           {this.renderTabDetail()}
         </div>
       </div>

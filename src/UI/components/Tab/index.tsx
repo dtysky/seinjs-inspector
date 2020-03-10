@@ -1,5 +1,8 @@
 /**
- * tab bar
+ * @File   : Tab.tsx
+ * @Author : dtysky (dtysky@outlook.com)
+ * @Date   : 3/6/2020, 2:17:34 PM
+ * @Description:
  */
 import { h, Component } from 'preact';
 import './index.scss';

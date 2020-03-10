@@ -14,7 +14,7 @@ type TValue = string | number;
 interface IComponentProps {
   value: TValue;
   type?: 'string' | 'int' | 'float';
-  view?: 'box' | 'underline';
+  view?: 'box' | 'underline' | 'oneline';
   prefix?: string;
   color?: string;
   onChange?: (event: Event, value: TValue) => void;
@@ -31,7 +31,7 @@ interface IComponentState {
 export default class Text extends Component<IComponentProps, IComponentState> {
   static defaultProps: IComponentProps = {
     type: 'float',
-    view: 'box',
+    view: 'oneline',
     value: '',
     prefix: null,
     disabled: false,

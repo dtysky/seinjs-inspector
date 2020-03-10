@@ -21,6 +21,7 @@ export default class WorldDetails extends Component<IPropTypes, IStateTypes> {
     const game = this.props.actor.getGame();
     const name = this.props.worldName;
 
+    //@todo: physic
     return (
       <Fragment>
         <Information label={'Name'} value={'name'} />

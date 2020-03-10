@@ -38,6 +38,10 @@ const BasicController: TController<TBasicValue> = (
     );
   }
 
+  if (!options.isNumber && typeof value === 'number') {
+    options.isNumber = true;
+  }
+
   if (typeof value === 'number' || typeof value === 'string') {
     if (readonly) {
       return (
@@ -51,6 +55,7 @@ const BasicController: TController<TBasicValue> = (
         <Text
           prefix={name}
           value={value}
+          type={options.isNumber ? 'float' : 'string'}
           onChange={(_, v) => {
             object[name] = v;
             onChange(v);
