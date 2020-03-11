@@ -27,6 +27,7 @@ export default class ActorCommonEditor extends Component<
   public render() {
     return (
       <Fragment>
+        {getController('basic')('uuid', true, {}, this.props.object, () => {})}
         {getController('basic')('linked', true, {}, this.props.object, () => {})}
         {getController('basic')('tag', true, {}, this.props.object, () => {})}
         {Sein.isSceneActor(this.props.object) && getController('basic')('persistent', false, {}, this.props.object, () => {})}

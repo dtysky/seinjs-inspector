@@ -6,7 +6,8 @@
  */
 import * as Sein from 'seinjs';
 
-import {registerController, unregisterController, getController} from './utils';
+import {registerController, unregisterController, getController, getControllerType} from './utils';
+import DefaultController from './DefaultController';
 import VectorController from './VectorController';
 import BasicController from './BasicController';
 import ColorController from './ColorController';
@@ -16,11 +17,16 @@ import ShadowController from './ShadowController';
 import NumberArrayController from './NumberArrayController';
 import ColliderActionController from './ColliderActionController';
 import AnimatorActionController from './AnimatorActionController';
+import MaterialController from './MaterialController';
+import TextureController from './TextureController';
+import ObjectController from './ObjectController';
 import './base.scss';
 
-export {registerController, unregisterController, getController};
+export {registerController, unregisterController, getController, getControllerType};
 
 export function initCore() {
+  registerController('invalid', () => null);
+  registerController('default', DefaultController);
   registerController('basic', BasicController);
   registerController('vector', VectorController);
   registerController('color', ColorController);
@@ -30,6 +36,9 @@ export function initCore() {
   registerController('number-array', NumberArrayController);
   registerController('collider-action', ColliderActionController);
   registerController('animator-action', AnimatorActionController);
+  registerController('material', MaterialController);
+  registerController('texture', TextureController);
+  registerController('object', ObjectController);
   // Texture, CubeTexture, Image, Material, Atlas
 
   initInspectableClasses();
@@ -45,7 +54,7 @@ function initInspectableClasses() {
   };
 
   Sein.CameraComponent.INSPECTABLE_PROPERTIES = {
-    // _backgroundMat: {type: 'material', readonly: true},
+    _backgroundMat: {type: 'material', readonly: true},
     // __action: {type: 'camera-actions', readonly: false},
     isMainCamera: {type: 'basic', readonly: true, options: {}},
     rendererAlive: {type: 'basic', readonly: true, options: {}},
@@ -140,5 +149,30 @@ function initInspectableClasses() {
   Sein.AnimatorComponent.INSPECTABLE_PROPERTIES = {
     current: {type: 'basic', readonly: true, options: {}},
     __action: {type: 'animator-action', readonly: true, options: {}},
+  };
+
+  Sein.BSPBoxComponent.INSPECTABLE_PROPERTIES = {
+    _initState: {type: 'object', readonly: true, options: {properties: [
+      'width', 'height', 'depth', 'widthSegments', 'heightSegments', 'depthSegments'
+    ]}}
+  };
+  Sein.BSPSphereComponent.INSPECTABLE_PROPERTIES = {
+    _initState: {type: 'object', readonly: true, options: {properties: [
+      'radius', 'widthSegments', 'heightSegments'
+    ]}}
+  };
+  Sein.BSPPlaneComponent.INSPECTABLE_PROPERTIES = {
+    _initState: {type: 'object', readonly: true, options: {properties: [
+      'width', 'height', 'widthSegments', 'heightSegments'
+    ]}}
+  };
+  Sein.BSPCylinderComponent.INSPECTABLE_PROPERTIES = {
+    _initState: {type: 'object', readonly: true, options: {properties: [
+      'radiusTop', 'radiusBottom', 'height', 'radialSegments', 'heightSegments',
+      'openEnded', 'thetaStart', 'thetaLength'
+    ]}}
+  };
+  Sein.BSPMorphComponent.INSPECTABLE_PROPERTIES = {
+    weights: {type: 'number-array', readonly: false, options: {}}
   };
 }

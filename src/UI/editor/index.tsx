@@ -7,11 +7,7 @@ import InspectorActor from '../../Actor/InspectorActor';
 import BasicEditor from './BasicEditor';
 import ActorCommonEditor from './ActorCommonEditor';
 import ComponentCommonEditor from './ComponentCommonEditor';
-
-import AnimatorComponentEditor from './AnimatorEditor';
-import RigidBodyComponentEditor from './RigidBodyEditor';
-import BoxColliderComponentEditor from './BSPBoxColliderEditor';
-import SphereColliderComponentEditor from './SphereColliderEditor';
+import MaterialsEditor from './MaterialsEditor';
 
 import PrimitiveComponentEditor from './PrimitiveEditor';
 
@@ -45,9 +41,12 @@ export function getEditor(obj: Sein.SObject): TEditor {
     componentClass: ComponentClass<{actor: InspectorActor, object: Sein.SObject}>
   }[] = [];
 
-  // if (Sein.isPrimitiveComponent(obj)) {
-
-  // } else 
+  if (Sein.isPrimitiveComponent(obj)) {
+    editors = [
+      {name: 'common', componentClass: ComponentCommonEditor},
+      {name: 'materials', componentClass: MaterialsEditor}
+    ];
+  } else 
   if (Sein.isActor(obj)) {
     editors = [{name: 'common', componentClass: ActorCommonEditor}];
   } else if (Sein.isComponent(obj)) {

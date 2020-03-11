@@ -36,3 +36,45 @@ export function getController(type: string): TController {
 
   return CONTROLLERS[type];
 }
+
+export function getControllerType(value: any): string {
+  if (value === null || value === undefined) {
+    return 'invalid';
+  }
+
+  const t = typeof value;
+
+  if (t === 'string' || t === 'number' || t === 'boolean') {
+    return 'basic';
+  }
+
+  if (Sein.isColor(value)) {
+    return 'color';
+  }
+
+  if (Sein.isVector2(value) || Sein.isVector3(value) || Sein.isVector4(value) || Sein.isQuaternion(value) || Sein.isEuler(value)) {
+    return 'vector';
+  }
+
+  if (Sein.isEventManager(value)) {
+    return 'event';
+  }
+
+  if (Sein.isTexture(value)) {
+    return 'texture';
+  }
+
+  if (Sein.isMatrix4(value) || Sein.isMatrix3(value)) {
+    return 'matrix';
+  }
+
+  if (t === 'object') {
+    return 'object';
+  }
+
+  // if (Sein.isFog(value)) {
+  //   return 'fog';
+  // }
+
+  return 'default';
+}

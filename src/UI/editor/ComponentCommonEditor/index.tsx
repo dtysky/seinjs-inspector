@@ -32,6 +32,7 @@ export default class ComponentCommonEditor extends Component<
   public render() {
     return (
       <Fragment>
+        {getController('basic')('uuid', true, {}, this.props.object, () => {})}
         {this.renderSceneCommon()}
         {getController('event')('event', true, {}, this.props.object, this.handleChange)}
         <CustomPropertiesEditor {...this.props} />

@@ -15,7 +15,7 @@ export type TController<TValue = any, TOptions = any> = (
   name: string,
   readonly: boolean,
   options: TOptions,
-  object: Sein.SObject,
+  object: any,
   onChange: (value: TValue) => void
 ) => JSX.Element;
 

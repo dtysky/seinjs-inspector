@@ -8,7 +8,6 @@
 import { h, Component } from 'preact';
 import './index.scss';
 interface IComponentProps {
-  type: string;
   name: string;
   url: string;
 }
@@ -20,17 +19,12 @@ export default class Preview extends Component<
   IComponentProps,
   IComponentState
 > {
-  constructor() {
-    super();
-    this.setState({
-      canEdit: true
-    });
-  }
-
-  componentDidMount() {}
+  public state: IComponentState = {
+    canEdit: true
+  };
 
   private getPreviewBox() {
-    const { name, url } = this.props;
+    const {name, url} = this.props;
 
     return (
       <div className='sein-inspector-preview-box'>
@@ -41,9 +35,9 @@ export default class Preview extends Component<
       </div>
     );
   }
-  private close = () => {};
-  render() {
-    const { canEdit } = this.state;
+
+  public render() {
+    const {canEdit} = this.state;
 
     return (
       <div className='sein-inspector-component sein-inspector-preview-container'>

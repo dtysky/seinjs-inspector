@@ -7,7 +7,6 @@
 import { h, render as preactRender, Component, ComponentClass, createElement } from 'preact';
 import * as Sein from 'seinjs';
 
-import { TabItem } from '../constant';
 import Framework from './panel/Framework';
 import Info from './panel/Info';
 import Structure from './panel/Structure';
@@ -16,7 +15,7 @@ import Resource from './panel/Resource';
 import Event from './panel/Event';
 import Player from './panel/Player';
 import Render from './panel/Render';
-import { Tab } from './components';
+import {Tab} from './components';
 import InspectorActor from '../Actor/InspectorActor';
 import './index.scss';
 
@@ -105,8 +104,8 @@ class Inspector extends Component<IComponentProps, IComponentState> {
       return null;
     }
 
-    return createElement(PANELS[tab], {actor: this.props.actor});
-    // return createElement(PANELS['Actor'], {actor: this.props.actor});
+    // return createElement(PANELS[tab], {actor: this.props.actor});
+    return createElement(PANELS['Actor'], {actor: this.props.actor});
   }
 }
 
