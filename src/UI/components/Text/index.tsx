@@ -40,13 +40,13 @@ export default class Text extends Component<IComponentProps, IComponentState> {
     inputStyle: {}
   };
 
-  componentWillReceiveProps(nextProps, nextState) {
+  public componentWillReceiveProps(nextProps, nextState) {
     this.setState({
       value: nextProps.value
     });
   }
 
-  handleChange = event => {
+  private handleChange = event => {
     const {
       onChange,
       type
@@ -63,9 +63,11 @@ export default class Text extends Component<IComponentProps, IComponentState> {
     } else if (type === 'float') {
       value = /^[-\d]?\d*\.?\d*$/.test(value) ? value : '';
     }
+
     if (value === '' && type !== 'string') {
       return;
     }
+
     if (type === 'int') {
       value = parseInt(value === '-' ? 0 : value, 10);
     } else if (type === 'float') {
@@ -75,7 +77,7 @@ export default class Text extends Component<IComponentProps, IComponentState> {
     onChange(event, value);
   };
 
-  render() {
+  public render() {
     const {
       style,
       inputStyle,
@@ -83,6 +85,7 @@ export default class Text extends Component<IComponentProps, IComponentState> {
       view,
       prefix,
       disabled,
+      onChange,
       ...others
     } = this.props;
 
@@ -118,7 +121,7 @@ export default class Text extends Component<IComponentProps, IComponentState> {
             `sein-inspector-text-input-${view}`,
           )}
           value={value}
-          onChange={this.handleChange}
+          onInput={this.handleChange}
           disabled={disabled}
           autoComplete="off"
           style={inputStyle}

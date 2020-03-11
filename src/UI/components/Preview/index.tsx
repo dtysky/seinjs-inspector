@@ -20,7 +20,7 @@ export default class Preview extends Component<
   IComponentState
 > {
   public state: IComponentState = {
-    canEdit: true
+    canEdit: false
   };
 
   private getPreviewBox() {

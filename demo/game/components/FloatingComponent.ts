@@ -20,8 +20,12 @@ export default class FloatingComponent extends Sein.Component<
   IFloatingComponentState
 > {
   public initPosition: Sein.Vector3 = new Sein.Vector3();
+
+  @Sein.inspectable()
   public omega: number;
+  @Sein.inspectable()
   public phase: number;
+  @Sein.inspectable()
   public amp: number;
 
   private component: Sein.SceneComponent;

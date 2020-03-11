@@ -68,7 +68,7 @@
     "raw-loader": "^0.5.1",
     "sass-loader": "^7.1.0",
     "sass-resources-loader": "^2.0.0",
-    "seinjs": "^1.4.42",
+    "seinjs": "^1.4.43",
     "seinjs-audio": "^0.9.0",
     "seinjs-camera-controls": "^0.8.12",
     "seinjs-debug-tools": "^0.8.0",

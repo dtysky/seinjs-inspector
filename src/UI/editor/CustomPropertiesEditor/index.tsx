@@ -8,7 +8,7 @@ import {h, Component} from 'preact';
 import * as Sein from 'seinjs';
 
 import InspectorActor from '../../../Actor/InspectorActor';
-import {getController} from '../../../Controllers';
+import {getController, getControllerType} from '../../../Controllers';
 
 interface IComponentProps {
   actor: InspectorActor;
@@ -37,7 +37,7 @@ export default class CustomPropertiesEditor extends Component<
           Object.keys(props).map(key => {
             const {type, options, readonly} = props[key];
 
-            return getController(type)(key, readonly, options, object, this.handleChange);
+            return getController(type || getControllerType(object[key]))(key, readonly, options || {}, object, this.handleChange);
           })
         }
       </div>
