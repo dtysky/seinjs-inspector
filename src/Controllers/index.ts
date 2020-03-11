@@ -20,6 +20,8 @@ import AnimatorActionController from './AnimatorActionController';
 import MaterialController from './MaterialController';
 import TextureController from './TextureController';
 import ObjectController from './ObjectController';
+import GeometryController from './GeometryController';
+import GeometryDataController from './GeometryDataController';
 import './base.scss';
 
 export {registerController, unregisterController, getController, getControllerType};
@@ -39,6 +41,8 @@ export function initCore() {
   registerController('material', MaterialController);
   registerController('texture', TextureController);
   registerController('object', ObjectController);
+  registerController('geometry', GeometryController);
+  registerController('geometry-data', GeometryDataController);
   // Texture, CubeTexture, Image, Material, Atlas
 
   initInspectableClasses();

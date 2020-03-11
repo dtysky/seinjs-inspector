@@ -12,7 +12,7 @@ import InspectorActor from './Actor/InspectorActor';
 export type TEditor = (actor: InspectorActor, object: Sein.SObject) => JSX.Element;
 
 export type TController<TValue = any, TOptions = any> = (
-  name: string,
+  name: string | number,
   readonly: boolean,
   options: TOptions,
   object: any,

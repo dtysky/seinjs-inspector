@@ -11,33 +11,40 @@ import {TController} from '../types';
 import {Folder, Text, Switch, Information} from '../UI/components';
 import {getController, getControllerType} from './utils';
 
-const MaterialController: TController<any> = (
+const MaterialController: TController<Sein.Material> = (
   name: string,
   readonly: boolean,
   options: any,
-  object: Sein.Material,
-  onChange: (value: any) => void
+  object: any,
+  onChange: (value: Sein.Material) => void
 ) => {
-  const {uniforms, _uniforms} = object as any;
+  const material = object[name] as Sein.Material;
+
+  if (!material) {
+    return null;
+  }
+
+  const {uniforms, _uniforms} = material as any;
 
   if (!uniforms) {
     return null;
   }
 
   return (
-    <Folder label={object.name || 'material'} close={false}>
-      <Information label={'id'} value={object.id} />
+    <Folder label={material.name || 'material'} close={false}>
+      <Information label={'id'} value={material.id} />
       <Folder label={'BaseInfo'} close={true}>
-        <Information label={'shaderCacheId'} value={object.shaderCacheId} />
-        {getController('basic')('lightType', false, {}, object, onChange)}
-        {getController('basic')('depthTest', false, {}, object, onChange)}
-        {getController('basic')('depthMask', false, {}, object, onChange)}
-        {getController('basic')('depthFunc', false, {}, object, onChange)}
-        {getController('basic')('cullFace', false, {}, object, onChange)}
-        {getController('basic')('transparent', false, {}, object, onChange)}
-        {getController('basic')('wireframe', false, {}, object, onChange)}
-        {getController('basic')('gammaCorrection', false, {}, object, onChange)}
-        {getController('basic')('useHDR', false, {}, object, onChange)}
+        <Information label={'shaderCacheId'} value={material.shaderCacheId} />
+        {getController('basic')('lightType', false, {}, material, onChange)}
+        {getController('basic')('depthTest', false, {}, material, onChange)}
+        {getController('basic')('depthMask', false, {}, material, onChange)}
+        {getController('basic')('depthFunc', false, {}, material, onChange)}
+        {getController('basic')('cullFace', false, {}, material, onChange)}
+        {getController('basic')('transparent', false, {}, material, onChange)}
+        {getController('basic')('wireframe', false, {}, material, onChange)}
+        {getController('basic')('gammaCorrection', false, {}, material, onChange)}
+        {getController('basic')('useHDR', false, {}, material, onChange)}
+        {getController('basic')('cloneForInst', false, {}, material, onChange)}
       </Folder>
       <Folder label={'Uniforms'} close={false}>
         {
@@ -46,11 +53,11 @@ const MaterialController: TController<any> = (
               key = key.replace('u_', '');
             }
 
-            const {value} = object.getUniform(key);
+            const {value} = material.getUniform(key);
             const type = typeof value;
 
             return getController(getControllerType(value))(key, type === 'string', {}, {[key]: value}, v => {
-              object.setUniform(key, v);
+              material.setUniform(key, v);
 
               onChange(null);
             });

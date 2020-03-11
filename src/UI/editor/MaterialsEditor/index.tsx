@@ -25,11 +25,12 @@ export default class MaterialsEditor extends Component<
 > {
   public render() {
     const {object} = this.props;
+    const materials = object.getMaterials();
 
     return (
       <Fragment>
         {
-          object.getMaterials().map(mat => getController('material')(null, true, {}, mat, () => {this.forceUpdate();}))
+          materials.map((mat, index) => getController('material')(index, true, {}, materials, () => {this.forceUpdate();}))
         }
       </Fragment>
     );

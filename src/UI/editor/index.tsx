@@ -8,6 +8,7 @@ import BasicEditor from './BasicEditor';
 import ActorCommonEditor from './ActorCommonEditor';
 import ComponentCommonEditor from './ComponentCommonEditor';
 import MaterialsEditor from './MaterialsEditor';
+import GeometriesEditor from './GeometriesEditor';
 
 import PrimitiveComponentEditor from './PrimitiveEditor';
 
@@ -43,14 +44,15 @@ export function getEditor(obj: Sein.SObject): TEditor {
 
   if (Sein.isPrimitiveComponent(obj)) {
     editors = [
-      {name: 'common', componentClass: ComponentCommonEditor},
-      {name: 'materials', componentClass: MaterialsEditor}
+      {name: 'Common', componentClass: ComponentCommonEditor},
+      {name: 'Materials', componentClass: MaterialsEditor},
+      {name: 'Geometries', componentClass: GeometriesEditor},
     ];
   } else 
   if (Sein.isActor(obj)) {
-    editors = [{name: 'common', componentClass: ActorCommonEditor}];
+    editors = [{name: 'Common', componentClass: ActorCommonEditor}];
   } else if (Sein.isComponent(obj)) {
-    editors = [{name: 'common', componentClass: ComponentCommonEditor}];
+    editors = [{name: 'Common', componentClass: ComponentCommonEditor}];
   } else if (Sein.isResourceManager(obj)) {
 
   } else if (Sein.isEventManager(obj)) {

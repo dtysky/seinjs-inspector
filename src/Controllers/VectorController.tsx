@@ -7,8 +7,8 @@
 import * as Sein from 'seinjs';
 import {h, Fragment} from 'preact';
 
-import Text from '../UI/components/Text';
 import {TController} from '../types';
+import {Text, Folder} from '../UI/components';
 
 type TVectorValue = Sein.Vector2 | Sein.Vector3 | Sein.Vector4 | Sein.Euler | Sein.Quaternion;
 
@@ -38,8 +38,7 @@ const VectorController: TController<TVectorValue> = (
   const value = object[name];
 
   return (
-    <div className={'sein-controller-vector'}>
-      <div className={'sein-controller-vector-name'}>{name}</div>
+    <Folder label={name} close={false}>
       <div className={'sein-controller-vector-content'}>
       {
         Sein.isVector2(value) && (
@@ -69,7 +68,7 @@ const VectorController: TController<TVectorValue> = (
         )
       }
       </div>
-    </div>
+    </Folder>
   )
 }
 
