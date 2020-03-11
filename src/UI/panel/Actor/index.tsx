@@ -143,10 +143,6 @@ export default class Actor extends Component<IComponentProps, IComponentState> {
   private renderDetails() {
     const {currentDetailsObj} = this.state;
 
-    if (!currentDetailsObj) {
-      return null;
-    }
-
     return (
       <CommonDetails
         actor={this.props.actor}

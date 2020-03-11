@@ -15,5 +15,9 @@ export interface IPropTypes {
 }
 
 export default function CommonDetails(props: IPropTypes) {
+  if (!props.object) {
+    return null;
+  }
+
   return getEditor(props.object)(props.actor, props.object);
 }

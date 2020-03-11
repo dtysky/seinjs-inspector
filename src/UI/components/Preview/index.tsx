@@ -29,20 +29,22 @@ export default class Preview extends Component<
     return (
       <div className='sein-inspector-preview-box'>
         <img src={url} alt={name} />
-        <div className='sein-inspector-preview-buttons'>
-          <input type='file' name={name} id={name} />
-        </div>
+        {
+          this.state.canEdit && (
+            <div className='sein-inspector-preview-buttons'>
+              <input type='file' name={name} id={name} />
+            </div>
+          )
+        }
       </div>
     );
   }
 
   public render() {
-    const {canEdit} = this.state;
-
     return (
       <div className='sein-inspector-component sein-inspector-preview-container'>
         <div className='sein-inspector-preview-content'>
-          {canEdit && this.getPreviewBox()}
+          {this.getPreviewBox()}
         </div>
       </div>
     );

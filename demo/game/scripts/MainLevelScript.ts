@@ -242,8 +242,8 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
     world.addActor('22', Sein.SpriteActor, {
       atlas: game.resource.get<'Atlas'>('22.atlas'),
       frameName: '01',
-      width: 0.66,
-      height: 0.9,
+      width: 0.66 * 20,
+      height: 0.9 * 20,
       materialOptions: {
         transparent: true
       }

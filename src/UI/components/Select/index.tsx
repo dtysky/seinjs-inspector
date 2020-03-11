@@ -21,16 +21,12 @@ interface IComponentProps {
 interface IComponentState {}
 
 export default class Select extends Component<IComponentProps, IComponentState> {
-  constructor() {
-    super();
-  }
-
-  componentDidMount() {}
-  selectChange = event => {
+  private selectChange = event => {
     const { onSelectChange } = this.props;
     onSelectChange(event.target.value);
-  };
-  render() {
+  }
+
+  public render() {
     let { label, options } = this.props;
     label = label || "Label";
 

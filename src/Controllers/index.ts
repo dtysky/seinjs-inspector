@@ -22,6 +22,7 @@ import TextureController from './TextureController';
 import ObjectController from './ObjectController';
 import GeometryController from './GeometryController';
 import GeometryDataController from './GeometryDataController';
+import AtlasController from './AtlasController';
 import './base.scss';
 
 export {registerController, unregisterController, getController, getControllerType};
@@ -43,6 +44,7 @@ export function initCore() {
   registerController('object', ObjectController);
   registerController('geometry', GeometryController);
   registerController('geometry-data', GeometryDataController);
+  registerController('atlas', AtlasController);
   // Texture, CubeTexture, Image, Material, Atlas
 
   initInspectableClasses();
@@ -178,5 +180,18 @@ function initInspectableClasses() {
   };
   Sein.BSPMorphComponent.INSPECTABLE_PROPERTIES = {
     weights: {type: 'number-array', readonly: false, options: {}}
+  };
+
+  Sein.SpriteComponent.INSPECTABLE_PROPERTIES = {
+    atlas: {type: 'atlas', readonly: false, options: {
+      getFrame: (object: Sein.SpriteComponent) => {
+        // return object.currentFrame;
+        return '01';
+      },
+      setFrame: (object: Sein.SpriteComponent, frame: string) => {
+        object.setFrame(frame);
+      }
+    }},
+    texture: {type: 'texture', readonly: false, options: {}},
   };
 }

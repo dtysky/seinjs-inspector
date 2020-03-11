@@ -41,6 +41,10 @@ const TextureController: TController<TTextureValue> = (
 ) => {
   const value = object[name] as TTextureValue;
 
+  if (!value) {
+    return null;
+  }
+
   return (
     <Folder label={name} close={false}>
       {
