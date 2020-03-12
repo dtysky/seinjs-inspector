@@ -16,13 +16,14 @@ import EventController from './EventController';
 import ShadowController from './ShadowController';
 import NumberArrayController from './NumberArrayController';
 import ColliderActionController from './ColliderActionController';
-import AnimatorActionController from './AnimatorActionController';
+import ListActionController from './ListActionController';
 import MaterialController from './MaterialController';
 import TextureController from './TextureController';
 import ObjectController from './ObjectController';
 import GeometryController from './GeometryController';
 import GeometryDataController from './GeometryDataController';
 import AtlasController from './AtlasController';
+import ArrayController from './ArrayController';
 import './base.scss';
 
 export {registerController, unregisterController, getController, getControllerType};
@@ -38,14 +39,14 @@ export function initCore() {
   registerController('shadow', ShadowController);
   registerController('number-array', NumberArrayController);
   registerController('collider-action', ColliderActionController);
-  registerController('animator-action', AnimatorActionController);
+  registerController('list-action', ListActionController);
   registerController('material', MaterialController);
   registerController('texture', TextureController);
   registerController('object', ObjectController);
   registerController('geometry', GeometryController);
   registerController('geometry-data', GeometryDataController);
   registerController('atlas', AtlasController);
-  // Texture, CubeTexture, Image, Material, Atlas
+  registerController('array', ArrayController);
 
   initInspectableClasses();
 }
@@ -154,7 +155,20 @@ function initInspectableClasses() {
 
   Sein.AnimatorComponent.INSPECTABLE_PROPERTIES = {
     current: {type: 'basic', readonly: true, options: {}},
-    __action: {type: 'animator-action', readonly: true, options: {}},
+    animationNames: {type: 'list-action', readonly: true, options: {
+      getIsCurrent: (object: Sein.AnimatorComponent, value: string) => {
+        const stopt = object.fsm.getCurrentState().name.equalsTo('enter');
+
+        return !stopt && value === object.current;
+      },
+      onSwitch: (object: Sein.AnimatorComponent, value: string, selected: boolean) => {
+        if (selected) {
+          object.play(value, Infinity);
+        } else {
+          object.stop();
+        }
+      }
+    }},
   };
 
   Sein.BSPBoxComponent.INSPECTABLE_PROPERTIES = {

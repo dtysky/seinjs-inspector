@@ -36,6 +36,9 @@ const MaterialController: TController<Sein.Material> = (
       <Folder label={'BaseInfo'} close={true}>
         <Information label={'shaderCacheId'} value={material.shaderCacheId} />
         {getController('basic')('lightType', false, {}, material, onChange)}
+        {getController('basic')('castShadows', false, {}, material, onChange)}
+        {getController('basic')('receiveShadows', false, {}, material, onChange)}
+        {getController('basic')('depthTest', false, {}, material, onChange)}
         {getController('basic')('depthTest', false, {}, material, onChange)}
         {getController('basic')('depthMask', false, {}, material, onChange)}
         {getController('basic')('depthFunc', false, {}, material, onChange)}

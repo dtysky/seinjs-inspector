@@ -68,13 +68,17 @@ export function getControllerType(value: any): string {
     return 'matrix';
   }
 
+  if (Sein.isFog(value)) {
+    return 'fog';
+  }
+
+  if (value instanceof Array) {
+    return 'array';
+  }
+
   if (t === 'object') {
     return 'object';
   }
-
-  // if (Sein.isFog(value)) {
-  //   return 'fog';
-  // }
 
   return 'default';
 }

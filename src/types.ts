@@ -47,6 +47,7 @@ export interface ISystemInfo {
   }[];
   world: {
     name: string;
+    cameraAlive: boolean;
   };
   level: {
     name: string;
@@ -62,6 +63,8 @@ export interface ISystemInfo {
     bufferBytes: number;
     totalVertices?: number;
     totalTriangles?: number;
+    drawFaceCount: number;
+    drawCallCount: number;
   };
   resource: {
     [type: string]: number;

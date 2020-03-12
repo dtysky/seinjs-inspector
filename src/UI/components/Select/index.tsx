@@ -4,11 +4,9 @@
  * @Date   : 7/28/2019, 3:55:56 PM
  * @Description:
  */
-/**
- * tab bar
- */
 import { h, Component } from "preact";
 import "./index.scss";
+
 interface IComponentProps {
   label?: string;
   onSelectChange: Function;
@@ -18,6 +16,7 @@ interface IComponentProps {
     selected?: boolean;
   }>;
 }
+
 interface IComponentState {}
 
 export default class Select extends Component<IComponentProps, IComponentState> {

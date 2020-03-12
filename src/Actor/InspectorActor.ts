@@ -224,7 +224,8 @@ export default class InspectorActor extends Sein.InfoActor<
           ]
         : [],
       world: {
-        name: world.name.value
+        name: world.name.value,
+        cameraAlive: world.mainCamera ? world.mainCamera.rendererAlive : false
       },
       level: {
         name: level.name.value,
@@ -239,7 +240,9 @@ export default class InspectorActor extends Sein.InfoActor<
         textures: Object.keys((Sein.Texture as any).cache._cache).length,
         bufferBytes: bufferBytes,
         totalTriangles: this._info && this._info.render && (this._info.render.totalTriangles || null),
-        totalVertices: this._info && this._info.render && (this._info.render.totalVertices || null)
+        totalVertices: this._info && this._info.render && (this._info.render.totalVertices || null),
+        drawCallCount: game.renderer.renderInfo.drawCount,
+        drawFaceCount: game.renderer.renderInfo.faceCount
       },
       resource: this.getResource(),
       events: {
@@ -260,31 +263,15 @@ export default class InspectorActor extends Sein.InfoActor<
 
     this.getWorld().actors.forEach(actor => {
       actor.findComponentsByFilter<Sein.PrimitiveComponent>(c => Sein.isPrimitiveComponent(c)).forEach(component => {
-        const materials = component.getMaterials();
-        if (materials.length === 1) {
-          const geometry = component.geometry;
-          if (geometry.vertices) {
-            totalVertices += geometry.vertices.length / 3;
-
-            if (geometry.indices) {
-              totalTriangles += geometry.indices.length / 3;
-            } else {
-              totalTriangles += geometry.vertices.length / 3 / 3;
-            }
-          }
-
-          return;
-        }
-
         component.getMaterials().forEach(mat => {
-          const geometry = component.getGeometry((mat as any).name);
+          const geometry = component.getGeometry(mat.name);
           if (geometry.vertices) {
-            totalVertices += geometry.vertices.length / 3;
+            totalVertices += geometry.vertices.count;
 
             if (geometry.indices) {
-              totalTriangles += geometry.indices.length / 3;
+              totalTriangles += geometry.indices.count / 3;
             } else {
-              totalTriangles += geometry.vertices.length / 3 / 3;
+              totalTriangles += totalVertices / 3;
             }
           }
         });

@@ -5,21 +5,10 @@
  * @Description:
  */
 import * as Sein from 'seinjs';
-import {h, Fragment} from 'preact';
+import {h} from 'preact';
 
 import {TController} from '../types';
-import {Preview, Folder, Select} from '../UI/components';
-
-function RenderTextureValue(value: Sein.Texture, readonly: boolean, onChange: (value: Sein.Texture) => void) {
-  const originImage = (value as any)._originImage || (value as any)._image;
-  const isImg = originImage instanceof Image;
-
-  return  isImg ? (
-      <Preview name={value.name} url={(originImage as HTMLImageElement).src} />
-    ) : (
-      <div>纹理已被释放或并非来源于普通图像（比如压缩纹理等）</div>
-    );
-}
+import {Folder, Select} from '../UI/components';
 
 const AtlasController: TController<Sein.AtlasManager> = (
   name: string,
