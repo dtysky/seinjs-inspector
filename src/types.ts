@@ -56,10 +56,6 @@ export interface ISystemInfo {
     actors: Sein.SArray<Sein.ISceneActor>;
   };
   render: {
-    shaders: number;
-    programs: number;
-    textures: number;
-    buffers: number;
     bufferBytes: number;
     totalVertices?: number;
     totalTriangles?: number;

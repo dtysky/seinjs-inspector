@@ -35,7 +35,7 @@ export default class Infomation extends Component<
     isClose: true
   };
 
-  componentDidMount() {
+  public componentDidMount() {
     const { close } = this.props;
     let isClose = close;
     if (isClose === undefined) {
@@ -47,73 +47,6 @@ export default class Infomation extends Component<
       isClose: isClose
     });
   }
-
-  private currentIcon(isCurrent: boolean) {
-    let className = 'iconfont sein-inspector-preview-icon';
-    if (isCurrent !== undefined) {
-      className += isCurrent ? ' current' : '';
-    }
-    return <i class={className}></i>;
-  }
-
-  private getFromArray() {
-    const { list, onSelect } = this.props;
-    const rs = [];
-    list.map(item => {
-      const { name, value, current } = item;
-      rs.push(
-        <li onClick={onSelect ? () => onSelect(item) : () => {}}>
-          <label className='sein-inspector-label' title={name || 'Label'}>
-            {name}
-          </label>
-          {value && (
-            <div className='sein-inspector-preview-value' title={value}>
-              {value}
-            </div>
-          )}
-          {this.currentIcon(current)}
-        </li>
-      );
-    });
-
-    return rs;
-  }
-
-  private getFromObject() {
-    const rs = [];
-
-    const { list, onSelect } = this.props;
-    for (const key in list) {
-      const element = list[key];
-      rs.push(
-        <li
-          onClick={
-            onSelect ? () => onSelect({ name: key, value: element }) : () => {}
-          }>
-          <label className='sein-inspector-label' title={key || 'Label'}>
-            {key}
-          </label>
-          <div className='sein-inspector-preview-value' title={element}>
-            {element}
-          </div>
-        </li>
-      );
-    }
-    return rs;
-  }
-
-  private getList() {
-    const { list } = this.props;
-    if (!list) {
-      return null;
-    }
-
-    return (
-      <ul className='sein-inspector-list-detail'>
-        {list.length ? this.getFromArray() : this.getFromObject()}
-      </ul>
-    );
-  }
   
   private onClick = () => {
     this.setState({
@@ -121,12 +54,10 @@ export default class Infomation extends Component<
     });
   };
 
-  render() {
+  public render() {
     const { isClose } = this.state;
     const { label } = this.props;
-    const iconClassName = `iconfont sein-inspector-list-icon${
-      isClose ? ' close' : ' '
-    }`;
+    const iconClassName = `iconfont sein-inspector-list-icon${isClose ? ' close' : ' '}`;
 
     return (
       <div className='sein-inspector-component sein-inspector-list-container'>
@@ -138,9 +69,79 @@ export default class Infomation extends Component<
             <i className={iconClassName}></i>
           </div>
 
-          {!isClose && this.getList()}
+          {!isClose && this.renderList()}
         </div>
       </div>
     );
+  }
+
+  private currentIcon(isCurrent: boolean) {
+    let className = 'iconfont sein-inspector-preview-icon';
+    if (isCurrent !== undefined) {
+      className += isCurrent ? ' current' : '';
+    }
+    return <i class={className}></i>;
+  }
+
+  private renderList() {
+    const { list } = this.props;
+    if (!list) {
+      return null;
+    }
+
+    return (
+      <ul className='sein-inspector-list-detail'>
+        {list.length ? this.renderFromArray() : this.renderFromObject()}
+      </ul>
+    );
+  }
+
+  private renderFromArray() {
+    const { list, onSelect } = this.props;
+
+    return (
+      list.map(item => {
+        <li onClick={onSelect ? () => onSelect(item) : () => {}}>
+          <label className='sein-inspector-label' title={item.name || 'Label'}>
+            {item.name}
+          </label>
+          {item.value && (
+            <div className='sein-inspector-preview-value' title={item.value}>
+              {item.value}
+            </div>
+          )}
+          {this.currentIcon(item.current)}
+        </li>
+      })
+    );
+  }
+
+  private renderFromObject() {
+    const { list, onSelect } = this.props;
+
+    return (
+      Object.keys(list).map(key => {
+        const element = list[key];
+        const t = typeof element;
+  
+        if (t === 'function' || t === 'object' || t === 'undefined') {
+          return null;
+        }
+  
+        return (
+          <li
+            onClick={
+              onSelect ? () => onSelect({ name: key, value: element }) : () => {}
+            }>
+            <label className='sein-inspector-label' title={key || 'Label'}>
+              {key}
+            </label>
+            <div className='sein-inspector-preview-value' title={element}>
+              {element}
+            </div>
+          </li>
+        );
+      })
+    )
   }
 }

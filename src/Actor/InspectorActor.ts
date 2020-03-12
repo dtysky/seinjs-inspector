@@ -234,10 +234,6 @@ export default class InspectorActor extends Sein.InfoActor<
         actors: level.actors
       },
       render: {
-        buffers: Object.keys((Sein.Buffer.cache as any)._cache).length,
-        shaders: Object.keys((Sein.Shader.cache as any)._cache).length,
-        programs: Object.keys((Sein.Program.cache as any)._cache).length,
-        textures: Object.keys((Sein.Texture as any).cache._cache).length,
         bufferBytes: bufferBytes,
         totalTriangles: this._info && this._info.render && (this._info.render.totalTriangles || null),
         totalVertices: this._info && this._info.render && (this._info.render.totalVertices || null),

@@ -84,18 +84,14 @@ export default class Info extends Component<IComponentProps, IComponentState> {
           {render.totalTriangles && <Information label='Total Triangles' value={render.totalTriangles} />}
           <Information label='Draw Call Count' value={render.drawCallCount} />
           <Information label='Draw Face Count' value={render.drawFaceCount} />
-          {/* <Information label='Buffers Count' value={render.buffers} />
-          <Information label='Shaders Count' value={render.shaders} />
-          <Information label='Programs Count' value={render.programs} />
-          <Information label='Textures Count' value={render.textures} /> */}
         </Group>
         <Group name='Structure' isClose={false}>
           <Information label='Ticker Running' value={engine.tickerRunning} />
           <Information label='Paused' value={game.paused} />
           <Information label='Level Alive' value={level.alive} />
+          <Information label='Camera Alive' value={world.cameraAlive} />
           <Information label='Physic Active' value={physic.active} />
           <Information label='Physic Alive' value={physic.alive} />
-          <Information label='Camera Alive' value={world.cameraAlive} />
           <Information label='Current Game' value={game.name} />
           <Information label='Current World' value={world.name} />
           <Information label='Current Level' value={level.name} />
@@ -109,7 +105,7 @@ export default class Info extends Component<IComponentProps, IComponentState> {
             <Information label={name} value={resource[name]} />
           ))}
         </Group>
-        <Group name='Cameras'>
+        <Group name='Cameras' isClose={false}>
           {cameras.map(camera => (
             <div>
               <Information label='Name' value={camera.name} />
@@ -119,7 +115,7 @@ export default class Info extends Component<IComponentProps, IComponentState> {
             </div>
           ))}
         </Group>
-        <Group name='Events'>
+        <Group name='Events' isClose={false}>
           <Information label='Global Event Count' value={events.global} />
           <Information label='Global HID Count' value={events.hid} />
         </Group>
