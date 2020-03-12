@@ -21,7 +21,13 @@ export async function main(canvas: HTMLCanvasElement): Promise<Sein.Game> {
       canvas,
       clearColor: new Sein.Color(0, 0.6, 0.9, 1),
       width: canvas.offsetWidth,
-      height: canvas.offsetHeight
+      height: canvas.offsetHeight,
+      fog: new Sein.Fog({
+        mode: 'LINEAR',
+        start: 20,
+        end: 100,
+        density: 1
+      })
     },
     GameState
   );

@@ -78,7 +78,6 @@ export default class Render extends Component<
     const { isSpectorShow } = this.state;
     const label = isSpectorShow ? '隐藏 Spector' : '显示 Spector';
     const {renderer} = this.props.actor.getGame();
-    console.log(renderer)
 
     return (
       <WithDetails
@@ -114,6 +113,7 @@ export default class Render extends Component<
 
   private renderDetails() {
     const {detailType} = this.state;
+    const {fog} = this.props.actor.getGame().renderer;
 
     if (detailType === 'cap') {
       return (
@@ -126,7 +126,15 @@ export default class Render extends Component<
     }
 
     if (detailType === 'fog') {
-
+      return (
+        <Fragment>
+          {getController('select')('mode', false, {options: ['LINEAR', 'EXP', 'EXP2']}, fog, () => {this.forceUpdate()})}
+          {getController('color')('color', false, {}, fog, () => {this.forceUpdate()})}
+          {getController('basic')('start', false, {}, fog, () => {this.forceUpdate()})}
+          {getController('basic')('end', false, {}, fog, () => {this.forceUpdate()})}
+          {getController('basic')('density', false, {}, fog, () => {this.forceUpdate()})}
+        </Fragment>
+      )
     }
 
     if (detailType === 'buffer') {

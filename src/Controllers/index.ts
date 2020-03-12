@@ -24,6 +24,7 @@ import GeometryController from './GeometryController';
 import GeometryDataController from './GeometryDataController';
 import AtlasController from './AtlasController';
 import ArrayController from './ArrayController';
+import SelectController from './SelectController';
 import './base.scss';
 
 export {registerController, unregisterController, getController, getControllerType};
@@ -47,6 +48,7 @@ export function initCore() {
   registerController('geometry-data', GeometryDataController);
   registerController('atlas', AtlasController);
   registerController('array', ArrayController);
+  registerController('select', SelectController);
 
   initInspectableClasses();
 }

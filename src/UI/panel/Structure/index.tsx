@@ -85,6 +85,7 @@ export default class Structure extends Component<IComponentProps, IComponentStat
               key={'Bound'}
               label='Bound'
               list={bound}
+              close={false}
             />
             <Group name='Worlds' isClose={false}>
               {worlds.map(world => {
