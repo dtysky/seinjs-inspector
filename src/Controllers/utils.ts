@@ -28,6 +28,10 @@ export function unregisterController(type: string) {
   }
 }
 
+export function hasController(type: string) {
+  return !!CONTROLLERS[type];
+}
+
 export function getController(type: string): TController {
   if (!CONTROLLERS[type]) {
     Sein.Debug.warn(`Type ${type} is not existed, return Default...`);
@@ -64,8 +68,24 @@ export function getControllerType(value: any): string {
     return 'texture';
   }
 
+  if (Sein.isMaterial(value)) {
+    return 'material';
+  }
+
   if (Sein.isMatrix4(value) || Sein.isMatrix3(value)) {
     return 'matrix';
+  }
+
+  if (Sein.isGeometryData(value)) {
+    return 'geometry-data';
+  }
+
+  if (Sein.isGeometry(value)) {
+    return 'geometry';
+  }
+
+  if (Sein.isAtlasManager(value)) {
+    return 'atlas';
   }
 
   if (Sein.isFog(value)) {
@@ -74,6 +94,10 @@ export function getControllerType(value: any): string {
 
   if (value instanceof Array) {
     return 'array';
+  }
+
+  if (value instanceof HTMLCanvasElement || value instanceof Image) {
+    return 'image';
   }
 
   if (t === 'object') {

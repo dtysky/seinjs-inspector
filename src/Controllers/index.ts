@@ -6,7 +6,7 @@
  */
 import * as Sein from 'seinjs';
 
-import {registerController, unregisterController, getController, getControllerType} from './utils';
+import {registerController, unregisterController, getController, getControllerType, hasController} from './utils';
 import DefaultController from './DefaultController';
 import VectorController from './VectorController';
 import BasicController from './BasicController';
@@ -25,9 +25,12 @@ import GeometryDataController from './GeometryDataController';
 import AtlasController from './AtlasController';
 import ArrayController from './ArrayController';
 import SelectController from './SelectController';
+import ImageController from './ImageController';
+import ResourceGLTFController from './ResourceGLTFController';
+import NestController from './NestController';
 import './base.scss';
 
-export {registerController, unregisterController, getController, getControllerType};
+export {registerController, unregisterController, getController, getControllerType, hasController};
 
 export function initCore() {
   registerController('invalid', () => null);
@@ -49,6 +52,9 @@ export function initCore() {
   registerController('atlas', AtlasController);
   registerController('array', ArrayController);
   registerController('select', SelectController);
+  registerController('image', ImageController);
+  registerController('nest', NestController);
+  registerController('resource-gltf', ResourceGLTFController);
 
   initInspectableClasses();
 }

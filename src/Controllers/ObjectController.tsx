@@ -16,7 +16,7 @@ const ObjectController: TController<Object> = (
   readonly: boolean,
   options: {properties: string[]},
   object: Sein.SObject,
-  onChange: (value: Sein.IShadowOptions) => void
+  onChange: (value: Object) => void
 ) => {
   const obj = object[name] as Object;
 

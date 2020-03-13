@@ -36,7 +36,7 @@ const AtlasController: TController<Sein.AtlasManager> = (
   }
 
   const {getFrame, setFrame} = options;
-  const frame = getFrame(object)
+  const frame = getFrame && getFrame(object);
   const frames = Object.keys(value.frames).map(key => ({text: key, value: key, selected: key === frame}));
 
   return (
@@ -54,7 +54,7 @@ const AtlasController: TController<Sein.AtlasManager> = (
         label={'CurrentFrame'}
         options={frames}
         onSelectChange={f => {
-          setFrame(object, f);
+          setFrame && setFrame(object, f);
 
           onChange(value);
         }}

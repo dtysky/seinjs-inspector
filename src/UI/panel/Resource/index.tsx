@@ -7,7 +7,7 @@
 import * as Sein from 'seinjs';
 
 import { h, Component, Fragment } from 'preact';
-import { Group, Information, Preview, WithDetails } from '../../components';
+import { Group, Information, Preview, WithDetails, Folder } from '../../components';
 
 import InspectorActor from '../../../Actor/InspectorActor';
 import ResourceDetails from '../../details/ResourceDetails';
@@ -26,7 +26,7 @@ interface IResourceState {
 }
 
 interface IComponentState {
-  details: {
+  detail: {
     type: string;
     name: string;
     url: string;
@@ -40,11 +40,13 @@ export default class Resource extends Component<
   private resource: IResourceState = {};
   public state: IComponentState;
 
-  componentWillMount() {
+  public componentWillMount() {
     this.calcResources();
   }
 
-  componentWillUnmount() {}
+  public componentWillUnmount() {
+
+  }
 
   private calcResources() {
     const game = this.props.actor.getGame();
@@ -66,52 +68,7 @@ export default class Resource extends Component<
     });
   }
 
-  private getList(list: Sein.IResourceEntity[]) {
-    return list.map(item => {
-      const { type, images, name, url } = item;
-
-      if (type === 'CubeTexture') {
-        const rs = [];
-        for (let i in images) {
-          rs.push(
-            <Information
-              label={name}
-              value={url + '/' + images[i]}
-              onTrigger={() => {
-                this.setState({
-                  details: {
-                    type: type,
-                    name: name,
-                    url: url + '/' + images[i]
-                  }
-                });
-              }}></Information>
-          );
-        }
-        return rs;
-      } else {
-        return (
-          <Information
-            label={name}
-            value={url}
-            onTrigger={() => {
-              if (type === 'GlTF' || type === 'Atlas') {
-                this.setState({ details: null });
-              } else {
-                this.setState({
-                  details: {
-                    type: type,
-                    name: name,
-                    url: url
-                  }
-                });
-              }
-            }}></Information>
-        );
-      }
-    });
-  }
-  render() {
+  public render() {
     return (
       <div className='sein-inspector-content-box  u-scrollbar'>
         <WithDetails
@@ -119,25 +76,40 @@ export default class Resource extends Component<
             <Fragment>
               {Object.keys(this.resource).map(type => {
                 const { loader, count, list } = this.resource[type];
-                const preview = this.getList(list);
+
                 return (
-                  <Group name={type} key={type}>
+                  <Folder label={type} value={count.toString()}>
                     <Information label='Loader' value={loader} />
-                    <Information label='Count' value={count} />
-                    {preview}
-                  </Group>
+                    {this.renderList(list)}
+                  </Folder>
                 );
               })}
             </Fragment>
           }
           details={
-            this.state.details && (
+            this.state.detail && (
               <ResourceDetails
                 actor={this.props.actor}
-                resource={this.state.details}></ResourceDetails>
+                resource={this.state.detail}
+              />
             )
-          }></WithDetails>
+          }
+        />
       </div>
     );
+  }
+
+  private renderList(list: Sein.IResourceEntity[]) {
+    return list.map(item => {
+      const {type, name, url} = item;
+
+      return (
+        <Information
+          label={name}
+          value={url}
+          onTrigger={() => this.setState({detail: {type: type, name: name, url: url}})}
+        />
+      );
+    });
   }
 }

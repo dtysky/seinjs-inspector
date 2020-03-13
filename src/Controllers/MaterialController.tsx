@@ -14,7 +14,7 @@ import {getController, getControllerType} from './utils';
 const MaterialController: TController<Sein.Material> = (
   name: string,
   readonly: boolean,
-  options: any,
+  options: {lazy?: boolean},
   object: any,
   onChange: (value: Sein.Material) => void
 ) => {
@@ -24,6 +24,7 @@ const MaterialController: TController<Sein.Material> = (
     return null;
   }
 
+  const lazy = options.lazy || false;
   const {uniforms, _uniforms} = material as any;
 
   if (!uniforms) {
@@ -31,7 +32,7 @@ const MaterialController: TController<Sein.Material> = (
   }
 
   return (
-    <Folder label={material.name || 'material'} close={false}>
+    <Folder label={material.name || 'material'} close={lazy}>
       <Information label={'id'} value={material.id} />
       <Folder label={'BaseInfo'} close={true}>
         <Information label={'shaderCacheId'} value={material.shaderCacheId} />

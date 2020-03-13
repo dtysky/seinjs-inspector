@@ -11,7 +11,8 @@ interface IComponentProps {
   label?: string;
   value?: string;
   close?: boolean;
-  onTrigger?: () => void;
+  onTrigger?: (closed: boolean) => void;
+  onDestroy?: () => void;
 }
 interface IComponentState {
   isClose: boolean;
@@ -21,14 +22,11 @@ export default class Folder extends Component<
   IComponentProps,
   IComponentState
 > {
-  constructor() {
-    super();
-    this.setState({
-      isClose: true
-    });
-  }
+  public state: IComponentState = {
+    isClose: true
+  };
 
-  componentDidMount() {
+  public componentDidMount() {
     let { close } = this.props;
     if (close === undefined) {
       close = true;
@@ -38,14 +36,22 @@ export default class Folder extends Component<
     });
   }
 
+  public componentWillMount() {
+    this.props.onDestroy && this.props.onDestroy();
+  }
+
   private onClick = () => {
-    this.setState({
-      isClose: !this.state.isClose
-    });
+    const { onTrigger } = this.props;
+    const isClose = !this.state.isClose;
+
+    this.setState({isClose});
+
+    onTrigger && onTrigger(isClose);
   };
-  render() {
+
+  public render() {
     const { isClose } = this.state;
-    const { label, value, onTrigger } = this.props;
+    const { label, value } = this.props;
     const iconClassName = `iconfont sein-inspector-folder-icon${
       isClose ? '' : ' close'
     }`;
@@ -57,7 +63,7 @@ export default class Folder extends Component<
       <div className='sein-inspector-component sein-inspector-folder-container'>
         <div className='sein-inspector-folder-content'>
           <div className='sein-inspector-component-box' onClick={this.onClick}>
-            <label className='sein-inspector-label' title={label || 'Label'} onClick={onTrigger && (() => onTrigger())}>
+            <label className='sein-inspector-label' title={label || 'Label'}>
               {label || 'Label'}
             </label>
             {value && (
@@ -68,7 +74,7 @@ export default class Folder extends Component<
             <i className={iconClassName}></i>
           </div>
         </div>
-        {this.props.children && (
+        {!this.state.isClose && this.props.children && (
           <div className={detailClassName}>{this.props.children}</div>
         )}
       </div>
