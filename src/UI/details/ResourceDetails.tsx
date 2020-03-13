@@ -30,8 +30,6 @@ export default class ResourceDetails extends Component<IPropTypes> {
     const hasCtr = hasController(ctrType);
     ctrType = hasCtr ? ctrType : getControllerType(res);
 
-    console.log(ctrType);
-
     return (
       <Fragment>
         <Information label={'url'} value={url} />

@@ -207,8 +207,7 @@ function initInspectableClasses() {
   Sein.SpriteComponent.INSPECTABLE_PROPERTIES = {
     atlas: {type: 'atlas', readonly: false, options: {
       getFrame: (object: Sein.SpriteComponent) => {
-        // return object.currentFrame;
-        return '01';
+        return object.currentFrame;
       },
       setFrame: (object: Sein.SpriteComponent, frame: string) => {
         object.setFrame(frame);

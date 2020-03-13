@@ -29,6 +29,7 @@ export default class Preview extends Component<
     return (
       <div className='sein-inspector-preview-box'>
         <img src={url} alt={name} />
+        <div className='sein-inspector-preview-name'>{name}</div>
         {
           this.state.canEdit && (
             <div className='sein-inspector-preview-buttons'>

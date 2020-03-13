@@ -33,7 +33,7 @@ const ImageController: TController<TImageValue> = (
   }
 
   return (
-    <Folder label={name} close={false}>
+    <Folder label={name} value={`${value.width} x ${value.height}`} close={false}>
       <Preview name={name} url={src} />
     </Folder>
   )

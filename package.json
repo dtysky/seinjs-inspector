@@ -86,5 +86,8 @@
     "url-loader": "^0.5.7",
     "webpack": "^3.12.0",
     "webpack-dev-server": "^2.10.1"
+  },
+  "dependencies": {
+    "seinjs": "^1.4.44"
   }
 }

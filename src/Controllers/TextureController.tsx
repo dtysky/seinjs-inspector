@@ -23,12 +23,17 @@ function RenderTextureValue(value: Sein.Texture, readonly: boolean, onChange: (v
     );
 }
 
-/**
- * @todo: CubeTexture Support
- */
 function RenderCubeTextureValue(value: Sein.CubeTexture, readonly: boolean, onChange: (value: Sein.CubeTexture) => void) {
   return (
-    <div></div>
+    <Fragment>
+      {['top', 'bottom', 'left', 'right', 'front', 'back'].map(side => {
+        return (value[side] && value[side].src) ? (
+          <Preview name={side} url={value[side].src} />
+        ) : (
+          <div>纹理已被释放或并非来源于普通图像（比如压缩纹理等）</div>
+        )
+      })}
+    </Fragment>
   );
 }
 
@@ -46,7 +51,7 @@ const TextureController: TController<TTextureValue> = (
   }
 
   return (
-    <Folder label={name} close={false}>
+    <Folder label={name} value={`${value.width} x ${value.height}`} close={false}>
       {
         Sein.isCubeTexture(value) ? RenderCubeTextureValue(value, readonly, onChange) : RenderTextureValue(value, readonly, onChange)
       }
