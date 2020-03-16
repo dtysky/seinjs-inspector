@@ -15,7 +15,7 @@ import {Folder, Information} from '../UI/components';
 const EventController: TController<Sein.EventManager> = (
   name: string,
   readonly: boolean,
-  options: any,
+  options: {close?: boolean},
   object: Sein.SObject,
   onChange: (value: Sein.EventManager) => void
 ) => {
@@ -23,7 +23,7 @@ const EventController: TController<Sein.EventManager> = (
   const {_observables} = event;
 
   return (
-    <Folder label={'Events'} close={true}>
+    <Folder label={'Events'} close={options.close !== undefined ? options.close : false}>
       {Object.keys(_observables).map(name => (
         <Information label={name} value={_observables[name]._length} />
       ))}

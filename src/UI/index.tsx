@@ -12,7 +12,6 @@ import Info from './panel/Info';
 import Structure from './panel/Structure';
 import Actor from './panel/Actor';
 import Resource from './panel/Resource';
-import Event from './panel/Event';
 import Player from './panel/Player';
 import Render from './panel/Render';
 import {Tab} from './components';
@@ -46,11 +45,12 @@ export function unregisterPanel(name: string) {
   }
 }
 
-registerPanel('BaseInfo', Info);
 registerPanel('Structure', Structure);
 registerPanel('Actor', Actor);
 registerPanel('Resource', Resource);
 registerPanel('Render', Render);
+registerPanel('Player', Player);
+registerPanel('BaseInfo', Info);
 
 interface IComponentProps {
   actor: InspectorActor;
@@ -63,7 +63,7 @@ interface IComponentState {
 
 class Inspector extends Component<IComponentProps, IComponentState> {
   public state: IComponentState = {
-    tab: ''
+    tab: 'BaseInfo'
   };
 
   protected container: HTMLElement;
@@ -75,7 +75,7 @@ class Inspector extends Component<IComponentProps, IComponentState> {
       this.forceUpdate();
     };
 
-    this.setState({tab: PANELS_NAMES[0]});
+    this.setState({tab: 'BaseInfo'});
   }
 
   handleTabChange = (name: string) => {
@@ -85,7 +85,7 @@ class Inspector extends Component<IComponentProps, IComponentState> {
   public render() {
     return (
       <div>
-        <Framework title='SeinJS Inspector'>
+        <Framework title='SEIN.JS Inspector'>
           <Tab
             names={PANELS_NAMES}
             current={this.state.tab}
@@ -105,7 +105,6 @@ class Inspector extends Component<IComponentProps, IComponentState> {
     }
 
     return createElement(PANELS[tab], {actor: this.props.actor});
-    // return createElement(PANELS['Render'], {actor: this.props.actor});
   }
 }
 

@@ -17,6 +17,7 @@ import {
 import InspectorActor from '../../../Actor/InspectorActor';
 import WorldDetails from '../../details/WorldDetails';
 import LevelDetails from '../../details/LevelDetails';
+import CommonDetails from '../../details/CommonDetails';
 
 interface IComponentProps {
   actor: InspectorActor;
@@ -34,8 +35,8 @@ interface IComponentState {
     }[];
   }[];
   details: {
-    type: 'world' | 'level';
-    item: {name: string; value: string;};
+    type: 'world' | 'level' | 'event' | 'hid';
+    item?: {name: string; value: string;};
     worldName?: string;
   };
 }
@@ -75,18 +76,34 @@ export default class Structure extends Component<IComponentProps, IComponentStat
 
   public render() {
     const {bound, worlds} = this.state;
+    const {hid, event} = this.props.actor.getGame();
 
     return (
       <WithDetails
         main={
           <Fragment>
-            {this.renderBase()}
-            <List
-              key={'Bound'}
-              label='Bound'
-              list={bound}
-              close={false}
-            />
+            <Group name='Game' isClose={false}>
+              {this.renderBase()}
+              <List
+                key={'Bound'}
+                label='Bound'
+                list={bound}
+              />
+              <Information
+                label={'Global Event'}
+                value={'Open'}
+                onTrigger={() =>
+                  this.setState({ details: {type: 'event'} })
+                }
+              />
+              <Information
+                label={'HID'}
+                value={'Open'}
+                onTrigger={() =>
+                  this.setState({ details: {type: 'hid'} })
+                }
+              />
+            </Group>
             <Group name='Worlds' isClose={false}>
               {worlds.map(world => {
                 return (
@@ -132,6 +149,12 @@ export default class Structure extends Component<IComponentProps, IComponentStat
 
   private renderDetails() {
     const {details} = this.state;
+
+    if (details.type === 'event' || details.type === 'hid') {
+      return (
+        <CommonDetails actor={this.props.actor} object={this.props.actor.getGame()[details.type]} />
+      );
+    }
 
     if (details.type === 'world') {
       return (

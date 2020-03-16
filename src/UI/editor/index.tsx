@@ -1,6 +1,5 @@
 import {h, Component, JSX, ComponentClass} from 'preact';
 import * as Sein from 'seinjs';
-import 'seinjs-audio';
 
 import {TEditor} from '../../types';
 import InspectorActor from '../../Actor/InspectorActor';
@@ -9,8 +8,8 @@ import ActorCommonEditor from './ActorCommonEditor';
 import ComponentCommonEditor from './ComponentCommonEditor';
 import MaterialsEditor from './MaterialsEditor';
 import GeometriesEditor from './GeometriesEditor';
-
-import PrimitiveComponentEditor from './PrimitiveEditor';
+import EventEditor from './EventEditor';
+import CustomPropertiesEditor from './CustomPropertiesEditor';
 
 const EDITORS: {[className: string]: TEditor} = {};
 
@@ -40,7 +39,9 @@ export function getEditor(obj: Sein.SObject): TEditor {
   let editors: {
     name: string;
     componentClass: ComponentClass<{actor: InspectorActor, object: Sein.SObject}>
-  }[] = [];
+  }[] = [
+    {name: 'Common', componentClass: CustomPropertiesEditor}
+  ];
 
   if (Sein.isPrimitiveComponent(obj)) {
     editors = [
@@ -53,10 +54,8 @@ export function getEditor(obj: Sein.SObject): TEditor {
     editors = [{name: 'Common', componentClass: ActorCommonEditor}];
   } else if (Sein.isComponent(obj)) {
     editors = [{name: 'Common', componentClass: ComponentCommonEditor}];
-  } else if (Sein.isResourceManager(obj)) {
-
   } else if (Sein.isEventManager(obj)) {
-    
+    editors = [{name: 'Common', componentClass: EventEditor}];
   }
 
   return (actor: InspectorActor, object: Sein.SObject) => (

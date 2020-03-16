@@ -249,6 +249,13 @@ export default class MainLevelScript extends Sein.LevelScriptActor {
       }
     });
 
+    const playerState = game.addActor('player-state', Sein.PlayerStateActor);
+    const controller = world.addActor('player-controller', Sein.PlayerControllerActor, {state: playerState, actor: sphere});
+    game.getPlayer().switchController(controller);
+
+    const state = game.addActor('ai-state', Sein.PlayerStateActor);
+    world.addActor('controller', Sein.AIControllerActor, {state, actor: ground});
+
     inspector.syncVerticesInfo();
   }
 

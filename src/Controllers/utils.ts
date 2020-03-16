@@ -92,6 +92,10 @@ export function getControllerType(value: any): string {
     return 'fog';
   }
 
+  if (Sein.isEventManager(value)) {
+    return 'event';
+  }
+
   if (value instanceof Array) {
     return 'array';
   }

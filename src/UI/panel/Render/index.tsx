@@ -85,14 +85,8 @@ export default class Render extends Component<
           <Fragment>
             <Button label={label} onButtonClick={this.triggerClick}></Button>
             {getController('color')('clearColor', false, {}, renderer, () => {this.forceUpdate()})}
-            {renderer.fog && <Information label='Fog' value={'Open'} onTrigger={() => this.setState({detailType: 'fog'})} />}
-            <Information label='GLCapabilities' value={'Open'} onTrigger={() => this.setState({detailType: 'cap'})} />
-            <Information label='Buffers' value={Object.keys(Sein.Buffer.cache._cache).length} onTrigger={() => this.setState({detailType: 'buffer'})} />
-            <Information label='Textures' value={Object.keys((Sein.Texture as any).cache._cache).length} onTrigger={() => this.setState({detailType: 'texture'})} />
-            <Information label='Programs' value={Object.keys(Sein.Program.cache._cache).length} onTrigger={() => this.setState({detailType: 'program'})} />
-            <Information label='Shaders' value={Object.keys((Sein.Shader.cache as any)._cache).length} onTrigger={() => this.setState({detailType: 'shader'})} />
             {
-              <Folder label={'Basic'} close={false}>
+              <Folder label={'Basic'}>
                 {
                   [
                     'width', 'height', 'pixelRatio', 'useInstanced', 'useVao', 'depth', 'stencil', 'antialias',
@@ -104,6 +98,12 @@ export default class Render extends Component<
                 }
               </Folder>
             }
+            {renderer.fog && <Information label='Fog' value={'Open'} onTrigger={() => this.setState({detailType: 'fog'})} />}
+            <Information label='GLCapabilities' value={'Open'} onTrigger={() => this.setState({detailType: 'cap'})} />
+            <Information label='Buffers' value={Object.keys(Sein.Buffer.cache._cache).length} onTrigger={() => this.setState({detailType: 'buffer'})} />
+            <Information label='Textures' value={Object.keys((Sein.Texture as any).cache._cache).length} onTrigger={() => this.setState({detailType: 'texture'})} />
+            <Information label='Programs' value={Object.keys(Sein.Program.cache._cache).length} onTrigger={() => this.setState({detailType: 'program'})} />
+            <Information label='Shaders' value={Object.keys((Sein.Shader.cache as any)._cache).length} onTrigger={() => this.setState({detailType: 'shader'})} />
           </Fragment>
         }
         details={this.renderDetails()}
