@@ -5,7 +5,7 @@
  * @Description:
  */
 import {h, Component, JSX} from 'preact';
-import cx from 'classnames';
+import * as cx from 'classnames';
 
 import './base.scss';
 
