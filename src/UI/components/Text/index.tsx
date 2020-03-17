@@ -4,7 +4,7 @@
  * @Date   : 3/6/2020, 1:56:27 PM
  * @Description:
  */
-import {h, Component, JSX} from 'preact';
+import {h, Component, JSX, Ref, createRef, RefObject} from 'preact';
 import * as cx from 'classnames';
 
 import './base.scss';
@@ -39,11 +39,24 @@ export default class Text extends Component<IComponentProps, IComponentState> {
     style: {},
     inputStyle: {}
   };
+  private _prefix: RefObject<HTMLDivElement> = createRef();
+  private _preX: number = null;
+
+  public componentDidMount() {
+    // this._prefix.current.addEventListener('touchstart', this.handlePrefixTouchStart);
+  }
 
   public componentWillReceiveProps(nextProps, nextState) {
     this.setState({
       value: nextProps.value
     });
+  }
+
+  public componentWillUnmount() {
+    this._prefix.current.removeEventListener('touchstart', this.handlePrefixTouchStart);
+    this._prefix.current.removeEventListener('touchmove', this.handlePrefixTouchMove);
+    this._prefix.current.removeEventListener('touchend', this.handlePrefixTouchEnd);
+    this._prefix.current.removeEventListener('touchcancel', this.handlePrefixTouchEnd);
   }
 
   private handleChange = event => {
@@ -76,6 +89,35 @@ export default class Text extends Component<IComponentProps, IComponentState> {
 
     onChange(event, value);
   };
+
+  private handlePrefixTouchStart = (event: TouchEvent) => {
+    if (this.props.type !== 'float') {
+      return;
+    }
+
+    this._prefix.current.removeEventListener('touchstart', this.handlePrefixTouchStart);
+    this._prefix.current.addEventListener('touchmove', this.handlePrefixTouchMove);
+    this._prefix.current.addEventListener('touchend', this.handlePrefixTouchEnd);
+    this._prefix.current.addEventListener('touchcancel', this.handlePrefixTouchEnd);
+
+    this._preX = event.changedTouches[0].clientX;
+  }
+
+  private handlePrefixTouchMove = (event: TouchEvent) => {
+    const {clientX} = event.changedTouches[0];
+    const delta = clientX - this._preX;
+
+    this.props.onChange(null, (this.state.value as number) + delta);
+
+    this._preX = clientX;
+  }
+
+  private handlePrefixTouchEnd = (event: TouchEvent) => {
+    this._prefix.current.removeEventListener('touchmove', this.handlePrefixTouchMove);
+    this._prefix.current.removeEventListener('touchend', this.handlePrefixTouchEnd);
+    this._prefix.current.removeEventListener('touchcancel', this.handlePrefixTouchEnd);
+    this._prefix.current.addEventListener('touchstart', this.handlePrefixTouchStart);
+  }
 
   public render() {
     const {
@@ -110,6 +152,7 @@ export default class Text extends Component<IComponentProps, IComponentState> {
                 'sein-inspector-text-prefix',
                 `sein-inspector-text-prefix-${view}`
               )}
+              ref={this._prefix}
             >
               {prefix}
             </div>
