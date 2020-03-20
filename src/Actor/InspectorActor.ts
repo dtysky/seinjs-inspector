@@ -91,11 +91,11 @@ export default class InspectorActor extends Sein.InfoActor<
     this.event.register("Update");
     this.event.add("Control", this.handleControl);
 
+    initCore();
+
     if (!initOptions) {
       return;
     }
-
-    initCore();
 
     const {updateRate, dom} = initOptions;
 

@@ -31,7 +31,7 @@ function main() {
     return;
   }
 
-  var inspector = game.addActor('inspector', window.Sein.Inspector.Actor);
+  var inspector = game.addActor('inspector', window.Sein.Inspector.Actor, {dom: game.canvas.parentElement});
   game.event.add('LevelDidCreateActors', function() {
     inspector.syncVerticesInfo();
   });
