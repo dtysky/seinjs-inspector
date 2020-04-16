@@ -1,13 +1,14 @@
 {
   "name": "seinjs-inspector",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Inspector for Sein.js.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "dev": "node ./demo/server.dev.js",
-    "build": "webpack && tsc -p ./tsconfig.json",
+    "build-lib": "webpack && tsc -p ./tsconfig.json",
     "build-chrome": "export IS_CHROME=true && webpack",
+    "build": "npm run build-lib && npm run build-chrome",
     "prepublishOnly": "npm run build"
   },
   "repository": {

@@ -84,6 +84,8 @@ export default class Info extends Component<IComponentProps, IComponentState> {
           {render.totalTriangles && <Information label='Total Triangles' value={render.totalTriangles} />}
           <Information label='Draw Call Count' value={render.drawCallCount} />
           <Information label='Draw Face Count' value={render.drawFaceCount} />
+          {render.totalGpuMemory && <Information label='Total GPU Memory' value={render.totalGpuMemory.toFixed(2)} />}
+          {render.contextGpuMemory && <Information label='Context GPU Memory' value={render.contextGpuMemory.toFixed(2)} />}
         </Group>
         <Group name='Structure' isClose={false}>
           <Information label='Ticker Running' value={engine.tickerRunning} />

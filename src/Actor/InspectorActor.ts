@@ -194,6 +194,9 @@ export default class InspectorActor extends Sein.InfoActor<
       bufferBytes += (Sein.Buffer.cache as any)._cache[key].data.byteLength || 0;
     });
 
+    const {gl} = game.renderer as any;
+    const mBytes = 1024 * 1024;
+
     this._info = {
       system: {
         fps: 1000 / delta,
@@ -238,7 +241,9 @@ export default class InspectorActor extends Sein.InfoActor<
         totalTriangles: this._info && this._info.render && (this._info.render.totalTriangles || null),
         totalVertices: this._info && this._info.render && (this._info.render.totalVertices || null),
         drawCallCount: game.renderer.renderInfo.drawCount,
-        drawFaceCount: game.renderer.renderInfo.faceCount
+        drawFaceCount: game.renderer.renderInfo.faceCount,
+        totalGpuMemory: (gl && gl.getTotalGpuMemoryUsage) ? gl.getTotalGpuMemoryUsage() / mBytes : undefined,
+        contextGpuMemory: (gl && gl.getContextGpuMemoryUsage) ? gl.getContextGpuMemoryUsage() / mBytes : undefined,
       },
       resource: this.getResource(),
       events: {

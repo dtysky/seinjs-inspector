@@ -61,6 +61,8 @@ export interface ISystemInfo {
     totalTriangles?: number;
     drawFaceCount: number;
     drawCallCount: number;
+    totalGpuMemory?: number;
+    contextGpuMemory?: number;
   };
   resource: {
     [type: string]: number;
